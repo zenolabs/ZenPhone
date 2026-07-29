@@ -259,10 +259,6 @@
     <string name="no_pills">Ni zdravil.\nDodaj novo s tem, da klikneš\n\'Dodaj zdravilo\'</string>
     <string name="clear_all_notifications">Počisti vsa obvestila</string>
     <string name="clear_cache_subtext">Ali ste prepričani, da želite počistiti celoten predpomnilnik?\nOdstranjene bodo tudi bližnjice aplikacij!</string>
-    <string name="permissions_calm">Pozdravljeni, BaldPhone potrebuje sledeča dovoljenja da lahko deluje pravilno. Nekatera izmed teh zvenijo
-        veliko, ampak so edini način, da lahko BaldPhone zamenja telefonski vmesnik. Poslanih ne bo nič podatkov in povzročene ne bo nobene škode.
-        Pritisni \'Ok\', da odobriš dovoljenja, ali \'ne\' da zapustiš BaldPhone.
-    </string>
 
     <string name="what_s_new">Kaj je novega</string>
     <string name="what_do_you_want_to_do_with___">Kaj želiš storiti s %s?</string>

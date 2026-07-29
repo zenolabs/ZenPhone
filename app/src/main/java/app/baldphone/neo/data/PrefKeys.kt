@@ -37,4 +37,7 @@ object PrefKeys {
     // System / UI
     const val KEY_STATUS_BAR = "status_bar_mode"
     const val KEY_USE_ACCIDENTAL_GUARD = "USE_ACCIDENTAL_GUARD_KEY"
+
+    // Home screen
+    const val KEY_FOURTH_HOME_ROW = "fourth_home_row"
 }

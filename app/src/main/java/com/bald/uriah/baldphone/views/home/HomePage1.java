@@ -1,5 +1,6 @@
 /*
  * Copyright 2019 Uriah Shaul Mandel
+ * Copyright 2026 Zenolabs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +44,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import app.baldphone.neo.activities.DialerActivity;
+import app.baldphone.neo.data.Prefs;
 import app.baldphone.neo.features.calls.ui.RecentCallsActivity;
 import app.baldphone.neo.features.contacts.ui.ContactsActivity;
 import app.baldphone.neo.features.notifications.data.NotificationRepository;
@@ -61,6 +63,8 @@ import com.bald.uriah.baldphone.R;
 import com.bald.uriah.baldphone.activities.HomeScreenActivity;
 import com.bald.uriah.baldphone.activities.Page1EditorActivity;
 import com.bald.uriah.baldphone.activities.SOSActivity;
+import com.bald.uriah.baldphone.activities.alarms.AlarmsActivity;
+import com.bald.uriah.baldphone.activities.pills.PillsActivity;
 import com.bald.uriah.baldphone.utils.BDB;
 import com.bald.uriah.baldphone.utils.BDialog;
 import com.bald.uriah.baldphone.utils.BPrefs;
@@ -83,7 +87,11 @@ public class HomePage1 extends HomeView {
             bt_lock_screen,
             bt_messages,
             bt_recent,
-            bt_whatsapp;
+            bt_whatsapp,
+            bt_pills,
+            bt_apps,
+            bt_alarms;
+    private View fourthRow;
     private SharedPreferences sharedPreferences;
 
     public HomePage1(@NonNull Context context) {
@@ -106,6 +114,7 @@ public class HomePage1 extends HomeView {
         initViews(view);
 
         setupOnClickListeners();
+        applyFourthRowVisibility();
         return view;
     }
 
@@ -119,11 +128,38 @@ public class HomePage1 extends HomeView {
         bt_messages = rootView.findViewById(R.id.bt_messages);
         bt_recent = rootView.findViewById(R.id.bt_recent);
         bt_whatsapp = rootView.findViewById(R.id.bt_whatsapp);
+        bt_pills = rootView.findViewById(R.id.bt_pills);
+        bt_apps = rootView.findViewById(R.id.bt_apps);
+        bt_alarms = rootView.findViewById(R.id.bt_alarms);
+        fourthRow = rootView.findViewById(R.id.fourth_row);
+    }
+
+    /**
+     * The fourth row is opt-in and the preference can change while the launcher is alive.
+     * <p>
+     * Coming back from the settings screen does not detach this view - the pager keeps it
+     * attached while the activity is merely paused - so reacting to attachment alone would
+     * only refresh the row on a cold start. The window visibility callback is what actually
+     * fires when the launcher returns to the foreground.
+     */
+    private void applyFourthRowVisibility() {
+        if (fourthRow != null) {
+            fourthRow.setVisibility(Prefs.isFourthHomeRowEnabled() ? VISIBLE : GONE);
+        }
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == VISIBLE) {
+            applyFourthRowVisibility();
+        }
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        applyFourthRowVisibility();
 
         LifecycleOwner owner = ViewTreeLifecycleOwner.get(this);
         if (owner != null) {
@@ -169,19 +205,19 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_RECENTS_KEY,
                 bt_recent,
                 R.string.recent,
-                R.drawable.history_on_background,
+                R.drawable.ic_lucide_history,
                 v -> homeScreen.startActivity(new Intent(homeScreen, RecentCallsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_DIALER_KEY,
                 bt_dialer,
                 R.string.dialer,
-                R.drawable.phone_on_background,
+                R.drawable.ic_lucide_phone,
                 v -> homeScreen.startActivity(new Intent(homeScreen, DialerActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_CONTACTS_KEY,
                 bt_contacts,
                 R.string.contacts,
-                R.drawable.human_on_background,
+                R.drawable.ic_lucide_user,
                 v -> homeScreen.startActivity(new Intent(homeScreen, ContactsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_APP_KEY,
@@ -199,7 +235,7 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_ASSISTANT_KEY,
                 bt_assistant,
                 R.string.assistant,
-                R.drawable.voice_on_background,
+                R.drawable.ic_lucide_mic,
                 v -> {
                     try {
                         homeScreen.startActivity(
@@ -216,7 +252,7 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_MESSAGES_KEY,
                 bt_messages,
                 R.string.messages,
-                R.drawable.message_on_background,
+                R.drawable.ic_lucide_message_square,
                 v -> {
                     try {
                         final ResolveInfo resolveInfo =
@@ -247,13 +283,13 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_EMERGENCY_KEY,
                 bt_emergency,
                 R.string.sos,
-                R.drawable.emergency,
+                R.drawable.ic_lucide_siren,
                 v -> homeScreen.startActivity(new Intent(homeScreen, SOSActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_CAMERA_KEY,
                 bt_camera,
                 R.string.camera,
-                R.drawable.camera_on_background,
+                R.drawable.ic_lucide_camera,
                 v -> {
                     Intent intent = getCameraIntent();
                     if (intent != null) {
@@ -261,10 +297,28 @@ public class HomePage1 extends HomeView {
                     }
                 });
         setupButton(
+                BPrefs.CUSTOM_PILLS_KEY,
+                bt_pills,
+                R.string.pills,
+                R.drawable.ic_lucide_pill,
+                v -> homeScreen.startActivity(new Intent(homeScreen, PillsActivity.class)));
+        setupButton(
+                BPrefs.CUSTOM_APPS_KEY,
+                bt_apps,
+                R.string.apps,
+                R.drawable.ic_lucide_layout_grid,
+                v -> homeScreen.startActivity(new Intent(homeScreen, AppsActivity.class)));
+        setupButton(
+                BPrefs.CUSTOM_ALARMS_KEY,
+                bt_alarms,
+                R.string.alarms,
+                R.drawable.ic_lucide_alarm_clock,
+                v -> homeScreen.startActivity(new Intent(homeScreen, AlarmsActivity.class)));
+        setupButton(
                 BPrefs.CUSTOM_VIDEOS_KEY,
                 bt_lock_screen,
                 R.string.label_lock_screen_short,
-                R.drawable.icon_lock_outline,
+                R.drawable.ic_lucide_lock,
                 v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         requestDeviceLock();

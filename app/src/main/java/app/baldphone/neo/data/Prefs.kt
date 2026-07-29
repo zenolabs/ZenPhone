@@ -106,6 +106,19 @@ object Prefs {
         true,
     )
 
+    // Home screen related preferences.
+
+    /**
+     * Shows a fourth row of tiles on the home screen, for medication reminders, the app
+     * drawer and alarms. Off by default: nine tiles is what an existing user expects to
+     * find, and a home screen that grows on its own is disorienting.
+     */
+    @get:JvmStatic
+    var isFourthHomeRowEnabled: Boolean by booleanPref(
+        PrefKeys.KEY_FOURTH_HOME_ROW,
+        false,
+    )
+
     // Communication (Calls & Dialer) related preferences.
 
     /**

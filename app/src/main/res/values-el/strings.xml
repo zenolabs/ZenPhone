@@ -267,10 +267,6 @@
     <string name="clear_all_notifications">Διαγραφή Ειδοποιήσεων</string>
     <string name="clear_cache_subtext">Είστε σίγουροι ότι θέλετε να σβήσετε την μνήμη cache?\nΠροσωρινά αρχεία και συντομεύσεις θα διαγραφούν!
     </string>
-    <string name="permissions_calm">Γειά σας, το BaldPhone χρειάζεται κάποιες άδειες για να λειτουργήσει, κάποιες από αυτές
-      φαίνονται τρομακτικές αλλά μόνο έτσι το BaldPhone μπορεί να αντικαταστήσει τη διεπαφή του τηλεφώνου. Η εφαρμογή δεν λαμβάνει δεδομένα και
-      δεν προκαλεί ζημιά στην συσκευή σας. Πατήστε Ναι για να χορηγήσετε τα δικαιώματα ή Όχι για να βγείτε από το BaldPhone.
-    </string>
 
     <string name="what_s_new">Νέα χαρακτηριστικά</string>
     <string name="what_do_you_want_to_do_with___">Τι θέλετε να κάνετε με %s;</string>
@@ -333,8 +329,6 @@
     <string name="do_you_want_to_save_your_changes">Θέλετε να σώσετε τις αλλαγές σας;</string>
     <string name="discard">Απόρριψη</string>
     <string name="no_recent_calls">Δεν υπάρχουν πρόσφατες κλήσεις</string>
-    <string name="apps_sort_method_subtext"> Επιλέξτε αν θέλετε να ταξινομήσετε τις εφαρμογές σε ένα πλέγμα ή αν θέλετε να τις χωρίσετε σε ομάδες βάση του πρώτου
-  γράμματος</string>
     <string name="edit_home_screen">Προσαρμογή αρχικής οθόνης</string>
     <string name="dual_sim">Διπλή κάρτα sim</string>
     <string name="dual_sim_subtext">Επιλέξτε πως θέλετε να διαχειριστείτε τις δύο sim\nΣημείωση: Αν επιλέξετε Προβολή Επιλογών, θα χρειαστεί να επιτρέψετε μια νέα άδεια</string>

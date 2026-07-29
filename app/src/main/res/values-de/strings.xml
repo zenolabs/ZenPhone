@@ -258,8 +258,6 @@
     <string name="clear_all_notifications">Alle Benachrichtigungen löschen</string>
     <string name="clear_cache_subtext">Bist du dir sicher, dass du den gesamten Cache leeren willst?\nAuch die Schnellwahltasten für die Apps werden gelöscht!
     </string>
-    <string name="permissions_calm">Hi, BaldPhone benötigt folgende Berechtigungen, um zu funktionieren. Manche klingen beängstigend, aber das ist die einzige Möglichkeit, wie BaldPhone die Bedienoberfläche des Handys ersetzen kann. Es werden keine Daten gesamelt und kein Schaden verursacht. Drücke OK, um die Berechtigungen zu erteilen, oder Nein, um BaldPhone zu verlassen.
-    </string>
 
     <string name="what_s_new">Was es neues gibt</string>
     <string name="what_do_you_want_to_do_with___">Was willst du mit %s machen?</string>

@@ -261,8 +261,6 @@
     <string name="clear_all_notifications">Stergeți toate notificările</string>
     <string name="clear_cache_subtext">Sunteți sigur că vreți să stergeți datele cache?\nScurtăturilor vor fi de asemenea șterse!
     </string>
-    <string name="permissions_calm">Hei, BaldPhone are nevoie de urmatoarele permisuni pentru a funcțion\n
-        Unele pot suna înspăimântător dar altfel nu îti vom putea înlocui interfața telefonului\nNu îți vom gestiona datele.  Apasă OK pentru a permite sau No pentru a inchide BaldPhone</string>
 
     <string name="what_s_new">Ce este nou</string>
     <string name="what_do_you_want_to_do_with___">Ce doriți să faceți cu %s?</string>

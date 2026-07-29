@@ -57,9 +57,6 @@
     <string name="at_least_one_day_must_be_selected">לפחות יום אחד חייב להיות מסומן!</string>
     <string name="auto_brightness">בהירות אוטומטית</string>
     <string name="backspace">מחיקה</string>
-    <string name="baldphone_bla_allow_permission">אנא אפשר את ההרשאות הבאות\nהאפליקציה אינה אוספת מידע אישי וצריכה את
-        הרשאות אלו על מנת לתפקד
-    </string>
     <string name="blocked">חסום</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="brightness">בהירות</string>
@@ -70,8 +67,6 @@
 
     <string name="call_log">שיחות אחרונות:</string>
     <string name="camera">מצלמה</string>
-    <string name="camera_subtext">אנא אשר ל BaldPhone את הרשאת המצלמה, שמאפשרת להפעיל את הפנס. תמונות לעולם לא יצולמו.
-    </string>
     <string name="cancel">ביטול</string>
     <string name="change_pills_time">שינוי זמן תרופות</string>
     <string name="change_system_settings_subtext">אנא אפשר לBaldPhone לשנות הגדרות כמו בהירות וגודל גופן</string>
@@ -107,9 +102,6 @@
     <string name="down">למטה</string>
     <string name="edit">ערוך</string>
     <string name="email">אימייל:</string>
-    <string name="enable_notification_access_subtext">אנא אפשר ל BaldPhone להציג התראות שמתקבלות, במסך ההתראות. שום מידע
-        לא נאסף.
-    </string>
     <string name="enter">אישור</string>
     <string name="enter_contact_or_phone_number">הקלד שם</string>
     <string name="evening">ערב</string>
@@ -191,8 +183,6 @@
     <string name="pills">תרופות</string>
     <string name="press_longer">לחיצה ארוכה</string>
     <string name="timer">טיימר</string>
-    <string name="read_call_log_subtext">אנא אפשר לBaldPhone לגשת לשיחות האחרונות, אשר יוצגו במסך השיחות האחרונות.
-    </string>
     <string name="read_contacts">סרוק אנשי קשר</string>
     <string name="received">נענתה</string>
     <string name="recent">שיחות אחרונות</string>
@@ -276,10 +266,6 @@
     <string name="clear_all_notifications">ניקוי כל ההתראות</string>
     <string name="clear_cache_subtext">האם אתה בטוח שאתה רוצה למחוק את כל המטמון?\nיישומים מוצמדים יפסיקו להיות
         מוצמדים
-    </string>
-    <string name="permissions_calm">הי, BaldPhone חייב לקבל את ההרשאות הבאות בשביל לרוץ. חלק נשמעות מפחיד, אבל זוהי הדרך
-        היחידה שבה BaldPhone יכול להחליף את ממשק הטלפון. שום מידע לא נלקח ומתן ההרשאות לא גורם לשום נזק. לחץ אישור על
-        מנת לאפשר את ההרשאות או לא בשביל לצאת מBaldPhone.
     </string>
 
     <string name="what_s_new">מה חדש</string>

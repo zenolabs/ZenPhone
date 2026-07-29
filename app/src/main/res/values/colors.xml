@@ -79,4 +79,18 @@
     <color name="toast_info">#4FC3F7</color>
     <color name="toast_success">#81C784</color>
     <color name="toast_warning">#FFD54F</color>
+
+    <!--
+      Home screen tiles, light theme.
+      Flat fills, luminance deliberately kept close across the three groups so no row
+      reads as weaker than the others. Contrast of white text on each tile:
+      green 7.0:1, blue 8.2:1, purple 9.7:1, red 7.4:1 - all well past the 4.5:1 floor.
+      Emergency is the one declared exception to the grouping: red, and red only here.
+    -->
+    <color name="tile_green">#14663A</color>
+    <color name="tile_blue">#12508F</color>
+    <color name="tile_purple">#5A2E86</color>
+    <color name="tile_red">#A31D1D</color>
+    <color name="tile_amber">#8A4B10</color>
+    <color name="tile_foreground">#FFFFFF</color>
 </resources>

@@ -34,4 +34,17 @@
     <color name="toast_info">#004D61</color>
     <color name="toast_success">#1B5E20</color>
     <color name="toast_warning">#AF6000</color>
+
+    <!--
+      Home screen tiles, dark theme.
+      Slightly deeper than their light counterparts: a large saturated block glares on a
+      dark background, and glare is fatigue for the eyes this app is built for. Text stays
+      near-white rather than pure white, again to soften the edge.
+    -->
+    <color name="tile_green">#145633</color>
+    <color name="tile_blue">#12467E</color>
+    <color name="tile_purple">#47256C</color>
+    <color name="tile_red">#8C1A1A</color>
+    <color name="tile_amber">#73400E</color>
+    <color name="tile_foreground">#F2F4F6</color>
 </resources>

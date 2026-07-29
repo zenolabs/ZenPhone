@@ -257,11 +257,6 @@
     <string name="clear_all_notifications">Quitar todas las notificaciones</string>
     <string name="clear_cache_subtext">¿Seguro que quieres borrar del todo la memoria caché de BaldPhone? Puede que borrar los archivos temporales solucione algunos problemas, pero los enlaces directos de la pantalla de inicio también desaparecerán.
     </string>
-    <string name="permissions_calm">
-		Hola, BaldPhone debe tener los siguientes permisos para ejecutarse. Algunos pueden parecer demasiado, pero es la única forma de que BaldPhone pueda reemplazar la interfaz del teléfono.
-		BaldPhone no hará nada raro con tus datos personales ni dañará tu teléfono.
-		Presiona el botón de «Aceptar» para otorgar los permisos o «No» para salir de BaldPhone.
-    </string>
 
     <string name="what_s_new">Novedades</string>
     <string name="what_do_you_want_to_do_with___">¿Qué quieres hacer con %s?</string>

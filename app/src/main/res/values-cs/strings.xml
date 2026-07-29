@@ -267,10 +267,6 @@
     <string name="clear_all_notifications">Vyčistit všechna upozornění</string>
     <string name="clear_cache_subtext">Jste si jistí že chcete smazat všechna dočastná data?\nZkratky aplikací budou smazány také!
     </string>
-    <string name="permissions_calm">Ahoj, BaldPhone potřebuje následující oprávnění k funkci. Některá z nich
-        zní strašidelně, ale je to jediný způsob, jak může BaldPhone nahradit prostředí vašeho telefonu. Žádné data nejsou sebrána a nezpůsobuje
-        žádné škody. Zmáčkněte OK pro udělení oprávnění, nebo ne pro opuštění BaldPhone.
-    </string>
 
     <string name="what_s_new">Co je nového</string>
     <string name="what_do_you_want_to_do_with___">Co chcete dělat s %s?</string>

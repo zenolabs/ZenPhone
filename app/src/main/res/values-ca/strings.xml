@@ -273,12 +273,6 @@ Es recomana encaridament usar \"Baldphone\'s home screen\" com el Llançador pri
     <string name="clear_all_notifications">Treure totes les Notificacions</string>
     <string name="clear_cache_subtext">De veritat voleu esborrar per complet la caché?\nEls enllaços directes també s\'esborraran!
 </string>
-    <string name="permissions_calm">
-Hola, BaldPhone ha de tenir els següents permisos per a executar-se. Alguns
-poden espantar, però és l\'única forma en què BaldPhone pot reemplaçar la interfície del telèfon.
-BaldPhone no usarà les seves dades personals ni danyarà el seu telèfon.
-Pressioni OK per a atorgar els permisos o No per a sortir de BaldPhone.
-</string>
 
     <string name="what_s_new">Novetats</string>
     <string name="what_do_you_want_to_do_with___">Quina vol fer amb %s?</string>

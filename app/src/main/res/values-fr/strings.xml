@@ -258,8 +258,6 @@
     <string name="clear_all_notifications">Effacer toutes les notifications</string>
     <string name="clear_cache_subtext">Êtes-vous sûr(e) de vouloir effacer tout le cache ?\nLes raccourcis d\'applications seront aussi supprimés !
     </string>
-    <string name="permissions_calm">Bonjour, BaldPhone doit avoir les permissions suivantes pour fonctionner. Certaines font peur mais c\'est la seule manière pour BaldPhone de remplacer l\'interface de votre téléphone. Aucune donnée n\'est prise et vous n\'encourez aucun risque. Appuyez sur OK pour accorder les permissions, sinon vous pouvez fermer BaldPhone.
-    </string>
 
     <string name="what_s_new">Nouveautés</string>
     <string name="what_do_you_want_to_do_with___">Que voulez-vous faire avec %s?</string>

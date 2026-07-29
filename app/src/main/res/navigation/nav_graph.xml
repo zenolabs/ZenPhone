@@ -11,6 +11,9 @@
             android:id="@+id/action_settings_to_calls"
             app:destination="@id/callsSettingsFragment" />
         <action
+            android:id="@+id/action_settings_to_home"
+            app:destination="@id/homeSettingsFragment" />
+        <action
             android:id="@+id/action_settings_to_system"
             app:destination="@id/systemSettingsFragment" />
         <action
@@ -23,6 +26,12 @@
         android:name="app.baldphone.neo.settings.ui.CallsSettingsFragment"
         android:label="@string/settings_section_calls">
     </fragment>
+
+    <!-- HOME SCREEN -->
+    <fragment
+        android:id="@+id/homeSettingsFragment"
+        android:name="app.baldphone.neo.settings.home.HomeSettingsFragment"
+        android:label="@string/settings_home_screen" />
 
     <!-- SYSTEM -->
     <fragment

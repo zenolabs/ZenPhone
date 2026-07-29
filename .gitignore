@@ -16,3 +16,8 @@ local.properties
 # Generated files and artifacts
 /captures/
 /screenshots/
+
+# Icon tooling (see tools/README.md)
+/node_modules/
+/package.json
+/package-lock.json

@@ -264,10 +264,6 @@ ja muuttaa kirkkautta.</string>
     <string name="no_pills">Ei lääkityksiä\nLisää uusi painamalla\n\"Lisää lääkitys\"</string>
     <string name="clear_all_notifications">Poista kaikki muistutukset</string>
     <string name="clear_cache_subtext">Haluatko varmasti poistaa välimuistin sisällön? Väliaikaistiedostojen poistaminen voi ratkaista joitain BaldPhone-sovelluksen toimintahäiriöitä, mutta myös aloitusnäytölle luodut pikakuvakkeet poistetaan.</string>
-    <string name="permissions_calm">Hei, BaldPhone tarvitsee seuraavat oikeudet toimiakseen. Osa voi kuulostaa
-        pelottavalta, mutta vain niin BaldPhone voi korvata käyttöliittymän. Tietoja ei oteta eikä se aiheuta haittaa
-        Paina OK antaaksesi oikeudet tai Ei poistuaksesi BaldPhonesta.
-    </string>
 
     <string name="what_s_new">Mikä on uutta</string>
     <string name="what_do_you_want_to_do_with___">Mitä haluat tehdä: %s?</string>

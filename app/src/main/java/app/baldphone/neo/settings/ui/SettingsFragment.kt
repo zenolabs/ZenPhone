@@ -19,6 +19,7 @@ import com.bald.uriah.baldphone.R
 class SettingsFragment : Fragment(R.layout.fragment_settings_list) {
     private val items =
         listOf(
+            Item(SettingId.Home, R.string.settings_home_screen, R.drawable.ic_lucide_layout_grid),
             Item(SettingId.Calls, R.string.settings_section_calls, R.drawable.phone_on_button),
             Item(SettingId.System, R.string.settings_system, R.drawable.settings_on_button),
             Item(SettingId.Help, R.string.about, R.drawable.ic_info)
@@ -47,6 +48,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings_list) {
         @IdRes
         val actionId =
             when (id) {
+                is SettingId.Home -> R.id.action_settings_to_home
                 is SettingId.Calls -> R.id.action_settings_to_calls
                 is SettingId.System -> R.id.action_settings_to_system
                 is SettingId.Help -> R.id.action_settings_to_suppport

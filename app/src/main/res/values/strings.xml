@@ -49,6 +49,9 @@
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_volume_subtext">Choose Volume for Alarms.\nVolume increases from left to right.</string>
     <string name="alarms">Alarms</string>
+    <string name="settings_home_screen">Home screen</string>
+    <string name="settings_fourth_row">Fourth row of tiles</string>
+    <string name="settings_fourth_row_subtext">Adds medication, apps and alarms</string>
 
     <string name="alarms_repeats_every">Alarm repeats every</string>
     <string name="all_alarms">All Alarms</string>
@@ -247,7 +250,7 @@
     <string name="set_keyboard">Set keyboard</string>
     <string name="setting_does_not_exist">The Setting Does Not Exist</string>
     <string name="settings">Settings</string>
-    <string name="neo_settings">Neo Settings</string>
+    <string name="neo_settings">More settings</string>
     <string name="settings_system">More options</string>
     <string name="settings_permission">Settings Permission</string>
     <string name="share">Share</string>

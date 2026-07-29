@@ -258,8 +258,6 @@
     <string name="clear_all_notifications">清除所有通知</string>
     <string name="clear_cache_subtext">你肯定要清除緩存？\n所有捷徑也會移除!
     </string>
-    <string name="permissions_calm">你好，清風電話需要以下權限才可運作。有部分聽起來很嚴重，但清風電話需要它們才可以正常運作。清風電話不會偷取資料或者損害你的電話。按確定以給予清風電話這些權限，或按否退出清風電話。
-    </string>
 
     <string name="what_s_new">新功能</string>
     <string name="what_do_you_want_to_do_with___">你想拿 %s 做什麽?</string>

@@ -258,8 +258,6 @@
     <string name="clear_all_notifications">Очистить Все Оповещения</string>
     <string name="clear_cache_subtext">Вы уверенны что хотите очистить кэш?\nЯрлык программы будет удален тоже!
     </string>
-    <string name="permissions_calm">Привет, BaldPhone должны быть предоставленны следующие разрешения для запуска. Некоторые из них, звучат страшно, но это единственный способ для BaldPhone заменить интерфейс телефона. Это не причинит вреда и не украдет ваши данные. Нажмите OK для предоставления разрешений или Нет что бы выйти из BaldPhone.
-    </string>
 
     <string name="what_s_new">Что нового</string>
     <string name="what_do_you_want_to_do_with___">Что вы хотите сделать %s?</string>

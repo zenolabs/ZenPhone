@@ -1,5 +1,7 @@
 # ZenPhone
 
+<img src="logo/zenphone-mark-1024.png" alt="ZenPhone" width="160">
+
 *An accessible Android launcher for older adults and people with visual or motor impairments.*
 
 ZenPhone replaces the phone's interface with a larger, simpler and friendlier one. It is free

@@ -264,10 +264,6 @@
     <string name="no_pills">Tablette ei ole\nTableti saate lisada toksates\n\"Lisa tablett\"</string>
     <string name="clear_all_notifications">Kustuta kõik teavitused</string>
     <string name="clear_cache_subtext">Kas olete kindel, et soovite vahemälu sisu kustutada? Ajutiste failide kustutamine vahemälust võib lahendada mõned BaldPhone\'is ilmnevad vead, aga ka avakuvale loodud otseteed eemaldatakse. </string>
-    <string name="permissions_calm">Tere. BaldPhone\'i sujuvaks töötamiseks peate andma järgnevad juurdepääsuload.
-        Mõned load võivad kõlada hirmsalt, aga see on ainus moodus, kuidas BaldPhone saab töötada. Rakendus
-        ei kogu andmeid ja ei tee liiga telefonile. Loa andmiseks vajutage OK või BaldPhone\'st väljumiseks, ei.
-    </string>
 
     <string name="what_s_new">Mis on uus</string>
     <string name="what_do_you_want_to_do_with___">Mida te soovite %s\'ga teha?</string>

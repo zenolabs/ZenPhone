@@ -264,10 +264,6 @@
     <string name="clear_all_notifications">Kosongkan Semua Pemberitahuan</string>
     <string name="clear_cache_subtext">Anda yakin ingin menghapus cache?\nAplikasi pintasan juga akan dihapus!
     </string>
-    <string name="permissions_calm">Hai, BaldPhone membutuhkan perizinan berikut agar bisa berjalan. Beberapa
-        mungkin terdengar menakutkan, namun ini satu-satunya cara agar BaldPhone bisa menggantikan antarmuka telepon. Tidak ada data yang diambil dan akan menyebabkan
-        masalah. Tekan OK untuk mengizinkan atau TIDAK untuk keluar dari BaldPhone.
-    </string>
 
     <string name="what_s_new">Apa yang baru</string>
     <string name="what_do_you_want_to_do_with___">Apa yang ingin Anda lakukan dengan %s?</string>

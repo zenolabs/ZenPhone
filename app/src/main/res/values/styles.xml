@@ -218,15 +218,25 @@
     </style>
 
     <style name="HomeButtonTile.AccentGreen" parent="HomeButtonTile">
-        <item name="android:background">@drawable/bg_tile_green_gradient</item>
+        <item name="android:background">@drawable/bg_tile_green</item>
     </style>
 
     <style name="HomeButtonTile.AccentBlue" parent="HomeButtonTile">
-        <item name="android:background">@drawable/bg_tile_blue_gradient</item>
+        <item name="android:background">@drawable/bg_tile_blue</item>
     </style>
 
     <style name="HomeButtonTile.AccentPurple" parent="HomeButtonTile">
-        <item name="android:background">@drawable/bg_tile_purple_gradient</item>
+        <item name="android:background">@drawable/bg_tile_purple</item>
+    </style>
+
+    <!-- Emergency is the one tile that stands outside the grouping, on purpose. -->
+    <style name="HomeButtonTile.AccentRed" parent="HomeButtonTile">
+        <item name="android:background">@drawable/bg_tile_red</item>
+    </style>
+
+    <!-- Fourth row: medication, apps and alarms. -->
+    <style name="HomeButtonTile.AccentAmber" parent="HomeButtonTile">
+        <item name="android:background">@drawable/bg_tile_amber</item>
     </style>
 
     <style name="AboutSectionTitle">

@@ -256,8 +256,6 @@
     <string name="no_pills">Nema Pilula\nDodajte klikom na\n\"Dodaj Pilulu\"</string>
     <string name="clear_all_notifications">Ukloni Sve Obavijesti</string>
     <string name="clear_cache_subtext">Jeste li sigurni da želiste izbrisati podatke predmemorije? Brisanjem privremenih datoteka može popraviti greške aplikacije BaldPhone, no briše i sve prečace stvorene na Početnom Zaslonu.</string>
-    <string name="permissions_calm">Bok, BaldPhone mora imati slijedeće dozvole za pokretanje. Poneke mogu zvučati strašno no to je jedini način da BaldPhone zamijeni trenutno sučelje uređaja. Nikakvi podaci se ne sakupljaju na taj način niti se šteti Vama ili uređaju. Kliknite OK za odobravanje dozvola ili Ne za izlazak iz aplikacije BaldPhone.
-    </string>
 
     <string name="what_s_new">Što je novo</string>
     <string name="what_do_you_want_to_do_with___">Što želite napraviti sa %s?</string>

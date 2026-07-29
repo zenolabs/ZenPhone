@@ -43,6 +43,10 @@
     <string name="alarm_volume">Volume sveglia</string>
     <string name="alarm_volume_subtext">Imposta il volume per le sveglie.\nAumenta il volume spostando il selettore verso destra.</string>
     <string name="alarms">Sveglie</string>
+    <string name="neo_settings">Altre impostazioni</string>
+    <string name="settings_home_screen">Schermata home</string>
+    <string name="settings_fourth_row">Quarta riga di tessere</string>
+    <string name="settings_fourth_row_subtext">Aggiunge pillole, app e sveglie</string>
 
     <string name="alarms_repeats_every">Si ripete ogni</string>
     <string name="all_alarms">tutte le sveglie</string>
@@ -263,10 +267,6 @@
     <string name="no_pills">Nessuna pillola definita.\nPuoi crearne una toccando \"Aggiungi pillola\".</string>
     <string name="clear_all_notifications">Elimina tutte le notifiche</string>
     <string name="clear_cache_subtext">Vuoi eliminare il contenuto della cache?\nEliminare i file temporanei può risolvere alcuni malfunzionamenti della app, ma verranno eliminate anche le scorciatoie create nella Home.
-    </string>
-    <string name="permissions_calm">Ciao, BaldPhone deve avere le seguenti autorizzazioni per funzionare. Alcune di queste
-        possono spaventarti, ma è l\'unico modo in cui BaldPhone può sostituire l\'interfaccia del telefono. Nessuna informazione viene presa e non causa
-        danni. Premi OK per fornire le autorizzazioni o premi No per uscire da BaldPhone.
     </string>
     <string name="what_s_new">Cosa c\'è di nuovo</string>
     <string name="what_do_you_want_to_do_with___">Cosa vuoi fare con %s?</string>

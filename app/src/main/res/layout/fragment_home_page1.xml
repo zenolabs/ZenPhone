@@ -25,20 +25,20 @@
     android:gravity="center_horizontal"
     android:baselineAligned="false">
 
-    <!-- Notifications + Clock area (larger) -->
+    <!-- Clock area, sized to its content so the tiles get the rest of the screen -->
     <include
         layout="@layout/notification_area"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp" />
 
     <!-- Buttons area -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
         android:baselineAligned="false">
@@ -57,20 +57,20 @@
                 android:id="@+id/bt_contacts"
                 style="@style/HomeButtonTile.AccentGreen"
                 android:layout_marginEnd="8dp"
-                app:__src="@drawable/human_on_background"
+                app:__src="@drawable/ic_lucide_user"
                 app:__text="@string/contacts" />
 
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
                 android:id="@+id/bt_recent"
                 style="@style/HomeButtonTile.AccentGreen"
                 android:layout_marginEnd="8dp"
-                app:__src="@drawable/history_on_background"
+                app:__src="@drawable/ic_lucide_history"
                 app:__text="@string/recent" />
 
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
                 android:id="@+id/bt_dialer"
                 style="@style/HomeButtonTile.AccentGreen"
-                app:__src="@drawable/phone_on_background"
+                app:__src="@drawable/ic_lucide_phone"
                 app:__text="@string/dialer" />
         </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:id="@+id/bt_camera"
                 style="@style/HomeButtonTile.AccentBlue"
                 android:layout_marginEnd="8dp"
-                app:__src="@drawable/camera_on_background"
+                app:__src="@drawable/ic_lucide_camera"
                 app:__text="@string/camera" />
 
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
@@ -101,7 +101,7 @@
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
                 android:id="@+id/bt_messages"
                 style="@style/HomeButtonTile.AccentBlue"
-                app:__src="@drawable/message_on_background"
+                app:__src="@drawable/ic_lucide_message_square"
                 app:__text="@string/messages" />
         </LinearLayout>
 
@@ -112,27 +112,60 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:layout_marginBottom="6dp">
 
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
                 android:id="@+id/bt_emergency"
-                style="@style/HomeButtonTile.AccentPurple"
+                style="@style/HomeButtonTile.AccentRed"
                 android:layout_marginEnd="8dp"
-                app:__src="@drawable/emergency"
+                app:__src="@drawable/ic_lucide_siren"
                 app:__text="@string/sos" />
 
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
                 android:id="@+id/bt_assistant"
                 style="@style/HomeButtonTile.AccentPurple"
                 android:layout_marginEnd="8dp"
-                app:__src="@drawable/voice_on_background"
+                app:__src="@drawable/ic_lucide_mic"
                 app:__text="@string/assistant" />
 
             <com.bald.uriah.baldphone.views.FirstPageAppIcon
                 android:id="@+id/bt_lock_screen"
                 style="@style/HomeButtonTile.AccentPurple"
-                app:__src="@drawable/icon_lock_outline"
+                app:__src="@drawable/ic_lucide_lock"
                 app:__text="@string/label_lock_screen_short" />
+        </LinearLayout>
+
+        <!-- Fourth row, shown only when the matching preference is on -->
+        <LinearLayout
+            android:id="@+id/fourth_row"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:visibility="gone">
+
+            <com.bald.uriah.baldphone.views.FirstPageAppIcon
+                android:id="@+id/bt_pills"
+                style="@style/HomeButtonTile.AccentAmber"
+                android:layout_marginEnd="8dp"
+                app:__src="@drawable/ic_lucide_pill"
+                app:__text="@string/pills" />
+
+            <com.bald.uriah.baldphone.views.FirstPageAppIcon
+                android:id="@+id/bt_apps"
+                style="@style/HomeButtonTile.AccentAmber"
+                android:layout_marginEnd="8dp"
+                app:__src="@drawable/ic_lucide_layout_grid"
+                app:__text="@string/apps" />
+
+            <com.bald.uriah.baldphone.views.FirstPageAppIcon
+                android:id="@+id/bt_alarms"
+                style="@style/HomeButtonTile.AccentAmber"
+                app:__src="@drawable/ic_lucide_alarm_clock"
+                app:__text="@string/alarms" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -247,8 +247,6 @@
     <string name="no_pills">Ingen piller\nOpret en ved at klikke på\n\"Tilføj pille\"</string>
     <string name="clear_all_notifications">Ryd alle notifikationer</string>
     <string name="clear_cache_subtext">Er du sikker på, at du vil slette den midlertidige hukommelse? Dette kan afhjælpe småfejl i BaldPhone, men vil også slette genvejene på \"skrivebordet\".</string>
-    <string name="permissions_calm">BaldPhone har brug for nogle rettigheder for at fungere. Nogle af dem lyder måske ubetryggende, men det er den eneste måde BaldPhone kan ændre din telefons udseende, så det bliver bedre for dig. Intet data vil blive taget fra dig eller ødelagt.\nTryk OK for at give app\'en de nødvendige rettigheder eller \"Nej\" for at afslutte BaldPhone.
-    </string>
 
     <string name="what_s_new">Nyheder</string>
     <string name="what_do_you_want_to_do_with___">Hvad vil du gerne gøre med %s?</string>

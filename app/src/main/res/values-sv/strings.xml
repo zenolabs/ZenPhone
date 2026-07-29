@@ -261,8 +261,6 @@
     <string name="clear_all_notifications">Rensa alla aviseringar</string>
     <string name="clear_cache_subtext">Är du säker på att du vill rensa cachen?\n Även appgenvägar kommer att rensas!
     </string>
-    <string name="permissions_calm">BaldPhone behöver följande rättigheter för att köras. Några av dem kan låta skrämmande, men det är det enda sättet för BaldPhone att ersätta telefonens ursprungliga användargränssnitt. Detta är ofarligt och ingen data samlas in. Tryck på OK för att tillåta eller Nej för att avsluta BaldPhone.
-    </string>
 
     <string name="what_s_new">Vad som är nytt</string>
     <string name="what_do_you_want_to_do_with___">Vad vill du göra med %s?</string>

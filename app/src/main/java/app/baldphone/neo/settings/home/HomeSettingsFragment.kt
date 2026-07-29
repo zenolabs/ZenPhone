@@ -43,7 +43,7 @@ class HomeSettingsFragment : BaseSettingsFragment(R.layout.fragment_home_setting
             row = view.findViewById(R.id.row_fourth_row),
             titleRes = R.string.settings_fourth_row,
             subtitleRes = R.string.settings_fourth_row_subtext,
-            iconRes = R.drawable.ic_lucide_layout_grid,
+            iconRes = R.drawable.ic_tabler_layout_grid,
             isChecked = Prefs.isFourthHomeRowEnabled,
         ) { enabled -> Prefs.isFourthHomeRowEnabled = enabled }
     }

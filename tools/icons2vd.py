@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
-"""Convert Lucide SVG icons into Android vector drawables.
+"""Convert stroke-based SVG icons into Android vector drawables.
 
-Lucide draws with strokes rather than fills, and uses shape elements such as
-<circle> and <line> that Android does not understand. This script rewrites every
-shape as pathData and emits a <vector> with the stroke attributes preserved.
+Written for Tabler Icons, and equally happy with Lucide or any other set drawn the same
+way: a 24x24 grid, strokes rather than fills, round caps and joins. Both sets use shape
+elements such as <circle> and <line> that Android's <vector> does not understand, so every
+shape is rewritten as pathData with the stroke attributes preserved.
 
 Usage:
 
-    npm install lucide-static
-    python tools/lucide2vd.py user phone camera
+    npm install @tabler/icons
+    python tools/icons2vd.py user phone camera brand-whatsapp
 
-    python tools/lucide2vd.py --stroke 3 siren
-    python tools/lucide2vd.py --color "#1A1A1A" --prefix ic_dark_ lock
+    python tools/icons2vd.py --stroke 3 sos
+    python tools/icons2vd.py --icons-dir node_modules/lucide-static/icons --prefix ic_lucide_ user
 
-Output files are named ic_lucide_<name>.xml, with hyphens turned into
-underscores because Android resource names may not contain hyphens.
+Output files are named <prefix><name>.xml, with hyphens turned into underscores because
+Android resource names may not contain hyphens.
 
-Lucide is distributed under the ISC License; see the NOTICE file.
+Tabler Icons is distributed under the MIT License; see the NOTICE file.
 """
 
 import argparse
@@ -25,7 +26,7 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 
-DEFAULT_ICONS_DIR = os.path.join('node_modules', 'lucide-static', 'icons')
+DEFAULT_ICONS_DIR = os.path.join('node_modules', '@tabler', 'icons', 'icons', 'outline')
 DEFAULT_OUT_DIR = os.path.join('app', 'src', 'main', 'res', 'drawable')
 
 
@@ -77,18 +78,33 @@ HANDLERS = {
 }
 
 
+def is_bounding_box(attrib):
+    """Tabler opens every icon with an invisible 24x24 path used only for spacing.
+
+    It carries neither stroke nor fill, so it draws nothing in the browser - but copied
+    into a vector drawable and given a stroke colour it would suddenly appear as a square
+    around the glyph.
+    """
+    return attrib.get('stroke') == 'none' and attrib.get('fill') == 'none'
+
+
 def convert(svg_path, stroke, colour):
     root = ET.parse(svg_path).getroot()
     paths = []
     for el in root:
         tag = el.tag.split('}')[-1]
+        if is_bounding_box(el.attrib):
+            continue
         handler = HANDLERS.get(tag)
         if handler is None:
             raise ValueError('unsupported element <%s> in %s' % (tag, svg_path))
         paths.append(handler(el.attrib))
 
+    if not paths:
+        raise ValueError('nothing to draw in %s' % svg_path)
+
     out = ['<?xml version="1.0" encoding="utf-8"?>',
-           '<!-- Lucide (https://lucide.dev) - ISC License -->',
+           '<!-- Tabler Icons (https://tabler.io/icons) - MIT License -->',
            '<vector xmlns:android="http://schemas.android.com/apk/res/android"',
            '    android:width="24dp"',
            '    android:height="24dp"',
@@ -110,24 +126,24 @@ def convert(svg_path, stroke, colour):
 def main():
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('icons', nargs='+', help='Lucide icon names, e.g. user phone camera')
+    p.add_argument('icons', nargs='+', help='icon names, e.g. user phone brand-whatsapp')
     p.add_argument('--stroke', default='2.5',
-                   help='stroke width; Lucide ships 2, ZenPhone uses 2.5 for legibility')
-    p.add_argument('--color', default='#FFFFFF', help='stroke colour')
-    p.add_argument('--prefix', default='ic_lucide_', help='resource name prefix')
+                   help='stroke width; the sets ship 2, ZenPhone uses 2.5 for legibility')
+    p.add_argument('--color', default='@color/tile_foreground', help='stroke colour')
+    p.add_argument('--prefix', default='ic_tabler_', help='resource name prefix')
     p.add_argument('--icons-dir', default=DEFAULT_ICONS_DIR)
     p.add_argument('--out-dir', default=DEFAULT_OUT_DIR)
     args = p.parse_args()
 
     if not os.path.isdir(args.icons_dir):
-        sys.exit('Icons directory not found: %s\nRun: npm install lucide-static'
+        sys.exit('Icons directory not found: %s\nRun: npm install @tabler/icons'
                  % args.icons_dir)
     os.makedirs(args.out_dir, exist_ok=True)
 
     for name in args.icons:
         svg = os.path.join(args.icons_dir, name + '.svg')
         if not os.path.isfile(svg):
-            sys.exit('No such Lucide icon: %s' % name)
+            sys.exit('No such icon: %s' % name)
         xml = convert(svg, args.stroke, args.color)
         filename = args.prefix + name.replace('-', '_') + '.xml'
         with open(os.path.join(args.out_dir, filename), 'w', encoding='utf-8') as f:

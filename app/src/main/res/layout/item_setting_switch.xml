@@ -31,7 +31,8 @@
         android:layout_height="match_parent"
         android:importantForAccessibility="no"
         android:padding="12dp"
-        tools:src="@drawable/ic_lucide_layout_grid" />
+        android:tint="?attr/bald_text_on_button"
+        tools:src="@drawable/ic_tabler_layout_grid" />
 
     <LinearLayout
         android:layout_width="0dp"

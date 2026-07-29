@@ -10,12 +10,18 @@
     android:orientation="horizontal"
     android:padding="4dp">
 
+    <!--
+      Tinted so that monochrome icons carrying their own colour - the tile icons are white,
+      because they normally sit on a coloured tile - stay visible on the settings background
+      in both themes.
+    -->
     <ImageView
         android:id="@+id/icon"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:importantForAccessibility="no"
         android:padding="12dp"
+        android:tint="?attr/bald_text_on_button"
         tools:src="@drawable/check_on_button" />
 
     <TextView

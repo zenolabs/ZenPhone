@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import app.baldphone.neo.activities.DialerActivity;
+import app.baldphone.neo.battery.BatteryRepository;
 import app.baldphone.neo.data.Prefs;
+import app.baldphone.neo.launcher.ui.BatteryIconView;
 import app.baldphone.neo.features.calls.ui.RecentCallsActivity;
 import app.baldphone.neo.features.contacts.ui.ContactsActivity;
 import app.baldphone.neo.features.notifications.data.NotificationRepository;
@@ -92,6 +95,10 @@ public class HomePage1 extends HomeView {
             bt_apps,
             bt_alarms;
     private View fourthRow;
+    private BatteryIconView homeBattery;
+    private TextView homeBatteryPercent;
+    private View homeBatteryBlock;
+    private boolean homeBatteryBound;
     private SharedPreferences sharedPreferences;
 
     public HomePage1(@NonNull Context context) {
@@ -132,6 +139,38 @@ public class HomePage1 extends HomeView {
         bt_apps = rootView.findViewById(R.id.bt_apps);
         bt_alarms = rootView.findViewById(R.id.bt_alarms);
         fourthRow = rootView.findViewById(R.id.fourth_row);
+        homeBattery = rootView.findViewById(R.id.home_battery);
+        homeBatteryPercent = rootView.findViewById(R.id.home_battery_percent);
+        homeBatteryBlock = rootView.findViewById(R.id.home_battery_block);
+    }
+
+    /**
+     * Feeds the battery indicator that sits beside the clock.
+     * <p>
+     * The icon keeps itself in step through the repository, but the percentage next to it is
+     * plain text, so it is filled in here. The description is set on the block rather than on
+     * either child, so a screen reader announces "battery, 45 percent" once instead of
+     * reading an icon and a number as two separate things.
+     */
+    private void bindHomeBattery(@NonNull LifecycleOwner owner) {
+        // onAttachedToWindow can fire again after a detach; binding twice would leave a second
+        // collector running for the lifetime of the launcher.
+        if (homeBattery == null || homeBatteryBound) return;
+        homeBatteryBound = true;
+
+        homeBattery.observeBatteryState(owner);
+        BatteryRepository.get(getContext()).getBatteryLiveData().observe(owner, state -> {
+            final Integer percentage = state.getPercentage();
+            if (homeBatteryPercent != null) {
+                homeBatteryPercent.setText(
+                        percentage == null
+                                ? ""
+                                : getContext().getString(R.string.battery_percentage_short, percentage));
+            }
+            if (homeBatteryBlock != null) {
+                homeBatteryBlock.setContentDescription(state.formatSimpleInfo(getContext()));
+            }
+        });
     }
 
     /**
@@ -163,6 +202,7 @@ public class HomePage1 extends HomeView {
 
         LifecycleOwner owner = ViewTreeLifecycleOwner.get(this);
         if (owner != null) {
+            bindHomeBattery(owner);
             repo.getPackages().observe(owner, this::refreshBadges);
             repo.getMissedCalls(activity).observe(owner, missedCalls -> {
                 if (bt_recent != null && !viewsToApps.containsValue(bt_recent)) {
@@ -205,25 +245,25 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_RECENTS_KEY,
                 bt_recent,
                 R.string.recent,
-                R.drawable.ic_lucide_history,
+                R.drawable.ic_tabler_history,
                 v -> homeScreen.startActivity(new Intent(homeScreen, RecentCallsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_DIALER_KEY,
                 bt_dialer,
                 R.string.dialer,
-                R.drawable.ic_lucide_phone,
+                R.drawable.ic_tabler_phone,
                 v -> homeScreen.startActivity(new Intent(homeScreen, DialerActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_CONTACTS_KEY,
                 bt_contacts,
                 R.string.contacts,
-                R.drawable.ic_lucide_user,
+                R.drawable.ic_tabler_user,
                 v -> homeScreen.startActivity(new Intent(homeScreen, ContactsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_APP_KEY,
                 bt_whatsapp,
                 R.string.whatsapp,
-                R.drawable.whatsapp_on_background,
+                R.drawable.ic_tabler_brand_whatsapp,
                 v -> {
                     try {
                         WhatsAppHandler.INSTANCE.launch(homeScreen);
@@ -235,7 +275,7 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_ASSISTANT_KEY,
                 bt_assistant,
                 R.string.assistant,
-                R.drawable.ic_lucide_mic,
+                R.drawable.ic_tabler_microphone,
                 v -> {
                     try {
                         homeScreen.startActivity(
@@ -252,7 +292,7 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_MESSAGES_KEY,
                 bt_messages,
                 R.string.messages,
-                R.drawable.ic_lucide_message_square,
+                R.drawable.ic_tabler_message,
                 v -> {
                     try {
                         final ResolveInfo resolveInfo =
@@ -283,13 +323,13 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_EMERGENCY_KEY,
                 bt_emergency,
                 R.string.sos,
-                R.drawable.ic_lucide_siren,
+                R.drawable.ic_tabler_sos,
                 v -> homeScreen.startActivity(new Intent(homeScreen, SOSActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_CAMERA_KEY,
                 bt_camera,
                 R.string.camera,
-                R.drawable.ic_lucide_camera,
+                R.drawable.ic_tabler_camera,
                 v -> {
                     Intent intent = getCameraIntent();
                     if (intent != null) {
@@ -300,25 +340,25 @@ public class HomePage1 extends HomeView {
                 BPrefs.CUSTOM_PILLS_KEY,
                 bt_pills,
                 R.string.pills,
-                R.drawable.ic_lucide_pill,
+                R.drawable.ic_tabler_pill,
                 v -> homeScreen.startActivity(new Intent(homeScreen, PillsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_APPS_KEY,
                 bt_apps,
                 R.string.apps,
-                R.drawable.ic_lucide_layout_grid,
+                R.drawable.ic_tabler_layout_grid,
                 v -> homeScreen.startActivity(new Intent(homeScreen, AppsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_ALARMS_KEY,
                 bt_alarms,
                 R.string.alarms,
-                R.drawable.ic_lucide_alarm_clock,
+                R.drawable.ic_tabler_alarm,
                 v -> homeScreen.startActivity(new Intent(homeScreen, AlarmsActivity.class)));
         setupButton(
                 BPrefs.CUSTOM_VIDEOS_KEY,
                 bt_lock_screen,
                 R.string.label_lock_screen_short,
-                R.drawable.ic_lucide_lock,
+                R.drawable.ic_tabler_lock,
                 v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         requestDeviceLock();

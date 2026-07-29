@@ -90,19 +90,19 @@ class SoundButton
                 availableModes.forEach { mode ->
                     when (mode) {
                         AudioManager.RINGER_MODE_SILENT -> {
-                            option(R.drawable.mute_on_background, R.string.mute) {
+                            option(R.drawable.ic_tabler_volume_off, R.string.mute) {
                                 setRingerMode(mode)
                             }
                         }
 
                         AudioManager.RINGER_MODE_VIBRATE -> {
-                            option(R.drawable.vibration_on_background, R.string.vibrate) {
+                            option(R.drawable.ic_tabler_device_mobile_vibration, R.string.vibrate) {
                                 setRingerMode(mode)
                             }
                         }
 
                         AudioManager.RINGER_MODE_NORMAL -> {
-                            option(R.drawable.sound_on_background, R.string.sound) {
+                            option(R.drawable.ic_tabler_volume, R.string.sound) {
                                 setRingerMode(mode)
                             }
                         }
@@ -136,15 +136,15 @@ class SoundButton
             val (iconRes, textRes) =
                 when (mode) {
                     AudioManager.RINGER_MODE_SILENT -> {
-                        R.drawable.mute_on_background to R.string.sound_mode_mute
+                        R.drawable.ic_tabler_volume_off to R.string.sound_mode_mute
                     }
 
                     AudioManager.RINGER_MODE_VIBRATE -> {
-                        R.drawable.vibration_on_background to R.string.sound_mode_vibrate
+                        R.drawable.ic_tabler_device_mobile_vibration to R.string.sound_mode_vibrate
                     }
 
                     else -> {
-                        R.drawable.sound_on_background to R.string.sound_mode_normal
+                        R.drawable.ic_tabler_volume to R.string.sound_mode_normal
                     }
                 }
 

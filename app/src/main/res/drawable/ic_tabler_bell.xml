@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Lucide (https://lucide.dev) - ISC License -->
+<!-- Tabler Icons (https://tabler.io/icons) - MIT License -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
@@ -8,15 +8,15 @@
 
     <path
         android:fillColor="#00000000"
-        android:pathData="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"
-        android:strokeColor="#FFFFFF"
+        android:pathData="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"
+        android:strokeColor="?attr/bald_decoration_on_background"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:strokeWidth="2.5" />
     <path
         android:fillColor="#00000000"
-        android:pathData="m8.5 8.5 7 7"
-        android:strokeColor="#FFFFFF"
+        android:pathData="M9 17v1a3 3 0 0 0 6 0v-1"
+        android:strokeColor="?attr/bald_decoration_on_background"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:strokeWidth="2.5" />

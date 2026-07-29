@@ -49,6 +49,7 @@
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_volume_subtext">Choose Volume for Alarms.\nVolume increases from left to right.</string>
     <string name="alarms">Alarms</string>
+    <string name="battery_percentage_short" translatable="false">%1$d%%</string>
     <string name="settings_home_screen">Home screen</string>
     <string name="settings_fourth_row">Fourth row of tiles</string>
     <string name="settings_fourth_row_subtext">Adds medication, apps and alarms</string>

@@ -30,7 +30,7 @@ class NotificationsButton
         defStyleAttr: Int = android.R.attr.imageButtonStyle
     ) : AppCompatImageButton(context, attrs, defStyleAttr) {
         private val alotDrawable by lazy {
-            AppCompatResources.getDrawable(context, R.drawable.notification_alot_on_background)?.mutate()
+            AppCompatResources.getDrawable(context, R.drawable.ic_tabler_bell_ringing_2)?.mutate()
         }
 
         private var decorationColorOnBackground: Int = 0
@@ -80,15 +80,15 @@ class NotificationsButton
                 }
 
                 count >= 1 -> {
-                    setImageResource(R.drawable.notification_some_on_background)
+                    setImageResource(R.drawable.ic_tabler_bell_ringing)
                 }
 
                 count == 0 -> {
-                    setImageResource(R.drawable.notification_none_on_background)
+                    setImageResource(R.drawable.ic_tabler_bell)
                 }
 
                 else -> {
-                    setImageResource(R.drawable.error_on_background)
+                    setImageResource(R.drawable.ic_tabler_alert_circle)
                 }
             }
         }

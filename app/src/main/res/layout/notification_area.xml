@@ -1,38 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2019 Uriah Shaul Mandel
+  ~ Copyright 2026 Zenolabs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 
+<!--
+  Clock and date on the left, battery on the right, the pair centred as a group.
+
+  The text sizes are fixed rather than auto-sized on purpose. Auto-sizing needs a bounded
+  width to measure against, and a bounded width is what pushed the clock off centre: the
+  block claimed all the leftover room and centred the text inside itself, leaving a wide
+  gap on the left and none on the right. Wrapping the text lets the group centre properly.
+  The date keeps a maxWidth and ellipsis as a safety net, since its length varies a lot
+  between languages.
+
+  Condensed light was the previous choice for the clock and it read as elegant rather than
+  legible: narrow letter shapes and thin strokes are the two things that fail first for an
+  ageing eye. Medium weight at normal width is markedly easier to read at a glance.
+
+  The battery is spelled out as a number as well as drawn, because reading "45%" asks less
+  of the viewer than judging how full a small outline looks.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/notifications_area"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="8dp"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="8dp"
     android:importantForAccessibility="no">
 
-    <TextClock
-        android:id="@+id/clock"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:format12Hour="h:mm a"
-        android:format24Hour="HH:mm"
-        android:textColor="?bald_text_on_background"
-        android:textSize="72sp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="40sp"
-        android:autoSizeMaxTextSize="72sp"
-        android:autoSizeStepGranularity="2sp" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <TextClock
-        android:id="@+id/date"
+        <TextClock
+            android:id="@+id/clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="h:mm a"
+            android:format24Hour="HH:mm"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="?bald_text_on_background"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="84sp" />
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:format12Hour="EEEE, dd MMM"
+            android:format24Hour="EEEE, dd MMM"
+            android:gravity="center"
+            android:maxLines="1"
+            android:maxWidth="260dp"
+            android:textColor="?bald_text_on_background"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="26sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_battery_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:format12Hour="EEEE, dd MMM"
-        android:format24Hour="EEEE, dd MMM"
-        android:textColor="?bald_text_on_button"
-        android:textSize="20sp"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="12sp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeStepGranularity="1sp" />
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:importantForAccessibility="yes">
+
+        <app.baldphone.neo.launcher.ui.BatteryIconView
+            android:id="@+id/home_battery"
+            android:layout_width="72dp"
+            android:layout_height="72dp" />
+
+        <TextView
+            android:id="@+id/home_battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:importantForAccessibility="no"
+            android:maxLines="1"
+            android:textColor="?bald_text_on_background"
+            android:textSize="22sp" />
+    </LinearLayout>
 </LinearLayout>

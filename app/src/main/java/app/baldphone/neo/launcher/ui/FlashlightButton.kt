@@ -52,9 +52,9 @@ class FlashlightButton
                         if (event is FlashlightState.OnOff) {
                             setImageResource(
                                 if (event.isOn) {
-                                    R.drawable.flashlight_on_background
+                                    R.drawable.ic_tabler_bulb
                                 } else {
-                                    R.drawable.flashlight_off_on_background
+                                    R.drawable.ic_tabler_bulb_off
                                 }
                             )
                             contentDescription =

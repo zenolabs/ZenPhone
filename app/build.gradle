@@ -33,10 +33,10 @@ def getDate() {
 
 android {
     namespace = "com.bald.uriah.baldphone"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "net.zenolabs.zenphone"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 36
         versionCode = 1
         versionName = "1.0.0"
@@ -97,30 +97,30 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.core:core-ktx:1.16.0' // Newer versions require compileSdk 36+
+    implementation 'androidx.core:core-ktx:1.19.0'
     implementation 'androidx.core:core-splashscreen:1.2.0'
-    implementation 'androidx.lifecycle:lifecycle-process:2.9.4'  // Newer versions require minSdk 23+
+    implementation 'androidx.lifecycle:lifecycle-process:2.11.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.9.8'
-    implementation 'androidx.room:room-ktx:2.7.2'  // Newer versions require minSdk 23+
-    ksp 'androidx.room:room-compiler:2.7.2'
+    implementation 'androidx.room:room-ktx:2.8.4'
+    ksp 'androidx.room:room-compiler:2.8.4'
 
-    implementation 'com.google.android.material:material:1.13.0'
-    implementation 'com.googlecode.libphonenumber:libphonenumber:9.0.28'
+    implementation 'com.google.android.material:material:1.14.0'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:9.0.35'
 
-    implementation 'com.github.bumptech.glide:glide:5.0.5'
-    ksp 'com.github.bumptech.glide:ksp:5.0.5'
+    implementation 'com.github.bumptech.glide:glide:5.0.9'
+    ksp 'com.github.bumptech.glide:ksp:5.0.9'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'io.coil-kt.coil3:coil-android:3.0.4'  // Newer versions require compileSdk 35+
-    implementation 'net.danlew:android.joda:2.10.6'
+    implementation 'io.coil-kt.coil3:coil-android:3.5.0'
+    implementation 'net.danlew:android.joda:2.14.2.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     // Only for tests
-    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.7.0'
     androidTestImplementation 'com.github.blainepwnz:AndroidContacts:1.14.0'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 tasks.register("copyLicenseToAssets", Copy) {

@@ -165,8 +165,6 @@
     <string name="nfc">NFC</string>
     <string name="no">No</string>
     <string name="notes">Note</string>
-    <string name="notes_settings">Pagina note</string>
-    <string name="notes_settings_subtext">Scegli se vuoi la pagina delle note insieme alla schermata principale.</string>
     <string name="notifications">Notifiche</string>
 
     <string name="of">di</string>

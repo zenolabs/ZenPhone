@@ -157,8 +157,6 @@
     <string name="nfc">NFC</string>
     <string name="no">לא</string>
     <string name="notes">רשימות</string>
-    <string name="notes_settings">הגדרות פתקים</string>
-    <string name="notes_settings_subtext">בחר האם להוסיף מסך רשימות למסך הבית</string>
     <string name="notifications">התראות</string>
 
     <string name="of">מתוך</string>

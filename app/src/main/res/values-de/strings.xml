@@ -155,8 +155,6 @@
     <string name="nfc">NFC</string>
     <string name="no">Nein</string>
     <string name="notes">Notizen</string>
-    <string name="notes_settings">Notizen</string>
-    <string name="notes_settings_subtext">Lege fest, ob du eine Notizseite beim Startbildschirm haben willlst.</string>
     <string name="notifications">Benachrichtigungen</string>
 
     <string name="of">von</string>

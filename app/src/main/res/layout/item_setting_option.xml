@@ -14,6 +14,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
+<!--
+  A setting that holds one of several values. The current value is shown underneath the
+  title rather than only inside the chooser, so the state of the app can be read by
+  scrolling the list instead of opening every row in turn.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -48,7 +54,7 @@
             style="@style/ButtonsText.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Fourth row of tiles" />
+            tools:text="Status bar" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -56,31 +62,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:visibility="gone"
-            tools:text="Medication, apps and alarms"
-            tools:visibility="visible" />
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Home screen only" />
     </LinearLayout>
 
-    <!--
-      The switch is not focusable on its own: the whole row toggles it. A 96dp target is
-      far easier to hit than the switch alone for someone with a tremor, and screen readers
-      then announce a single control rather than two.
-    -->
-    <!--
-      saveEnabled is off on purpose. This layout is included several times per screen, so
-      more than one switch ends up carrying the same id, and Android saves view state in a
-      map keyed by id: the state of one would be restored into all of them. The value is
-      read back from the preference every time the screen is built, so there is nothing
-      worth saving here anyway.
-    -->
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_widget"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:layout_marginEnd="12dp"
-        android:clickable="false"
-        android:focusable="false"
         android:importantForAccessibility="no"
-        android:saveEnabled="false" />
+        android:padding="5dp"
+        android:src="@drawable/ic_chevron_right" />
 
 </LinearLayout>

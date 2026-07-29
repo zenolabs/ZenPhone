@@ -159,8 +159,6 @@
     <string name="nfc">एनएफसी</string>
     <string name="no">नहीं</string>
     <string name="notes">टिप्पणियाँ</string>
-    <string name="notes_settings">टिप्पणियाँ</string>
-    <string name="notes_settings_subtext">चुनें कि क्या आप होम स्क्रीन पर नोट्स पेज रखना चाहते हैं।</string>
     <string name="notifications">सूचनाएं</string>
 
     <string name="of">की</string>

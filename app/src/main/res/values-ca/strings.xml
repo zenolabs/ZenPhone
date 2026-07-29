@@ -162,8 +162,6 @@ Es recomana encaridament usar \"Baldphone\'s home screen\" com el Llançador pri
     <string name="nfc">NFC</string>
     <string name="no">No</string>
     <string name="notes">Notes</string>
-    <string name="notes_settings">Notes</string>
-    <string name="notes_settings_subtext">Triï si desitja tenir una pàgina de Notes en la pantalla principal.</string>
     <string name="notifications">Notificacions</string>
 
     <string name="of">de</string>

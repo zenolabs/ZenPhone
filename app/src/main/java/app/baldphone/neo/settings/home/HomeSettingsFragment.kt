@@ -16,68 +16,65 @@
 
 package app.baldphone.neo.settings.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-
-import com.google.android.material.materialswitch.MaterialSwitch
 
 import app.baldphone.neo.data.Prefs
+import app.baldphone.neo.data.StatusBarMode
 import app.baldphone.neo.settings.BaseSettingsFragment
+import app.baldphone.neo.settings.SettingsRows
 
 import com.bald.uriah.baldphone.R
+import com.bald.uriah.baldphone.activities.Page1EditorActivity
+import com.bald.uriah.baldphone.activities.pills.PillTimeSetterActivity
 
 /**
  * Settings for the home screen itself.
- *
- * This is the first screen in the new settings tree to carry a toggle rather than a link,
- * so [bindSwitchRow] is written to be reused by whatever comes next.
  */
 class HomeSettingsFragment : BaseSettingsFragment(R.layout.fragment_home_settings) {
+
+    /** Kept in the order Android reports them, so the index maps straight onto the enum. */
+    private val statusBarOptions =
+        listOf(R.string.nowhere, R.string.only_home_screen, R.string.everywhere)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindSwitchRow(
+        SettingsRows.bindSwitch(
             row = view.findViewById(R.id.row_fourth_row),
             titleRes = R.string.settings_fourth_row,
             subtitleRes = R.string.settings_fourth_row_subtext,
             iconRes = R.drawable.ic_tabler_layout_grid,
             isChecked = Prefs.isFourthHomeRowEnabled,
         ) { enabled -> Prefs.isFourthHomeRowEnabled = enabled }
-    }
 
-    private fun bindSwitchRow(
-        row: View,
-        titleRes: Int,
-        subtitleRes: Int?,
-        iconRes: Int,
-        isChecked: Boolean,
-        onChange: (Boolean) -> Unit,
-    ) {
-        val title = row.findViewById<TextView>(R.id.title)
-        val subtitle = row.findViewById<TextView>(R.id.subtitle)
-        val switch = row.findViewById<MaterialSwitch>(R.id.switch_widget)
 
-        title.setText(titleRes)
-        row.findViewById<ImageView>(R.id.icon).setImageResource(iconRes)
-
-        if (subtitleRes != null) {
-            subtitle.setText(subtitleRes)
-            subtitle.visibility = View.VISIBLE
-        } else {
-            subtitle.visibility = View.GONE
+        SettingsRows.bindOption(
+            row = view.findViewById(R.id.row_status_bar),
+            titleRes = R.string.status_bar_settings,
+            iconRes = R.drawable.ic_tabler_layout_navbar,
+            optionsRes = statusBarOptions,
+            selectedIndex = Prefs.statusBarMode.value,
+        ) { index ->
+            Prefs.statusBarMode = StatusBarMode.fromValue(index)
+            requireActivity().recreate()
         }
 
-        switch.isChecked = isChecked
-        row.contentDescription = title.text
+        SettingsRows.bindAction(
+            row = view.findViewById(R.id.row_edit_home),
+            titleRes = R.string.edit_home_screen,
+            iconRes = R.drawable.ic_tabler_pencil,
+        ) {
+            startActivity(Intent(requireContext(), Page1EditorActivity::class.java))
+        }
 
-        // The row owns the interaction; the switch is only a visual state indicator.
-        row.setOnClickListener {
-            val enabled = !switch.isChecked
-            switch.isChecked = enabled
-            onChange(enabled)
+        SettingsRows.bindAction(
+            row = view.findViewById(R.id.row_pill_times),
+            titleRes = R.string.time_changer,
+            iconRes = R.drawable.ic_tabler_pill,
+        ) {
+            startActivity(Intent(requireContext(), PillTimeSetterActivity::class.java))
         }
     }
 }

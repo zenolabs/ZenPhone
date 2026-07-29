@@ -202,8 +202,6 @@
     <string name="no">No</string>
     <string name="note">Note</string>
     <string name="notes">Notes</string>
-    <string name="notes_settings">Notes</string>
-    <string name="notes_settings_subtext">Enable or disable the Notes page on the home screen.</string>
     <string name="notifications">Notifications</string>
 
     <string name="of">of</string>

@@ -155,8 +155,6 @@
     <string name="nfc">NFC</string>
     <string name="no">Нет</string>
     <string name="notes">Заметки</string>
-    <string name="notes_settings">Заметки</string>
-    <string name="notes_settings_subtext">Выберите, хотите ли вы иметь страницу Заметок на главном экране.</string>
     <string name="notifications">Уведомления</string>
 
     <string name="of">к</string>

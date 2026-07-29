@@ -39,13 +39,11 @@ import static com.bald.uriah.baldphone.utils.BPrefs.EMERGENCY_BUTTON_VISIBLE_DEF
 import static com.bald.uriah.baldphone.utils.BPrefs.EMERGENCY_BUTTON_VISIBLE_KEY;
 import static com.bald.uriah.baldphone.utils.BPrefs.LONG_PRESSES_DEFAULT_VALUE;
 import static com.bald.uriah.baldphone.utils.BPrefs.LONG_PRESSES_KEY;
-import static com.bald.uriah.baldphone.utils.BPrefs.NOTE_VISIBLE_DEFAULT_VALUE;
-import static com.bald.uriah.baldphone.utils.BPrefs.NOTE_VISIBLE_KEY;
 import static com.bald.uriah.baldphone.utils.BPrefs.TOUCH_NOT_HARD_DEFAULT_VALUE;
 import static com.bald.uriah.baldphone.utils.BPrefs.TOUCH_NOT_HARD_KEY;
 
 public class BaldPrefsUtils {
-    private final boolean vibrationFeedback, touchNoHard, longPresses, notes, sos;
+    private final boolean vibrationFeedback, touchNoHard, longPresses, sos;
     private final int statusBar;
     private final String CUSTOM_APP;
     private final String CUSTOM_RECENTS;
@@ -60,11 +58,10 @@ public class BaldPrefsUtils {
     private final String CUSTOM_APPS;
     private final String CUSTOM_ALARMS;
 
-    private BaldPrefsUtils(boolean vibrationFeedback, boolean touchNoHard, boolean longPresses, boolean notes, int statusBar, boolean sos, String custom_app, String custom_recents, String custom_dialer, String custom_contacts, String custom_assistant, String custom_messages, String custom_photos, String custom_camera, String custom_videos, String custom_pills, String custom_apps, String custom_alarms) {
+    private BaldPrefsUtils(boolean vibrationFeedback, boolean touchNoHard, boolean longPresses, int statusBar, boolean sos, String custom_app, String custom_recents, String custom_dialer, String custom_contacts, String custom_assistant, String custom_messages, String custom_photos, String custom_camera, String custom_videos, String custom_pills, String custom_apps, String custom_alarms) {
         this.vibrationFeedback = vibrationFeedback;
         this.touchNoHard = touchNoHard;
         this.longPresses = longPresses;
-        this.notes = notes;
         this.statusBar = statusBar;
         this.sos = sos;
         CUSTOM_APP = custom_app;
@@ -89,8 +86,6 @@ public class BaldPrefsUtils {
                         .getBoolean(TOUCH_NOT_HARD_KEY, TOUCH_NOT_HARD_DEFAULT_VALUE),
                 sharedPreferences
                         .getBoolean(LONG_PRESSES_KEY, LONG_PRESSES_DEFAULT_VALUE),
-                sharedPreferences
-                        .getBoolean(NOTE_VISIBLE_KEY, NOTE_VISIBLE_DEFAULT_VALUE),
                 Prefs.getStatusBarMode().getValue(),
                 sharedPreferences.getBoolean(EMERGENCY_BUTTON_VISIBLE_KEY, EMERGENCY_BUTTON_VISIBLE_DEFAULT_VALUE),
                 sharedPreferences.getString(CUSTOM_APP_KEY, null),

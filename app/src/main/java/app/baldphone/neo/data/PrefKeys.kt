@@ -40,4 +40,5 @@ object PrefKeys {
 
     // Home screen
     const val KEY_FOURTH_HOME_ROW = "fourth_home_row"
+
 }

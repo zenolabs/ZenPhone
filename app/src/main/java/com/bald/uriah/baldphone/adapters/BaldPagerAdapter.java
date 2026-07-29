@@ -28,7 +28,6 @@ import com.bald.uriah.baldphone.utils.BPrefs;
 import com.bald.uriah.baldphone.views.home.HomePage1;
 import com.bald.uriah.baldphone.views.home.HomePage2;
 import com.bald.uriah.baldphone.views.home.HomeViewFactory;
-import com.bald.uriah.baldphone.views.home.NotesView;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +37,6 @@ import java.util.List;
  * It contains:
  * {@link HomePage1}
  * {@link HomePage2}
- * {@link NotesView}
  * {@link HomeViewFactory} (For accessing Apps)
  * Notice - it uses Views and not Fragments
  */
@@ -46,10 +44,11 @@ public class BaldPagerAdapter extends BaldViewAdapter {
     private static final String TAG = BaldPagerAdapter.class.getSimpleName();
     private final Pools.SimplePool<HomeViewFactory> factoryPool = new Pools.SimplePool<>(10);
     /**
-     * This field holds the index of the {@link HomePage1}.
-     * It depends on the value of {@link BPrefs#NOTE_VISIBLE_KEY} in {@link BPrefs}
+     * This field holds the index of the {@link HomePage1}, which is the page the launcher
+     * opens on. It used to shift by one when the notes page was enabled; the notes page is
+     * gone, so it is now fixed.
      */
-    public int startingPage;
+    public final int startingPage = 1;
     @SuppressWarnings("unchecked")
     public List<Object> pinnedList = Collections.EMPTY_LIST;
     private int numItemsBefore, numItems;
@@ -57,7 +56,6 @@ public class BaldPagerAdapter extends BaldViewAdapter {
 
     public BaldPagerAdapter(HomeScreenActivity homeScreen) {
         this.homeScreen = homeScreen;
-        startingPage = (BPrefs.get(this.homeScreen).getBoolean(BPrefs.NOTE_VISIBLE_KEY, BPrefs.NOTE_VISIBLE_DEFAULT_VALUE) ? 2 : 1);
         numItems = numItemsBefore = startingPage + 1;
     }
 
@@ -71,10 +69,6 @@ public class BaldPagerAdapter extends BaldViewAdapter {
     public View getItem(int position) {
         final View view;
         switch (position) {
-            case -1:
-                view = new NotesView(homeScreen);
-                view.setTag(NotesView.TAG);
-                break;
             case 0:
                 view = new HomePage2(homeScreen);
                 view.setTag(HomePage2.TAG);

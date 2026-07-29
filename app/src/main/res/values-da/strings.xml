@@ -149,8 +149,6 @@
     <string name="nfc">NFC</string>
     <string name="no">Nej</string>
     <string name="notes">Noter</string>
-    <string name="notes_settings">Indstillinger for Noter</string>
-    <string name="notes_settings_subtext">Vælg om du vil have et ekstra skrivebord til at tage noter. Swipe til siden efter du har aktiveret denne indstilling for at finde det.</string>
     <string name="notifications">Notifikationer</string>
 
     <string name="of">af</string>

@@ -158,8 +158,6 @@ ja muuttaa kirkkautta.</string>
     <string name="nfc">NFC</string>
     <string name="no">Ei</string>
     <string name="notes">Muistio</string>
-    <string name="notes_settings">Muistiot</string>
-    <string name="notes_settings_subtext">Valitse jos haluat Muistio-sivun kotinäytölle</string>
     <string name="notifications">Huomautukset</string>
 
     <string name="of">/</string>

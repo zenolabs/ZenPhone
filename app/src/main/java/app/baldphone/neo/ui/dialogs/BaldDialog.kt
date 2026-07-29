@@ -161,6 +161,9 @@ class BaldDialog private constructor(
             @DrawableRes resId: Int
         ) = apply { this.icon = ContextCompat.getDrawable(context, resId) }
 
+        /** Places an arbitrary view between the message and the buttons. */
+        fun setCustomView(view: View) = apply { this.customView = view }
+
         fun setTitle(title: CharSequence) = apply { this.title = title }
 
         fun setTitle(

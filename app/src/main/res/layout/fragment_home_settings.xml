@@ -14,15 +14,40 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <include
-        android:id="@+id/row_fourth_row"
-        layout="@layout/item_setting_switch"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <include
+            android:id="@+id/row_fourth_row"
+            layout="@layout/item_setting_switch"
+            android:layout_width="match_parent"
+            android:layout_height="96dp" />
+
+
+        <include
+            android:id="@+id/row_status_bar"
+            layout="@layout/item_setting_option"
+            android:layout_width="match_parent"
+            android:layout_height="96dp" />
+
+        <include
+            android:id="@+id/row_edit_home"
+            layout="@layout/item_setting"
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+        <include
+            android:id="@+id/row_pill_times"
+            layout="@layout/item_setting"
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+    </LinearLayout>
+</ScrollView>

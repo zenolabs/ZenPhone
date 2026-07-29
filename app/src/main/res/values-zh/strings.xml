@@ -155,8 +155,6 @@
     <string name="nfc">NFC</string>
     <string name="no">否</string>
     <string name="notes">筆記</string>
-    <string name="notes_settings">筆記</string>
-    <string name="notes_settings_subtext">選擇要否放筆記頁到主頁。</string>
     <string name="notifications">通知</string>
 
     <string name="of">總共</string>

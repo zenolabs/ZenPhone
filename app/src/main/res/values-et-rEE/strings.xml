@@ -160,8 +160,6 @@
     <string name="nfc">NFC</string>
     <string name="no">Ei</string>
     <string name="notes">Märkmed</string>
-    <string name="notes_settings">Märkmed</string>
-    <string name="notes_settings_subtext">Valige, kui soovite märkmelehte avakuval näha.</string>
     <string name="notifications">Teavitused</string>
 
     <string name="off">Väljas</string>

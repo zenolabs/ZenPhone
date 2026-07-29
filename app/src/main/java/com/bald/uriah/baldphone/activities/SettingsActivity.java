@@ -207,8 +207,6 @@ public class SettingsActivity extends BaldActivity {
 //                        .setOptionsStartingIndex(() -> sharedPreferences.getBoolean(BPrefs.EMERGENCY_BUTTON_VISIBLE_KEY, BPrefs.EMERGENCY_BUTTON_VISIBLE_DEFAULT_VALUE) ? 0 : 1),
 //                        R.drawable.emergency_on_button));
 
-        personalizationCategory.add(new RunnableSettingsItem(R.string.time_changer, v -> startActivity(new Intent(this, PillTimeSetterActivity.class)), R.drawable.pill));
-        personalizationCategory.add(new RunnableSettingsItem(R.string.edit_home_screen, v -> startActivity(new Intent(this, Page1EditorActivity.class)), R.drawable.edit_on_button));
 
         accessibilityCategory.add(new RunnableSettingsItem(R.string.accessibility_level, v -> startActivity(new Intent(this, AccessibilityLevelChangerActivity.class)), R.drawable.accessibility_on_button));
         accessibilityCategory.add(
@@ -243,35 +241,6 @@ public class SettingsActivity extends BaldActivity {
                 v1 -> showThemeDialog(),
                 R.drawable.brush_on_button));
 
-        personalizationCategory.add(new BDBSettingsItem(R.string.status_bar_settings,
-                BDB.from(this)
-                        .addFlag(BDialog.FLAG_OK | BDialog.FLAG_CANCEL)
-                        .setTitle(R.string.status_bar_settings)
-                        .setSubText(R.string.status_bar_settings_subtext)
-                        .setOptions(R.string.nowhere, R.string.only_home_screen, R.string.everywhere)
-                        .setPositiveButtonListener(params -> {
-                            Prefs.setStatusBarMode(StatusBarMode.Companion.fromValue((Integer) params[0]));
-                            this.recreate();
-                            return true;
-                        })
-                        .setOptionsStartingIndex(() -> Prefs.getStatusBarMode().getValue()),
-                R.drawable.status_bar_on_button
-        ));
-
-        personalizationCategory.add(new BDBSettingsItem(R.string.notes_settings,
-                BDB.from(this)
-                        .addFlag(BDialog.FLAG_OK | BDialog.FLAG_CANCEL)
-                        .setTitle(R.string.notes_settings)
-                        .setSubText(R.string.notes_settings_subtext)
-                        .setOptions(R.string.yes, R.string.no)
-                        .setPositiveButtonListener(params -> {
-                            editor.putBoolean(BPrefs.NOTE_VISIBLE_KEY, (Integer) params[0] == 0).apply();
-                            this.recreate();
-                            return true;
-                        })
-                        .setOptionsStartingIndex(() -> sharedPreferences.getBoolean(BPrefs.NOTE_VISIBLE_KEY, BPrefs.NOTE_VISIBLE_DEFAULT_VALUE) ? 0 : 1),
-                R.drawable.note_on_button
-        ));
         personalizationCategory.add(new BDBSettingsItem(R.string.dialer_sounds,
                 BDB.from(this)
                         .addFlag(BDialog.FLAG_OK | BDialog.FLAG_CANCEL)

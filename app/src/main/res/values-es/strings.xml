@@ -154,8 +154,6 @@
     <string name="nfc">Comunicación de campo cercano (NFC)</string>
     <string name="no">No</string>
     <string name="notes">Notas</string>
-    <string name="notes_settings">Notas</string>
-    <string name="notes_settings_subtext">Elige si quieres ver la página de «notas» en la pantalla de inicio.</string>
     <string name="notifications">Notificaciones</string>
 
     <string name="of">de</string>

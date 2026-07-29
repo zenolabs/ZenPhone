@@ -155,8 +155,6 @@
     <string name="nfc">NFC</string>
     <string name="no">არა</string>
     <string name="notes">ჩანაწერები</string>
-    <string name="notes_settings">ჩანაწერები</string>
-    <string name="notes_settings_subtext">აირჩიეთ თუ გსურთ ჩანაწერების დამატება მთვარ ეკრანზე.</string>
     <string name="notifications">გაფრთხილებები</string>
 
     <string name="of">თან</string>

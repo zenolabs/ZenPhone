@@ -52,15 +52,9 @@ import com.bald.uriah.baldphone.utils.BaldToast;
 import com.bald.uriah.baldphone.utils.D;
 import com.bald.uriah.baldphone.utils.S;
 import com.bald.uriah.baldphone.views.ViewPagerHolder;
-import com.bald.uriah.baldphone.views.home.NotesView;
 
 public class HomeScreenActivity extends BaldActivity {
     private static final String TAG = HomeScreenActivity.class.getSimpleName();
-
-    private static final int SPEECH_REQUEST_CODE = 7;
-
-    @NonNull
-    public final NotesView.RecognizerManager recognizerManager = new NotesView.RecognizerManager();
 
     public BaldPagerAdapter baldPagerAdapter;
 
@@ -105,7 +99,6 @@ public class HomeScreenActivity extends BaldActivity {
 
         baldPrefsUtils = BaldPrefsUtils.newInstance(this);
         viewPagerHandler();
-        recognizerManager.setHomeScreen(this);
 
         AppsRepository.getPinnedAppsLiveData().observe(this, pinnedApps -> {
             if (!isFinishing() && !isDestroyed()) {
@@ -188,7 +181,6 @@ public class HomeScreenActivity extends BaldActivity {
 
     @Override
     protected void onDestroy() {
-        recognizerManager.setHomeScreen(null);
         super.onDestroy();
     }
 
@@ -220,31 +212,6 @@ public class HomeScreenActivity extends BaldActivity {
             Log.e(TAG, S.str(e.getMessage()));
             e.printStackTrace();
             BaldToast.error(this);
-        }
-    }
-
-    public void displaySpeechRecognizer() {
-        try {
-            startActivityForResult(
-                    new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-                            .putExtra(
-                                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                            ),
-                    SPEECH_REQUEST_CODE);
-        } catch (ActivityNotFoundException e) {
-            Log.e(TAG, S.str(e.getMessage()));
-            e.printStackTrace();
-            BaldToast.error(this);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
-            final String spokenText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
-            recognizerManager.onSpeechRecognizerResult(spokenText);
         }
     }
 

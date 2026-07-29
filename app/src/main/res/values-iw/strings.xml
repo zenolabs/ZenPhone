@@ -34,8 +34,6 @@
     <string name="add_emergency_contact">הוסף מספר</string>
     <string name="add_pill">הוסף תרופה</string>
     <string name="add_shortcut">הוסף קיצור-דרך</string>
-    <string name="add_to_favorite">הוסף למועדפים</string>
-    <string name="add_to_home">הוסף למסך הבית</string>
     <string name="add_to_sos">הוסף ל SOS</string>
     <string name="address">כתובת</string>
     <string name="advanced_options">הגדרות מתקדמות</string>
@@ -71,7 +69,6 @@
     <string name="calling">ביצוע שיחות</string>
 
     <string name="call_log">שיחות אחרונות:</string>
-    <string name="call_subtext">אנא אשר ל BaldPhone לבצע שיחות טלפון</string>
     <string name="camera">מצלמה</string>
     <string name="camera_subtext">אנא אשר ל BaldPhone את הרשאת המצלמה, שמאפשרת להפעיל את הפנס. תמונות לעולם לא יצולמו.
     </string>
@@ -97,8 +94,6 @@
     <string name="contact_must_has_name">לאיש קשר חייב להיות שם!</string>
     <string name="contact_not_created">איש קשר לא נוצר!</string>
     <string name="contacts">אנשי קשר</string>
-    <string name="contacts_read_subtext">אנא אפשר לBaldPhone לקרוא את אנשי הקשר</string>
-    <string name="contacts_subtext">אנא אפשר לBaldPhone ליצור אנשי קשר חדשים</string>
     <string name="crash">אופס!\nאירעה שגיאת מערכת,\nהמערכת מיד תופעל מחדש</string>
     <string name="current_time">שעה נוכחית</string>
     <string name="custom">התאמה אישית</string>
@@ -112,7 +107,6 @@
     <string name="down">למטה</string>
     <string name="edit">ערוך</string>
     <string name="email">אימייל:</string>
-    <string name="enable_notification_access">אפשר להציג התראות שמתקבלות</string>
     <string name="enable_notification_access_subtext">אנא אפשר ל BaldPhone להציג התראות שמתקבלות, במסך ההתראות. שום מידע
         לא נאסף.
     </string>
@@ -122,7 +116,6 @@
     <string name="example_of_different_text_sizes">דוגמות לגדלי טקסט שונים ברחבי האפליקציה.\nצריכות להיות קריאות ובו
         בזמן לא לצאת מהתחום שלהן.
     </string>
-    <string name="external_storage_subtext">אנא אפשר לBaldPhone לגשת לתמונות ולסרטים ולקבצי עדכון</string>
     <string name="feedback">משוב</string>
     <string name="feedback_cannot_be_empty">המשוב אינו יכול להיות ריק!</string>
     <string name="first_please_select_how_you_want_to_interact_with_buttons">יש לבחור רמת נגישות</string>
@@ -198,7 +191,6 @@
     <string name="pills">תרופות</string>
     <string name="press_longer">לחיצה ארוכה</string>
     <string name="timer">טיימר</string>
-    <string name="read_call_log">גישה לשיחות האחרונות</string>
     <string name="read_call_log_subtext">אנא אפשר לBaldPhone לגשת לשיחות האחרונות, אשר יוצגו במסך השיחות האחרונות.
     </string>
     <string name="read_contacts">סרוק אנשי קשר</string>
@@ -206,8 +198,6 @@
     <string name="recent">שיחות אחרונות</string>
     <string name="regular_level">רמה רגילה</string>
 
-    <string name="remove_from_favorite">הסר ממועדפים</string>
-    <string name="remove_from_home">הסר ממסך הבית</string>
     <string name="remove_from_sos">הסר מ SOS</string>
     <string name="remove_shortcut">הסר קיצור דרך</string>
     <string name="removed_all_alarms">כל השעונים הוסרו!</string>
@@ -239,8 +229,6 @@
     </string>
     <string name="share_baldphone">שיתוף BaldPhone</string>
     <string name="share_contact">שליחת איש קשר</string>
-    <string name="share_differently">שליחה דרך יישום אחר</string>
-    <string name="share_via_whatsapp">שליחה דרך ווטסאפ</string>
     <string name="shift">shift</string>
     <string name="show">הצג</string>
     <string name="small">קטן</string>
@@ -261,14 +249,13 @@
     <string name="thursday">חמישי</string>
     <string name="time_changer">שינוי זמן תרופות</string>
     <string name="tiny">קטנטן</string>
-    <string name="to___days_and___hours_from_now">ל%d ימים ו%d שעות מעכשיו</string>
-    <string name="to___hours_and___minutes_from_now">ל%d שעות ו%d דקות מעכשיו</string>
+    <string name="to___days_and___hours_from_now">ל%1$d ימים ו%2$d שעות מעכשיו</string>
+    <string name="to___hours_and___minutes_from_now">ל%1$d שעות ו%2$d דקות מעכשיו</string>
     <string name="to___minuets_from_now">ל%d דקות מעכשיו</string>
     <string name="today">היום</string>
     <string name="took">לקחתי!</string>
     <string name="tuesday">שלישי</string>
     <string name="uninstall">מחיקת יישום</string>
-    <string name="uninstall_subtext">האם ברצונך למחוק את %s? כל המידע של %s יימחק!</string>
     <string name="up">למעלה</string>
     <string name="video">סרט</string>
     <string name="video_tutorials">סרטוני הדרכה</string>
@@ -280,8 +267,6 @@
     <string name="wifi">WiFi</string>
     <string name="will_repeat_only_once">חד פעמי</string>
     <string name="write">הקלד</string>
-    <string name="write_contacts">יצירת אנשי קשר</string>
-    <string name="write_external_storage">גישה לתמונות, סרטים וקבצים אחרים</string>
     <string name="yes">כן</string>
     <string name="yesterday">אתמול</string>
     <string name="nothing">לא נמצא כלום</string>
@@ -358,17 +343,11 @@
     <string name="do_you_want_to_save_your_changes">האם ברצונך לשמור את השינויים?</string>
     <string name="discard">התעלם</string>
     <string name="no_recent_calls">אין שיחות אחרונות</string>
-    <string name="apps_sort_method">סידור יישומים</string>
-    <string name="apps_sort_method_subtext">בחר האם ברצונך לסדר את היישומים בטבלה אחת או בקבוצות שונות ע\"פ הא\"ב</string>
-    <string name="groups">קבוצות</string>
-    <string name="one_grid">טבלה אחת</string>
     <string name="edit_home_screen">עריכת מסך הבית</string>
     <string name="dual_sim">סים כפול</string>
     <string name="dual_sim_subtext">בחר כיצד להשתמש בסים כפול\nאם תבחר ב הצגת אפשרויות תצטרך לאשר הרשאה נוספת</string>
     <string name="use_default">השתמש בברירת מחדל</string>
     <string name="show_options">הצגת אפשרויות</string>
-    <string name="read_phone_state">גישה למצב טלפון</string>
-    <string name="read_phone_state_subtext">אנא אפשר לBaldPhone לגשת למצב הטלפון על מנת לתפעל סים כפול</string>
     <string name="choose_sim">בחר סים</string>
     <string name="choose_sim_subtext">יש לבחור את הסים ממנו אתה רוצה לבצע את השיחה</string>
     <string name="website">אתר</string>

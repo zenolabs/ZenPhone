@@ -1,5 +1,6 @@
 /*
  * Copyright 2019 Uriah Shaul Mandel
+ * Copyright 2026 Zenolabs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,11 +154,11 @@ public class AlarmsActivity extends com.bald.uriah.baldphone.activities.BaldActi
                 final long nextTimeAlarmWillWork = AlarmScheduler.nextTimeAlarmWillWorkInMsFromNow(newAlarm);
                 final String message2;
                 if (nextTimeAlarmWillWork < D.HOUR)
-                    message2 = String.format(getString(R.string.to___minuets_from_now), nextTimeAlarmWillWork / D.MINUTE);
+                    message2 = getString(R.string.to___minuets_from_now, nextTimeAlarmWillWork / D.MINUTE);
                 else if (nextTimeAlarmWillWork < D.DAY)
-                    message2 = String.format(getString(R.string.to___hours_and___minutes_from_now), nextTimeAlarmWillWork / D.HOUR, (nextTimeAlarmWillWork % D.HOUR) / D.MINUTE);
+                    message2 = getString(R.string.to___hours_and___minutes_from_now, nextTimeAlarmWillWork / D.HOUR, (nextTimeAlarmWillWork % D.HOUR) / D.MINUTE);
                 else
-                    message2 = String.format(getString(R.string.to___days_and___hours_from_now), nextTimeAlarmWillWork / D.DAY, (nextTimeAlarmWillWork % D.DAY) / D.HOUR);
+                    message2 = getString(R.string.to___days_and___hours_from_now, nextTimeAlarmWillWork / D.DAY, (nextTimeAlarmWillWork % D.DAY) / D.HOUR);
 
                 BaldToast.from(this).setText(message2).setType(BaldToast.TYPE_INFORMATIVE).show();
             }

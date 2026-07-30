@@ -77,6 +77,11 @@
     <string name="top_bar_notifications_subtext">Messaggi nuovi e chiamate perse</string>
     <string name="top_bar_sos">Emergenza</string>
     <string name="top_bar_sos_subtext">Apre la schermata dei contatti di emergenza</string>
+    <string name="top_bar_theme">Chiaro o scuro</string>
+    <string name="top_bar_theme_subtext">Passa dall\'aspetto chiaro a quello scuro</string>
+
+    <string name="theme_light_accessibility">Aspetto chiaro, tocca per scuro</string>
+    <string name="theme_dark_accessibility">Aspetto scuro, tocca per chiaro</string>
 
     <string name="signal_none_accessibility">Nessun segnale</string>
     <string name="signal_level_accessibility">Segnale %1$d su 4</string>

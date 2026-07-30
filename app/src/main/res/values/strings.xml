@@ -82,6 +82,11 @@
     <string name="top_bar_notifications_subtext">New messages and missed calls</string>
     <string name="top_bar_sos">Emergency</string>
     <string name="top_bar_sos_subtext">Opens the emergency contacts screen</string>
+    <string name="top_bar_theme">Light or dark</string>
+    <string name="top_bar_theme_subtext">Switches between the light and dark appearance</string>
+
+    <string name="theme_light_accessibility">Light appearance, tap for dark</string>
+    <string name="theme_dark_accessibility">Dark appearance, tap for light</string>
 
     <string name="signal_none_accessibility">No signal</string>
     <string name="signal_level_accessibility">Signal %1$d of 4</string>

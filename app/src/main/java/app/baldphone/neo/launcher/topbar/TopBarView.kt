@@ -36,6 +36,7 @@ import app.baldphone.neo.launcher.ui.FlashlightButton
 import app.baldphone.neo.launcher.ui.MobileSignalView
 import app.baldphone.neo.launcher.ui.NotificationsButton
 import app.baldphone.neo.launcher.ui.SoundButton
+import app.baldphone.neo.launcher.ui.ThemeButton
 import app.baldphone.neo.launcher.ui.WifiButton
 import app.baldphone.neo.permissions.PermissionManager
 import app.baldphone.neo.ui.dialogs.BrightnessDialog
@@ -95,6 +96,7 @@ class TopBarView
                 TopBarItem.FLASHLIGHT -> FlashlightButton(context)
                 TopBarItem.SOUND -> SoundButton(context)
                 TopBarItem.BRIGHTNESS -> AppCompatImageButton(context)
+                TopBarItem.THEME -> ThemeButton(context)
                 TopBarItem.NOTIFICATIONS -> NotificationsButton(context)
                 TopBarItem.SOS -> AppCompatImageButton(context)
             }
@@ -121,6 +123,10 @@ class TopBarView
                         context.startActivitySafe(Intent(context, NotificationsActivity::class.java))
                     }
                 }
+
+                // The theme button switches on its own and reports its own state; there is
+                // nothing here that it needs from the activity.
+                TopBarItem.THEME -> Unit
 
                 TopBarItem.MOBILE_SIGNAL -> {
                     // It watches the signal itself. Tapping opens the phone's own network

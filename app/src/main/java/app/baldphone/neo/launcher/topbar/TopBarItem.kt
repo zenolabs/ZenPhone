@@ -61,6 +61,7 @@ enum class TopBarItem(
         R.drawable.ic_tabler_brightness,
         R.string.top_bar_brightness_subtext,
     ),
+    THEME("theme", R.string.top_bar_theme, R.drawable.ic_tabler_moon, R.string.top_bar_theme_subtext),
     NOTIFICATIONS(
         "notifications",
         R.string.top_bar_notifications,

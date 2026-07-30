@@ -26,7 +26,7 @@ import com.bald.uriah.baldphone.activities.HomeScreenActivity;
 import com.bald.uriah.baldphone.databases.home_screen_pins.HomeScreenPinHelper;
 import com.bald.uriah.baldphone.utils.BPrefs;
 import com.bald.uriah.baldphone.views.home.HomePage1;
-import com.bald.uriah.baldphone.views.home.HomePage2;
+import com.bald.uriah.baldphone.views.home.HomeSettingsPage;
 import com.bald.uriah.baldphone.views.home.HomeViewFactory;
 
 import java.util.Collections;
@@ -36,7 +36,7 @@ import java.util.List;
  * This is the pager adapter used in the {@link HomeScreenActivity}
  * It contains:
  * {@link HomePage1}
- * {@link HomePage2}
+ * {@link HomeSettingsPage}
  * {@link HomeViewFactory} (For accessing Apps)
  * Notice - it uses Views and not Fragments
  */
@@ -70,8 +70,8 @@ public class BaldPagerAdapter extends BaldViewAdapter {
         final View view;
         switch (position) {
             case 0:
-                view = new HomePage2(homeScreen);
-                view.setTag(HomePage2.TAG);
+                view = new HomeSettingsPage(homeScreen);
+                view.setTag(HomeSettingsPage.TAG);
                 break;
             case 1:
                 view = new HomePage1(homeScreen);

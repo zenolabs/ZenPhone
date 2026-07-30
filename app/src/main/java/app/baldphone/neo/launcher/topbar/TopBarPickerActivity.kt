@@ -34,7 +34,7 @@ import app.baldphone.neo.ui.dialogs.showWarningSnackbar
 import com.bald.uriah.baldphone.R
 
 /**
- * Chooses which four indicators the strip along the top of the home screen carries.
+ * Chooses which indicators the strip along the top of the home screen carries.
  *
  * Deliberately the same screen, in shape and in behaviour, as the one that chooses the home
  * tiles: a switch to a line, a refusal when there is no room, and a refusal to leave nothing.
@@ -158,8 +158,9 @@ class TopBarPickerActivity : BaseActivity() {
     /**
      * Why this change cannot be made, or null if it can.
      *
-     * The upper limit is about the size of what is left: four already divide the width of the
-     * screen between them, and a fifth does not add a button so much as shrink four. The lower
+     * The upper limit is about the size of what is left. The icons themselves do not shrink -
+     * they are bound by the bar's height - but the target under each does, and five is where
+     * that stops being comfortable for a hand that is not steady. The lower
      * one is about honesty - an empty choice reads as "never configured", so the bar would
      * quietly fill itself back up and look as though the request had been ignored.
      */

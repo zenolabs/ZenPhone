@@ -76,11 +76,15 @@ enum class TopBarItem(
         /**
          * How many the bar will hold.
          *
-         * Four, because four is what the bar has always shown and each one is already only a
-         * quarter of the screen wide. A fifth does not add a button so much as shrink four,
-         * and this bar sits under the fingers of someone whose aim is not what it was.
+         * Five. The icon is bound by the bar's height and not by its width, so a fifth does not
+         * make any of them smaller to look at; it only narrows the target, from about a quarter
+         * of the screen to about a fifth. On a phone of ordinary width that is still some 78dp
+         * against the 48dp Android asks for, which leaves room for a hand that is not steady.
+         *
+         * Six would begin to bite, and the icons would be as small as the ones on Android's own
+         * status bar, which is the thing this launcher exists to avoid.
          */
-        const val MAX_ITEMS = 4
+        const val MAX_ITEMS = 5
 
         fun fromId(id: String): TopBarItem? = byId[id]
 

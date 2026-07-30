@@ -23,4 +23,5 @@
     android:background="@drawable/style_for_buttons_transparent"
     android:padding="@dimen/top_bar_icon_padding"
     android:scaleType="fitCenter"
+    android:tint="?attr/bald_decoration_on_background"
     tools:src="@drawable/ic_tabler_wifi" />

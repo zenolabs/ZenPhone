@@ -45,7 +45,7 @@ enum class TopBarItem(
     MOBILE_SIGNAL(
         "mobile_signal",
         R.string.top_bar_mobile_signal,
-        R.drawable.ic_signal_bars,
+        R.drawable.ic_tabler_cell_signal_5,
         R.string.top_bar_mobile_signal_subtext,
     ),
     FLASHLIGHT(

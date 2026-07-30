@@ -17,6 +17,8 @@
 
 package com.bald.uriah.baldphone.views.home;
 
+import static app.baldphone.neo.utils.IntentUtilsKt.startActivityWithNewTaskClear;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -27,6 +29,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -53,6 +56,8 @@ import app.baldphone.neo.battery.BatteryRepository;
 import app.baldphone.neo.launcher.ui.BatteryIconView;
 import app.baldphone.neo.features.calls.ui.RecentCallsActivity;
 import app.baldphone.neo.features.contacts.ui.ContactsActivity;
+import app.baldphone.neo.features.gallery.MediaActivity;
+import app.baldphone.neo.settings.ui.SettingsActivity;
 import app.baldphone.neo.features.notifications.data.NotificationRepository;
 import app.baldphone.neo.launcher.apps.AppIconBinder;
 import app.baldphone.neo.launcher.apps.data.PredefinedApps;
@@ -631,8 +636,45 @@ public class HomePage1 extends HomeView {
                 return v -> homeScreen.startActivity(new Intent(homeScreen, AppsActivity.class));
             case ALARMS:
                 return v -> homeScreen.startActivity(new Intent(homeScreen, AlarmsActivity.class));
+            case SETTINGS:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, SettingsActivity.class));
+            case PHOTOS:
+                return v -> openGallery(MediaActivity.MODE_PHOTOS_ONLY);
+            case VIDEOS:
+                return v -> openGallery(MediaActivity.MODE_VIDEOS_ONLY);
+            case INTERNET:
+                return v -> openExternally(Uri.parse("https://www.google.com"));
+            case MAPS:
+                return v -> openExternally(Uri.parse("geo:0,0"));
             default:
                 return null;
+        }
+    }
+
+    /** The gallery, showing one kind of thing at a time; the modes are its own. */
+    private void openGallery(int mode) {
+        startActivityWithNewTaskClear(
+                getContext(),
+                new Intent(getContext(), MediaActivity.class)
+                        .putExtra(MediaActivity.EXTRA_MODE, mode));
+    }
+
+    /**
+     * Hands a web address or a map reference to whatever on the phone deals with such things.
+     * <p>
+     * Deliberately no chooser of our own. Where several apps can answer, Android asks in the
+     * dialog the person already meets everywhere else on the phone, and remembers the answer if
+     * they say to; a list built here would be a second thing to learn that forgets every time.
+     */
+    private void openExternally(@NonNull Uri uri) {
+        try {
+            homeScreen.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "nothing on this phone can open " + uri.getScheme(), e);
+            BaldToast.from(homeScreen)
+                    .setType(BaldToast.TYPE_ERROR)
+                    .setText(R.string.an_error_has_occurred)
+                    .show();
         }
     }
 

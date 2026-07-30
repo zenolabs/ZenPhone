@@ -42,6 +42,14 @@ public final class BPrefs {
     public static final String CUSTOM_PILLS_KEY = "CUSTOM_PILLS_KEY";
     public static final String CUSTOM_APPS_KEY = "CUSTOM_APPS_KEY";
     public static final String CUSTOM_ALARMS_KEY = "CUSTOM_ALARMS_KEY";
+    // The tiles that used to live on the second page, where nothing could be reassigned, so
+    // these keys are new rather than inherited. CUSTOM_VIDEOS_KEY is not free: it went to the
+    // lock tile years ago and any value under it belongs there.
+    public static final String CUSTOM_PHOTOS_KEY = "CUSTOM_PHOTOS_KEY";
+    public static final String CUSTOM_MOVIES_KEY = "CUSTOM_MOVIES_KEY";
+    public static final String CUSTOM_INTERNET_KEY = "CUSTOM_INTERNET_KEY";
+    public static final String CUSTOM_MAPS_KEY = "CUSTOM_MAPS_KEY";
+    public static final String CUSTOM_SETTINGS_KEY = "CUSTOM_SETTINGS_KEY";
 
     public static final String LONG_PRESSES_KEY = "LONG_PRESSES_KEY";
     public static final boolean LONG_PRESSES_DEFAULT_VALUE = false;

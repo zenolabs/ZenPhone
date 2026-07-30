@@ -68,8 +68,8 @@ enum class HomeTile(
     CAMERA("camera", R.string.camera, R.drawable.ic_tabler_camera, TileAccent.MEDIA, BPrefs.CUSTOM_CAMERA_KEY),
     WHATSAPP("whatsapp", R.string.whatsapp, R.drawable.ic_tabler_brand_whatsapp, TileAccent.MEDIA, BPrefs.CUSTOM_APP_KEY),
     MESSAGES("messages", R.string.messages, R.drawable.ic_tabler_message, TileAccent.MEDIA, BPrefs.CUSTOM_MESSAGES_KEY),
-    PHOTOS("photos", R.string.photos, R.drawable.ic_tabler_photo, TileAccent.MEDIA, null),
-    VIDEOS("videos", R.string.videos, R.drawable.ic_tabler_movie, TileAccent.MEDIA, null),
+    PHOTOS("photos", R.string.photos, R.drawable.ic_tabler_photo, TileAccent.MEDIA, BPrefs.CUSTOM_PHOTOS_KEY),
+    VIDEOS("videos", R.string.videos, R.drawable.ic_tabler_movie, TileAccent.MEDIA, BPrefs.CUSTOM_MOVIES_KEY),
 
     EMERGENCY("emergency", R.string.sos, R.drawable.ic_tabler_sos, TileAccent.EMERGENCY, BPrefs.CUSTOM_EMERGENCY_KEY),
 
@@ -77,9 +77,9 @@ enum class HomeTile(
     // The legacy key says "videos" because it was recycled when this tile changed purpose.
     // It stays with the lock tile: that is where any existing assignment actually belongs.
     LOCK_SCREEN("lock_screen", R.string.label_lock_screen_short, R.drawable.ic_tabler_lock, TileAccent.TOOLS, BPrefs.CUSTOM_VIDEOS_KEY),
-    INTERNET("internet", R.string.internet, R.drawable.ic_tabler_world, TileAccent.TOOLS, null),
-    MAPS("maps", R.string.maps, R.drawable.ic_tabler_map_2, TileAccent.TOOLS, null),
-    SETTINGS("settings", R.string.settings, R.drawable.ic_tabler_settings, TileAccent.TOOLS, null),
+    INTERNET("internet", R.string.internet, R.drawable.ic_tabler_world, TileAccent.TOOLS, BPrefs.CUSTOM_INTERNET_KEY),
+    MAPS("maps", R.string.maps, R.drawable.ic_tabler_map_2, TileAccent.TOOLS, BPrefs.CUSTOM_MAPS_KEY),
+    SETTINGS("settings", R.string.settings, R.drawable.ic_tabler_settings, TileAccent.TOOLS, BPrefs.CUSTOM_SETTINGS_KEY),
 
     PILLS("pills", R.string.pills, R.drawable.ic_tabler_pill, TileAccent.REMINDERS, BPrefs.CUSTOM_PILLS_KEY),
     ALARMS("alarms", R.string.alarms, R.drawable.ic_tabler_alarm, TileAccent.REMINDERS, BPrefs.CUSTOM_ALARMS_KEY),

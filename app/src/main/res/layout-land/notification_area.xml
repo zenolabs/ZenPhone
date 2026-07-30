@@ -1,34 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2019 Uriah Shaul Mandel
+  ~ Copyright 2026 Zenolabs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!--
+  The portrait clock block, with the figures brought down to what the shorter screen allows.
+
+  It is deliberately the same arrangement and the same ids, not a second design: this file had
+  drifted into being one, and the battery had never arrived here at all - nor, later, had the
+  next alarm. Nothing broke, because the launcher looks these up by id and quietly does without
+  what it cannot find, which is why the gap went unnoticed for so long.
+
+  The typeface follows portrait too. Condensed light was dropped there on purpose - narrow
+  shapes and thin strokes are the first things to fail for an ageing eye - and there was never
+  a reason for a phone held sideways to be read by different eyes.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/notifications_area"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:gravity="center"
+    android:importantForAccessibility="no"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:importantForAccessibility="no">
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="6dp">
 
-    <TextClock
-        android:id="@+id/clock"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="end"
-        android:format12Hour="h:mm a"
-        android:format24Hour="HH:mm"
-        android:textColor="?bald_text_on_background"
-        android:textSize="64sp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:layout_marginEnd="12dp" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <TextClock
-        android:id="@+id/date"
-        android:layout_width="0dp"
+        <TextClock
+            android:id="@+id/clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:format12Hour="h:mm a"
+            android:format24Hour="HH:mm"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="?bald_text_on_background"
+            android:textSize="56sp" />
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:format12Hour="EEEE, dd MMM"
+            android:format24Hour="EEEE, dd MMM"
+            android:gravity="center"
+            android:maxLines="1"
+            android:maxWidth="260dp"
+            android:textColor="?bald_text_on_background"
+            android:textSize="20sp" />
+
+        <app.baldphone.neo.launcher.ui.NextAlarmView
+            android:id="@+id/next_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:importantForAccessibility="yes" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_battery_block"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="start"
-        android:format12Hour="EEEE, dd MMM"
-        android:format24Hour="EEEE, dd MMM"
-        android:textColor="?bald_text_on_button"
-        android:textSize="20sp" />
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:importantForAccessibility="yes"
+        android:orientation="vertical">
+
+        <app.baldphone.neo.launcher.ui.BatteryIconView
+            android:id="@+id/home_battery"
+            android:layout_width="52dp"
+            android:layout_height="52dp" />
+
+        <TextView
+            android:id="@+id/home_battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:importantForAccessibility="no"
+            android:maxLines="1"
+            android:textColor="?bald_text_on_background"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

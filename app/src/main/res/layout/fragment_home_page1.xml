@@ -2,6 +2,7 @@
 <!--
   ~ Copyright 2019 Uriah Shaul Mandel
   ~ Copyright 2025 Damian Kuzmiak
+  ~ Copyright 2026 Zenolabs
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,8 +16,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
+<!--
+  The tiles used to be nine views nailed into three rows here, which is why the fourth row had
+  to be a special case and why their order could not be changed. They now come from a list, so
+  this file only has to say where the grid goes.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/page1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,139 +39,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Buttons area -->
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tiles_grid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:baselineAligned="false">
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never" />
 
-        <!-- First row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginBottom="6dp">
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_contacts"
-                style="@style/HomeButtonTile.AccentGreen"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_user"
-                app:__text="@string/contacts" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_recent"
-                style="@style/HomeButtonTile.AccentGreen"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_history"
-                app:__text="@string/recent" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_dialer"
-                style="@style/HomeButtonTile.AccentGreen"
-                app:__src="@drawable/ic_tabler_phone"
-                app:__text="@string/dialer" />
-        </LinearLayout>
-
-        <!-- Second row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginBottom="6dp">
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_camera"
-                style="@style/HomeButtonTile.AccentBlue"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_camera"
-                app:__text="@string/camera" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_whatsapp"
-                style="@style/HomeButtonTile.AccentBlue"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_brand_whatsapp"
-                app:__text="@string/whatsapp" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_messages"
-                style="@style/HomeButtonTile.AccentBlue"
-                app:__src="@drawable/ic_tabler_message"
-                app:__text="@string/messages" />
-        </LinearLayout>
-
-        <!-- Third row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginBottom="6dp">
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_emergency"
-                style="@style/HomeButtonTile.AccentRed"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_sos"
-                app:__text="@string/sos" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_assistant"
-                style="@style/HomeButtonTile.AccentPurple"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_microphone"
-                app:__text="@string/assistant" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_lock_screen"
-                style="@style/HomeButtonTile.AccentPurple"
-                app:__src="@drawable/ic_tabler_lock"
-                app:__text="@string/label_lock_screen_short" />
-        </LinearLayout>
-
-        <!-- Fourth row, shown only when the matching preference is on -->
-        <LinearLayout
-            android:id="@+id/fourth_row"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            android:visibility="gone">
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_pills"
-                style="@style/HomeButtonTile.AccentAmber"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_pill"
-                app:__text="@string/pills" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_apps"
-                style="@style/HomeButtonTile.AccentAmber"
-                android:layout_marginEnd="8dp"
-                app:__src="@drawable/ic_tabler_layout_grid"
-                app:__text="@string/apps" />
-
-            <com.bald.uriah.baldphone.views.FirstPageAppIcon
-                android:id="@+id/bt_alarms"
-                style="@style/HomeButtonTile.AccentAmber"
-                app:__src="@drawable/ic_tabler_alarm"
-                app:__text="@string/alarms" />
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>
-

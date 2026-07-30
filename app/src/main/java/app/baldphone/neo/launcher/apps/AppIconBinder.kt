@@ -2,6 +2,7 @@ package app.baldphone.neo.launcher.apps
 
 import android.widget.ImageView
 
+import coil3.dispose
 import coil3.load
 import coil3.request.crossfade
 import coil3.request.error
@@ -45,5 +46,17 @@ object AppIconBinder {
             fallback(R.drawable.ic_default_app_icon)
             crossfade(false)
         }
+    }
+
+    /**
+     * Drops any load still in flight on this view.
+     *
+     * Needed wherever an ImageView is reused: loading is asynchronous, so a request started for
+     * one app will happily deliver its icon to whatever the view has become in the meantime,
+     * overwriting an icon set since. Harmless to call when nothing is pending.
+     */
+    @JvmStatic
+    fun cancel(imageView: ImageView) {
+        imageView.dispose()
     }
 }

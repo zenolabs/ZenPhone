@@ -27,6 +27,7 @@ import net.danlew.android.joda.JodaTimeAndroid
 
 import app.baldphone.neo.data.Prefs
 import app.baldphone.neo.data.StatusBarMode
+import app.baldphone.neo.debug.MainThreadWatchdog
 import app.baldphone.neo.extensions.apply
 import app.baldphone.neo.extensions.applyEdgeToEdgeInsets
 import app.baldphone.neo.extensions.isSystem
@@ -52,6 +53,10 @@ class NeoApp : Application(), SingletonImageLoader.Factory {
     override fun onCreate() {
         super.onCreate()
         Log.i(TAG, "Application started")
+
+        if (BuildConfig.DEBUG) {
+            MainThreadWatchdog.start()
+        }
 
         Prefs.init(this)
 

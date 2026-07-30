@@ -17,6 +17,10 @@ local.properties
 /captures/
 /screenshots/
 
+# Log dumps pulled off a device while debugging
+/logcat.txt
+/watchdog.txt
+
 # Icon tooling (see tools/README.md)
 /node_modules/
 /package.json

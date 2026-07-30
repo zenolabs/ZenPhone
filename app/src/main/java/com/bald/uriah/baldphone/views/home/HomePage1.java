@@ -43,6 +43,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import app.baldphone.neo.activities.DialerActivity;
 import app.baldphone.neo.battery.BatteryRepository;
@@ -56,6 +58,8 @@ import app.baldphone.neo.launcher.apps.data.PredefinedApps;
 import app.baldphone.neo.launcher.apps.data.AppsRepository;
 import app.baldphone.neo.launcher.apps.data.db.AppEntry;
 import app.baldphone.neo.launcher.apps.ui.AppsActivity;
+import app.baldphone.neo.launcher.home.HomeTile;
+import app.baldphone.neo.launcher.home.HomeTilesAdapter;
 import app.baldphone.neo.permissions.PermissionManager;
 import app.baldphone.neo.permissions.model.SpecialPermission;
 import app.baldphone.neo.services.DeviceLock;
@@ -75,26 +79,29 @@ import com.bald.uriah.baldphone.utils.BaldToast;
 import com.bald.uriah.baldphone.utils.S;
 import com.bald.uriah.baldphone.views.FirstPageAppIcon;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class HomePage1 extends HomeView {
     public static final String TAG = HomePage1.class.getSimpleName();
+    /** Tiles per row. The grid has always been three wide; only the rows varied. */
+    private static final int COLUMNS = 3;
     private final NotificationRepository repo = NotificationRepository.INSTANCE;
     private Map<AppEntry, FirstPageAppIcon> viewsToApps;
-    private FirstPageAppIcon bt_assistant,
-            bt_camera,
-            bt_contacts,
-            bt_dialer,
-            bt_emergency,
-            bt_lock_screen,
-            bt_messages,
-            bt_recent,
-            bt_whatsapp,
-            bt_pills,
-            bt_apps,
-            bt_alarms;
-    private View fourthRow;
+    private RecyclerView tilesGrid;
+    private HomeTilesAdapter tilesAdapter;
+    /**
+     * The view currently showing each tile. Rebuilt as the grid binds, and consulted by the
+     * things that need to reach a particular tile - notification badges, mainly - which used to
+     * hold a field per button.
+     * <p>
+     * Assigned in {@link #onCreateView}, not here: HomeView's constructor calls onCreateView,
+     * and field initialisers only run once the superclass constructor has returned. A field
+     * initialised inline would still be null by the time the grid is built.
+     */
+    private Map<HomeTile, FirstPageAppIcon> tileViews;
     private BatteryIconView homeBattery;
     private TextView homeBatteryPercent;
     private View homeBatteryBlock;
@@ -117,28 +124,15 @@ public class HomePage1 extends HomeView {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_home_page1, container, false);
         viewsToApps = new ArrayMap<>();
+        tileViews = new ArrayMap<>();
 
         initViews(view);
-
-        setupOnClickListeners();
-        applyFourthRowVisibility();
+        setupGrid();
         return view;
     }
 
     private void initViews(View rootView) {
-        bt_assistant = rootView.findViewById(R.id.bt_assistant);
-        bt_camera = rootView.findViewById(R.id.bt_camera);
-        bt_contacts = rootView.findViewById(R.id.bt_contacts);
-        bt_dialer = rootView.findViewById(R.id.bt_dialer);
-        bt_emergency = rootView.findViewById(R.id.bt_emergency);
-        bt_lock_screen = rootView.findViewById(R.id.bt_lock_screen);
-        bt_messages = rootView.findViewById(R.id.bt_messages);
-        bt_recent = rootView.findViewById(R.id.bt_recent);
-        bt_whatsapp = rootView.findViewById(R.id.bt_whatsapp);
-        bt_pills = rootView.findViewById(R.id.bt_pills);
-        bt_apps = rootView.findViewById(R.id.bt_apps);
-        bt_alarms = rootView.findViewById(R.id.bt_alarms);
-        fourthRow = rootView.findViewById(R.id.fourth_row);
+        tilesGrid = rootView.findViewById(R.id.tiles_grid);
         homeBattery = rootView.findViewById(R.id.home_battery);
         homeBatteryPercent = rootView.findViewById(R.id.home_battery_percent);
         homeBatteryBlock = rootView.findViewById(R.id.home_battery_block);
@@ -173,45 +167,107 @@ public class HomePage1 extends HomeView {
         });
     }
 
+    /** Builds the grid and fills it from the saved order. */
+    private void setupGrid() {
+        if (tilesGrid == null) return;
+        tilesAdapter = new HomeTilesAdapter(this::bindTile);
+        // A home screen does not scroll: every tile is on screen or it is not there at all. Said
+        // here rather than trusted to arithmetic, so a pixel of rounding cannot turn into a drag.
+        tilesGrid.setLayoutManager(new GridLayoutManager(getContext(), COLUMNS) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        tilesGrid.setAdapter(tilesAdapter);
+
+        // The tile height follows the grid's own height, so it is taken once the grid has been
+        // laid out and again if that ever changes - rotation, or the fourth row being switched
+        // on. A posted runnable would not do: it runs on attach, before the first layout.
+        tilesGrid.addOnLayoutChangeListener(
+                (v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
+                        updateTileHeight());
+
+        submitTiles();
+    }
+
     /**
-     * The fourth row is opt-in and the preference can change while the launcher is alive.
+     * Hands the grid's measured height to the adapter, divided by the number of rows.
      * <p>
-     * Coming back from the settings screen does not detach this view - the pager keeps it
-     * attached while the activity is merely paused - so reacting to attachment alone would
-     * only refresh the row on a cold start. The window visibility callback is what actually
-     * fires when the launcher returns to the foreground.
+     * What is passed is the height of a row, margins included; the adapter takes each tile's own
+     * margins off it. Always posted, never applied on the spot: this is called from a layout
+     * callback, and telling a RecyclerView its items changed while it is laying out throws.
      */
-    private void applyFourthRowVisibility() {
-        if (fourthRow != null) {
-            fourthRow.setVisibility(Prefs.isFourthHomeRowEnabled() ? VISIBLE : GONE);
+    private void updateTileHeight() {
+        if (tilesGrid == null || tilesAdapter == null) return;
+        final int height = tilesGrid.getHeight();
+        final int rows = tilesAdapter.getRowCount();
+        if (height <= 0 || rows <= 0) return;
+
+        final int rowHeight = height / rows;
+        if (rowHeight == tilesAdapter.getRowHeight()) return;
+        tilesGrid.post(() -> {
+            if (tilesAdapter != null) tilesAdapter.setRowHeight(rowHeight);
+        });
+    }
+
+    /**
+     * Reads the saved order and hands it to the grid, falling back to the defaults the first
+     * time round. Called again whenever the launcher returns to the foreground, because the
+     * layout may have been changed from the settings in the meantime.
+     */
+    private void submitTiles() {
+        if (tilesAdapter == null || tilesGrid == null) return;
+
+        // Reached from a window-visibility change and from a couple of observers, any of which
+        // may land mid-layout; rebuilding the list then throws.
+        if (tilesGrid.isComputingLayout()) {
+            tilesGrid.post(this::submitTiles);
+            return;
         }
+
+        final List<HomeTile> tiles = new ArrayList<>();
+        for (String id : Prefs.getHomeTileOrder()) {
+            final HomeTile tile = HomeTile.Companion.fromId(id);
+            // Unknown ids are dropped rather than crashing: they belong to a version that knew
+            // about a tile this one does not.
+            if (tile != null) tiles.add(tile);
+        }
+        if (tiles.isEmpty()) tiles.addAll(HomeTile.Companion.getDEFAULT_ORDER());
+
+        tileViews.clear();
+        tilesAdapter.submit(tiles, COLUMNS);
+
+        // The row count may have changed even though the grid's own height has not, so the
+        // height is recomputed here as well as from the layout callback.
+        updateTileHeight();
     }
 
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
         if (visibility == VISIBLE) {
-            applyFourthRowVisibility();
+            submitTiles();
         }
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        applyFourthRowVisibility();
 
         LifecycleOwner owner = ViewTreeLifecycleOwner.get(this);
         if (owner != null) {
             bindHomeBattery(owner);
             repo.getPackages().observe(owner, this::refreshBadges);
             repo.getMissedCalls(activity).observe(owner, missedCalls -> {
-                if (bt_recent != null && !viewsToApps.containsValue(bt_recent)) {
-                    bt_recent.setBadgeVisibility(!missedCalls.isEmpty());
+                final FirstPageAppIcon recent = tileViews.get(HomeTile.RECENT);
+                if (recent != null && !viewsToApps.containsValue(recent)) {
+                    recent.setBadgeVisibility(!missedCalls.isEmpty());
                 }
             });
             AppsRepository.getAllAppsLiveData().observe(owner, apps -> {
                 viewsToApps.clear();
-                setupOnClickListeners();
+                submitTiles();
             });
         } else {
             Log.e(TAG, "LifecycleOwner is null. Cannot observe LiveData.");
@@ -239,44 +295,44 @@ public class HomePage1 extends HomeView {
                 .setComponent(name);
     }
 
-    private void setupOnClickListeners() {
+    /**
+     * Applies what a tile actually shows, as the grid binds it.
+     *
+     * Anchored on the tile rather than on a view field, which is what the nine setupButton
+     * calls used to do. Everything below - a tile pointed at an app of the user's choosing,
+     * the lock tile behaving differently on older Android - is the same logic keyed differently.
+     */
+    private void bindTile(HomeTile tile, FirstPageAppIcon view) {
         sharedPreferences = BPrefs.get(activity);
-        setupButton(
-                BPrefs.CUSTOM_RECENTS_KEY,
-                bt_recent,
-                R.string.recent,
-                R.drawable.ic_tabler_history,
-                v -> homeScreen.startActivity(new Intent(homeScreen, RecentCallsActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_DIALER_KEY,
-                bt_dialer,
-                R.string.dialer,
-                R.drawable.ic_tabler_phone,
-                v -> homeScreen.startActivity(new Intent(homeScreen, DialerActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_CONTACTS_KEY,
-                bt_contacts,
-                R.string.contacts,
-                R.drawable.ic_tabler_user,
-                v -> homeScreen.startActivity(new Intent(homeScreen, ContactsActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_APP_KEY,
-                bt_whatsapp,
-                R.string.whatsapp,
-                R.drawable.ic_tabler_brand_whatsapp,
-                v -> {
+        tileViews.put(tile, view);
+        setupButton(tile, view);
+    }
+
+    /**
+     * What a tile does when it has not been pointed at an app of the user's choosing.
+     *
+     * Returns null for the tiles that still live on the second page: they are in the catalogue
+     * but their behaviour has not been moved across yet, so they are not offered on the grid.
+     */
+    @Nullable
+    private OnClickListener defaultActionFor(HomeTile tile) {
+        switch (tile) {
+            case RECENT:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, RecentCallsActivity.class));
+            case DIALER:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, DialerActivity.class));
+            case CONTACTS:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, ContactsActivity.class));
+            case WHATSAPP:
+                return v -> {
                     try {
                         WhatsAppHandler.INSTANCE.launch(homeScreen);
                     } catch (Exception e) {
                         BaldToast.error(homeScreen, e.getLocalizedMessage());
                     }
-                });
-        setupButton(
-                BPrefs.CUSTOM_ASSISTANT_KEY,
-                bt_assistant,
-                R.string.assistant,
-                R.drawable.ic_tabler_microphone,
-                v -> {
+                };
+            case ASSISTANT:
+                return v -> {
                     try {
                         homeScreen.startActivity(
                                 new Intent(Intent.ACTION_VOICE_COMMAND)
@@ -287,13 +343,9 @@ public class HomePage1 extends HomeView {
                                 .setText(R.string.your_phone_doesnt_have_assistant_installed)
                                 .show();
                     }
-                });
-        setupButton(
-                BPrefs.CUSTOM_MESSAGES_KEY,
-                bt_messages,
-                R.string.messages,
-                R.drawable.ic_tabler_message,
-                v -> {
+                };
+            case MESSAGES:
+                return v -> {
                     try {
                         final ResolveInfo resolveInfo =
                                 homeScreen
@@ -311,101 +363,79 @@ public class HomePage1 extends HomeView {
                                 new ComponentName(
                                         resolveInfo.activityInfo.packageName,
                                         resolveInfo.activityInfo.name));
-
                     } catch (Exception e) {
                         BaldToast.from(homeScreen)
                                 .setType(BaldToast.TYPE_ERROR)
                                 .setText(R.string.an_error_has_occurred)
                                 .show();
                     }
-                });
-        setupButton(
-                BPrefs.CUSTOM_EMERGENCY_KEY,
-                bt_emergency,
-                R.string.sos,
-                R.drawable.ic_tabler_sos,
-                v -> homeScreen.startActivity(new Intent(homeScreen, SOSActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_CAMERA_KEY,
-                bt_camera,
-                R.string.camera,
-                R.drawable.ic_tabler_camera,
-                v -> {
+                };
+            case EMERGENCY:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, SOSActivity.class));
+            case CAMERA:
+                return v -> {
                     Intent intent = getCameraIntent();
                     if (intent != null) {
                         homeScreen.startActivity(intent);
                     }
-                });
-        setupButton(
-                BPrefs.CUSTOM_PILLS_KEY,
-                bt_pills,
-                R.string.pills,
-                R.drawable.ic_tabler_pill,
-                v -> homeScreen.startActivity(new Intent(homeScreen, PillsActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_APPS_KEY,
-                bt_apps,
-                R.string.apps,
-                R.drawable.ic_tabler_layout_grid,
-                v -> homeScreen.startActivity(new Intent(homeScreen, AppsActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_ALARMS_KEY,
-                bt_alarms,
-                R.string.alarms,
-                R.drawable.ic_tabler_alarm,
-                v -> homeScreen.startActivity(new Intent(homeScreen, AlarmsActivity.class)));
-        setupButton(
-                BPrefs.CUSTOM_VIDEOS_KEY,
-                bt_lock_screen,
-                R.string.label_lock_screen_short,
-                R.drawable.ic_tabler_lock,
-                v -> {
+                };
+            case LOCK_SCREEN:
+                return v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         requestDeviceLock();
                     } else {
                         homeScreen.startActivity(new Intent(homeScreen, AppsActivity.class));
                     }
-                });
-    }
-
-    private void setupButton(
-            String bPrefsKey,
-            @NonNull FirstPageAppIcon button,
-            int defaultTextRes,
-            int defaultIconRes,
-            View.OnClickListener defaultListener) {
-        if (homeScreen != null) {
-            setupButtonForHomeScreen(bPrefsKey, button, defaultTextRes, defaultIconRes, defaultListener);
-        } else {
-            setupButtonForEditor(bPrefsKey, button, defaultTextRes, defaultIconRes);
+                };
+            case PILLS:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, PillsActivity.class));
+            case APPS:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, AppsActivity.class));
+            case ALARMS:
+                return v -> homeScreen.startActivity(new Intent(homeScreen, AlarmsActivity.class));
+            default:
+                return null;
         }
     }
 
-    private void setupButtonForHomeScreen(
-            String bPrefsKey,
-            @NonNull FirstPageAppIcon button,
-            int defaultTextRes,
-            int defaultIconRes,
-            View.OnClickListener defaultListener) {
-        AppEntry app = findAppByPreference(bPrefsKey);
+    private void setupButton(HomeTile tile, @NonNull FirstPageAppIcon button) {
+        if (homeScreen != null) {
+            setupButtonForHomeScreen(tile, button);
+        } else {
+            setupButtonForEditor(tile, button);
+        }
+    }
+
+    private void setupButtonForHomeScreen(HomeTile tile, @NonNull FirstPageAppIcon button) {
+        final int defaultTextRes = tile.getLabelRes();
+        final int defaultIconRes = tile.getIconRes();
+        final OnClickListener defaultListener = defaultActionFor(tile);
+        AppEntry app = findAppByPreference(tile.getCustomAppKey());
         if (app != null) {
             button.setText(app.getLabel());
             AppIconBinder.loadPic(app, button.imageView);
             button.setOnClickListener(v -> S.startComponentName(homeScreen, app));
             viewsToApps.put(app, button);
         } else {
-            setupDefault(button, defaultTextRes, defaultIconRes, defaultListener);
+            setupDefault(tile, button, defaultTextRes, defaultIconRes, defaultListener);
         }
     }
 
-    private void setupButtonForEditor(String bPrefsKey, @NonNull FirstPageAppIcon bt, int defaultTextRes, int defaultIconRes) {
+    private void setupButtonForEditor(HomeTile tile, @NonNull FirstPageAppIcon bt) {
+        final String bPrefsKey = tile.getCustomAppKey();
+        final int defaultTextRes = tile.getLabelRes();
+        final int defaultIconRes = tile.getIconRes();
         AppEntry app = findAppByPreference(bPrefsKey);
 
         // This is for Page1EditorActivity context
         final Page1EditorActivity page1EditorActivity = (Page1EditorActivity) activity;
-        final CharSequence initialAppName;
 
-        if (bt == bt_lock_screen && Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+        // The dialog's first option clears the preference, so it is named after what the tile
+        // will become, not after what it currently is. Naming it after the app already assigned
+        // read as "keep AntennaPod" while it in fact discarded it.
+        final CharSequence defaultName;
+
+        if (tile == HomeTile.LOCK_SCREEN && Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             if (app == null) {
                 AppEntry appsActivityApp = PredefinedApps.getAppsActivityEntry(activity);
                 if (appsActivityApp != null) {
@@ -413,13 +443,9 @@ public class HomePage1 extends HomeView {
                     AppIconBinder.loadPic(appsActivityApp, bt.imageView);
                 }
             }
-            initialAppName = activity.getText(R.string.apps);
+            defaultName = activity.getText(R.string.apps);
         } else {
-            if (app != null) {
-                initialAppName = app.getLabel();
-            } else {
-                initialAppName = activity.getText(defaultTextRes);
-            }
+            defaultName = activity.getText(defaultTextRes);
         }
 
         final BDB bdb =
@@ -427,7 +453,7 @@ public class HomePage1 extends HomeView {
                         .setTitle(R.string.custom_app)
                         .setSubText(R.string.custom_app_subtext)
                         .addFlag(BDialog.FLAG_OK | BDialog.FLAG_CANCEL)
-                        .setOptions(initialAppName, activity.getText(R.string.custom))
+                        .setOptions(defaultName, activity.getText(R.string.custom))
                         .setOptionsStartingIndex(
                                 () -> sharedPreferences.contains(bPrefsKey) ? 1 : 0)
                         .setPositiveButtonListener(
@@ -461,15 +487,15 @@ public class HomePage1 extends HomeView {
             AppIconBinder.loadPic(app, bt.imageView);
             viewsToApps.put(app, bt);
         } else {
-            if (bt != bt_lock_screen || Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (tile != HomeTile.LOCK_SCREEN || Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 bt.setText(defaultTextRes);
                 bt.setImageResource(defaultIconRes);
             }
         }
     }
 
-    private void setupDefault(@NonNull FirstPageAppIcon bt, int defaultTextRes, int defaultIconRes, OnClickListener onClickListener) {
-        if (bt == bt_lock_screen) {
+    private void setupDefault(HomeTile tile, @NonNull FirstPageAppIcon bt, int defaultTextRes, int defaultIconRes, OnClickListener onClickListener) {
+        if (tile == HomeTile.LOCK_SCREEN) {
             // The lock screen button has a different behavior on older APIs
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 // On older APIs, this button opens the Apps screen
@@ -491,8 +517,8 @@ public class HomePage1 extends HomeView {
 
     // Helper
     @Nullable
-    private AppEntry findAppByPreference(String bPrefsKey) {
-        if (sharedPreferences.contains(bPrefsKey)) {
+    private AppEntry findAppByPreference(@Nullable String bPrefsKey) {
+        if (bPrefsKey != null && sharedPreferences.contains(bPrefsKey)) {
             String componentName = sharedPreferences.getString(bPrefsKey, null);
             if (componentName == null) return null;
             return AppsRepository.findByComponentName(componentName);
@@ -540,17 +566,19 @@ public class HomePage1 extends HomeView {
     private void refreshBadges(Set<String> packagesSet) {
         Context viewContext = getContext(); // Use the view's context if available
 
-        if (bt_whatsapp != null && !viewsToApps.containsValue(bt_whatsapp)) {
-            bt_whatsapp.setBadgeVisibility(packagesSet.contains(WhatsAppHandler.WHATSAPP_PACKAGE_NAME));
+        final FirstPageAppIcon whatsapp = tileViews.get(HomeTile.WHATSAPP);
+        if (whatsapp != null && !viewsToApps.containsValue(whatsapp)) {
+            whatsapp.setBadgeVisibility(packagesSet.contains(WhatsAppHandler.WHATSAPP_PACKAGE_NAME));
         }
 
 
-        if (bt_messages != null && !viewsToApps.containsValue(bt_messages)) {
+        final FirstPageAppIcon messages = tileViews.get(HomeTile.MESSAGES);
+        if (messages != null && !viewsToApps.containsValue(messages)) {
             String defaultSmsPackage = Telephony.Sms.getDefaultSmsPackage(viewContext);
             if (defaultSmsPackage != null) {
-                bt_messages.setBadgeVisibility(packagesSet.contains(defaultSmsPackage));
+                messages.setBadgeVisibility(packagesSet.contains(defaultSmsPackage));
             } else {
-                bt_messages.setBadgeVisibility(false); // No default SMS app, hide badge
+                messages.setBadgeVisibility(false); // No default SMS app, hide badge
             }
         }
 

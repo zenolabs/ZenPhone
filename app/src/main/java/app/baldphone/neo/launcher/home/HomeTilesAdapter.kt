@@ -67,13 +67,6 @@ class HomeTilesAdapter(
             notifyItemRangeChanged(0, tiles.size)
         }
 
-    var isEditing: Boolean = false
-        set(value) {
-            if (field == value) return
-            field = value
-            notifyItemRangeChanged(0, tiles.size)
-        }
-
     fun submit(newTiles: List<HomeTile>, spanCount: Int) {
         tiles.clear()
         tiles.addAll(newTiles)
@@ -140,15 +133,8 @@ class HomeTilesAdapter(
         view.contentDescription = view.context.getString(tile.labelRes)
 
         // The launcher attaches the real behaviour, including any app the user pointed this
-        // tile at. It has to run before the edit-mode override below, or it would put the
-        // listener back.
+        // tile at, and in the editor the dialog that reassigns it.
         binder.onTileBound(tile, view)
-
-        // Taps are swallowed while editing: a tile being dragged should not also launch.
-        if (isEditing) {
-            view.setOnClickListener(null)
-            view.isClickable = false
-        }
     }
 
     class TileViewHolder(val tile: FirstPageAppIcon) : RecyclerView.ViewHolder(tile)

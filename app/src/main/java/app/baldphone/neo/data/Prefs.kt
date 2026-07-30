@@ -138,7 +138,7 @@ object Prefs {
      *
      * An empty list means "never configured", and the launcher falls back to its defaults.
      */
-    @get:JvmStatic
+    @JvmStatic
     var homeTileOrder: List<String>
         get() =
             prefs

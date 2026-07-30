@@ -42,48 +42,17 @@ public class BaldFrameLayoutButton extends FrameLayout implements BaldButtonInte
     private final BaldToast longer;
     private OnClickListener onClickListener;
     private BaldButtonTouchListener baldButtonTouchListener;
+    /**
+     * @see #setDirectTaps(boolean)
+     */
+    private boolean directTaps;
 
     public BaldFrameLayoutButton(Context context) {
-        super(context);
-        this.sharedPreferences = context.getSharedPreferences(D.BALD_PREFS, Context.MODE_PRIVATE);
-        this.longPresses = sharedPreferences.getBoolean(BPrefs.LONG_PRESSES_KEY, BPrefs.LONG_PRESSES_DEFAULT_VALUE);
-        this.longPressesShorter = sharedPreferences.getBoolean(BPrefs.LONG_PRESSES_SHORTER_KEY, BPrefs.LONG_PRESSES_SHORTER_DEFAULT_VALUE);
-        this.vibrationFeedback = sharedPreferences.getBoolean(BPrefs.VIBRATION_FEEDBACK_KEY, BPrefs.VIBRATION_FEEDBACK_DEFAULT_VALUE);
-        this.vibrator = this.vibrationFeedback ? (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE) : null;
-        longer = longPresses ? BaldToast.from(context).setText(context.getText(R.string.press_longer)).setType(BaldToast.TYPE_DEFAULT).setLength(0).build() : null;
-        if (longPresses)
-            if (longPressesShorter) {
-                baldButtonTouchListener = new BaldButtonTouchListener(this);
-                super.setOnTouchListener(baldButtonTouchListener);
-                super.setOnClickListener(D.EMPTY_CLICK_LISTENER);
-            } else {
-                super.setOnLongClickListener(this);
-                super.setOnClickListener(this);
-            }
-        else
-            super.setOnClickListener(this);
-
+        this(context, null);
     }
 
     public BaldFrameLayoutButton(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        this.sharedPreferences = context.getSharedPreferences(D.BALD_PREFS, Context.MODE_PRIVATE);
-        this.longPresses = sharedPreferences.getBoolean(BPrefs.LONG_PRESSES_KEY, BPrefs.LONG_PRESSES_DEFAULT_VALUE);
-        this.longPressesShorter = sharedPreferences.getBoolean(BPrefs.LONG_PRESSES_SHORTER_KEY, BPrefs.LONG_PRESSES_SHORTER_DEFAULT_VALUE);
-        this.vibrationFeedback = sharedPreferences.getBoolean(BPrefs.VIBRATION_FEEDBACK_KEY, BPrefs.VIBRATION_FEEDBACK_DEFAULT_VALUE);
-        this.vibrator = this.vibrationFeedback ? (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE) : null;
-        longer = longPresses ? BaldToast.from(context).setText(context.getText(R.string.press_longer)).setType(BaldToast.TYPE_DEFAULT).setLength(0).build() : null;
-        if (longPresses)
-            if (longPressesShorter) {
-                baldButtonTouchListener = new BaldButtonTouchListener(this);
-                super.setOnTouchListener(baldButtonTouchListener);
-                super.setOnClickListener(D.EMPTY_CLICK_LISTENER);
-            } else {
-                super.setOnLongClickListener(this);
-                super.setOnClickListener(this);
-            }
-        else
-            super.setOnClickListener(this);
+        this(context, attrs, 0);
     }
 
     public BaldFrameLayoutButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -94,17 +63,52 @@ public class BaldFrameLayoutButton extends FrameLayout implements BaldButtonInte
         this.vibrationFeedback = sharedPreferences.getBoolean(BPrefs.VIBRATION_FEEDBACK_KEY, BPrefs.VIBRATION_FEEDBACK_DEFAULT_VALUE);
         this.vibrator = this.vibrationFeedback ? (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE) : null;
         longer = longPresses ? BaldToast.from(context).setText(context.getText(R.string.press_longer)).setType(BaldToast.TYPE_DEFAULT).setLength(0).build() : null;
-        if (longPresses)
+        applyPressBehaviour();
+    }
+
+    /**
+     * Decides which gesture reaches {@link #onClickListener}.
+     * <p>
+     * Called again whenever {@link #setDirectTaps(boolean)} changes, so every listener it may
+     * have installed before is cleared here rather than merely left in place: the three
+     * arrangements below are alternatives, and two of them at once would fire twice.
+     */
+    private void applyPressBehaviour() {
+        if (longPresses && !directTaps) {
             if (longPressesShorter) {
-                baldButtonTouchListener = new BaldButtonTouchListener(this);
+                if (baldButtonTouchListener == null)
+                    baldButtonTouchListener = new BaldButtonTouchListener(this);
                 super.setOnTouchListener(baldButtonTouchListener);
+                super.setOnLongClickListener(null);
+                setLongClickable(false);
                 super.setOnClickListener(D.EMPTY_CLICK_LISTENER);
             } else {
+                super.setOnTouchListener(null);
                 super.setOnLongClickListener(this);
                 super.setOnClickListener(this);
             }
-        else
+        } else {
+            super.setOnTouchListener(null);
+            super.setOnLongClickListener(null);
+            setLongClickable(false);
             super.setOnClickListener(this);
+        }
+    }
+
+    /**
+     * Makes this button answer a short tap, whatever the "long presses" accessibility setting
+     * says.
+     * <p>
+     * That setting is there so a hand resting on the screen cannot start anything by accident,
+     * and it stays in force on the home screen. In the layout editor, though, holding a tile is
+     * how it is picked up and moved, and one tile cannot have "press and hold" mean two things.
+     * The editor is used by whoever sets the phone up, not by whoever lives with it, so that is
+     * where the plain tap can be given back.
+     */
+    public void setDirectTaps(boolean directTaps) {
+        if (this.directTaps == directTaps) return;
+        this.directTaps = directTaps;
+        applyPressBehaviour();
     }
 
     @Override
@@ -123,7 +127,7 @@ public class BaldFrameLayoutButton extends FrameLayout implements BaldButtonInte
 
     @Override
     public void setOnTouchListener(OnTouchListener l) {
-        if (longPressesShorter)
+        if (baldButtonTouchListener != null && !directTaps)
             baldButtonTouchListener.addListener(l);
         else
             super.setOnTouchListener(l);
@@ -131,7 +135,7 @@ public class BaldFrameLayoutButton extends FrameLayout implements BaldButtonInte
 
     @Override
     public void onClick(View v) {
-        if (longPresses) {
+        if (longPresses && !directTaps) {
             longer.show();
         } else {
             vibrate();
@@ -142,7 +146,7 @@ public class BaldFrameLayoutButton extends FrameLayout implements BaldButtonInte
 
     @Override
     public boolean onLongClick(View v) {
-        if (longPresses) {
+        if (longPresses && !directTaps) {
             vibrate();
 
             if (onClickListener != null)

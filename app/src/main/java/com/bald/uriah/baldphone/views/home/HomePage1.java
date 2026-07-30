@@ -44,6 +44,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import app.baldphone.neo.activities.DialerActivity;
@@ -88,6 +89,8 @@ public class HomePage1 extends HomeView {
     public static final String TAG = HomePage1.class.getSimpleName();
     /** Tiles per row. The grid has always been three wide; only the rows varied. */
     private static final int COLUMNS = 3;
+    /** How much a tile grows while it is being carried. */
+    private static final float DRAG_SCALE = 1.08f;
     private final NotificationRepository repo = NotificationRepository.INSTANCE;
     private Map<AppEntry, FirstPageAppIcon> viewsToApps;
     private RecyclerView tilesGrid;
@@ -181,6 +184,10 @@ public class HomePage1 extends HomeView {
         });
         tilesGrid.setAdapter(tilesAdapter);
 
+        // Tiles are rearranged in the editor and nowhere else. On the home screen itself a tile
+        // must stay where it was put, however long it is held.
+        if (homeScreen == null) attachTileDragging();
+
         // The tile height follows the grid's own height, so it is taken once the grid has been
         // laid out and again if that ever changes - rotation, or the fourth row being switched
         // on. A posted runnable would not do: it runs on attach, before the first layout.
@@ -189,6 +196,90 @@ public class HomePage1 extends HomeView {
                         updateTileHeight());
 
         submitTiles();
+    }
+
+    /**
+     * Lets a tile be picked up and dropped somewhere else.
+     * <p>
+     * All four directions, because this is a grid and not a list; swiping is left switched off,
+     * as there is nowhere for a tile to be swiped to. The order is written when the tile is let
+     * go rather than at every swap: a drag across the grid passes through a dozen arrangements
+     * nobody asked to keep, and each one would be a write.
+     */
+    private void attachTileDragging() {
+        final int directions =
+                ItemTouchHelper.UP
+                        | ItemTouchHelper.DOWN
+                        | ItemTouchHelper.LEFT
+                        | ItemTouchHelper.RIGHT;
+
+        new ItemTouchHelper(
+                        new ItemTouchHelper.SimpleCallback(directions, 0) {
+                            @Override
+                            public boolean onMove(
+                                    @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    @NonNull RecyclerView.ViewHolder target) {
+                                if (tilesAdapter == null) return false;
+                                final int from = viewHolder.getBindingAdapterPosition();
+                                final int to = target.getBindingAdapterPosition();
+                                if (from == RecyclerView.NO_POSITION
+                                        || to == RecyclerView.NO_POSITION) {
+                                    return false;
+                                }
+                                tilesAdapter.moveTile(from, to);
+                                return true;
+                            }
+
+                            @Override
+                            public void onSwiped(
+                                    @NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                                // Nothing is swiped away here; the callback insists on the method.
+                            }
+
+                            @Override
+                            public void onSelectedChanged(
+                                    @Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                                super.onSelectedChanged(viewHolder, actionState);
+                                // ItemTouchHelper already raises the tile above its neighbours,
+                                // but these are flat blocks of colour and the shadow alone is
+                                // easy to miss. Growing it says plainly which one is in hand.
+                                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG
+                                        && viewHolder != null) {
+                                    scaleTile(viewHolder.itemView, DRAG_SCALE);
+                                }
+                            }
+
+                            @Override
+                            public void clearView(
+                                    @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder) {
+                                super.clearView(recyclerView, viewHolder);
+                                scaleTile(viewHolder.itemView, 1f);
+                                persistTileOrder();
+                            }
+                        })
+                .attachToRecyclerView(tilesGrid);
+    }
+
+    private static void scaleTile(@NonNull View tile, float scale) {
+        tile.setScaleX(scale);
+        tile.setScaleY(scale);
+    }
+
+    /**
+     * Saves the order the tiles now stand in, once a drag has finished.
+     * <p>
+     * Ids rather than the tiles themselves, because that is what the preference holds: an id
+     * written by a later version means nothing to an earlier one, which drops it and carries on.
+     */
+    private void persistTileOrder() {
+        if (tilesAdapter == null) return;
+        final List<String> ids = new ArrayList<>();
+        for (HomeTile tile : tilesAdapter.currentTiles()) {
+            ids.add(tile.getId());
+        }
+        Prefs.setHomeTileOrder(ids);
     }
 
     /**
@@ -429,6 +520,10 @@ public class HomePage1 extends HomeView {
 
         // This is for Page1EditorActivity context
         final Page1EditorActivity page1EditorActivity = (Page1EditorActivity) activity;
+
+        // Holding a tile is how it gets picked up and moved, so the dialog below has to answer
+        // a short tap - even where the accessibility settings would normally require a hold.
+        bt.setDirectTaps(true);
 
         // The dialog's first option clears the preference, so it is named after what the tile
         // will become, not after what it currently is. Naming it after the app already assigned

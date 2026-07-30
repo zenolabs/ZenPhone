@@ -44,6 +44,16 @@ fun View.applyTopBarInsets() {
     val initialPaddingTop = paddingTop
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val types = WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+        // TEMPORARY - working out where the space above the top bar comes from when the status
+        // bar is hidden. To be removed once the answer is in.
+        android.util.Log.e(
+            "ZenInsets",
+            "top padding=${initialPaddingTop + insets.getInsets(types).top}" +
+                " (own=$initialPaddingTop" +
+                " statusBars=${insets.getInsets(WindowInsetsCompat.Type.statusBars()).top}" +
+                " cutout=${insets.getInsets(WindowInsetsCompat.Type.displayCutout()).top}" +
+                " systemBars=${insets.getInsets(WindowInsetsCompat.Type.systemBars()).top})",
+        )
         view.updatePadding(top = initialPaddingTop + insets.getInsets(types).top)
         insets
     }

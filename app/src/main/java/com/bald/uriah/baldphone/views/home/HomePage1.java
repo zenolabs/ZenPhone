@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -107,6 +108,44 @@ public class HomePage1 extends HomeView {
     private View homeBatteryBlock;
     private boolean homeBatteryBound;
     private SharedPreferences sharedPreferences;
+    @Nullable
+    private TileDragListener tileDragListener;
+    /**
+     * Where the carried tile was last seen, in screen coordinates, or -1 before it has moved.
+     * <p>
+     * Kept because the decision to remove is taken when the tile is let go, and the callback
+     * that hears about that is told which tile it was but not where the hand had got to.
+     */
+    private int lastDragX = -1, lastDragY = -1;
+
+    /**
+     * Told where a tile is being carried, so that something outside the grid can offer to take
+     * it. The editor uses this to raise its removal bar and to know when a tile has been
+     * dropped onto it.
+     * <p>
+     * Coordinates are on the screen rather than in this view, because the listener's own view
+     * is somewhere else in the hierarchy and screen coordinates are the only frame both agree
+     * on without either having to know where the other sits.
+     */
+    public interface TileDragListener {
+        /**
+         * A tile has been picked up.
+         *
+         * @param removable whether letting it go could remove it. False when it is the last
+         *                  tile left, so that nothing is offered which would then be refused.
+         */
+        void onTileDragStarted(boolean removable);
+
+        /** The centre of the carried tile has moved. */
+        void onTileDragMoved(int screenX, int screenY);
+
+        /**
+         * The tile has been let go.
+         *
+         * @return true if it should be taken off the grid rather than left where it landed.
+         */
+        boolean onTileDropped(int screenX, int screenY);
+    }
 
     public HomePage1(@NonNull Context context) {
         super(
@@ -244,6 +283,29 @@ public class HomePage1 extends HomeView {
                                 if (actionState == ItemTouchHelper.ACTION_STATE_DRAG
                                         && viewHolder != null) {
                                     scaleTile(viewHolder.itemView, DRAG_SCALE);
+                                    onTileLifted();
+                                }
+                            }
+
+                            @Override
+                            public void onChildDraw(
+                                    @NonNull Canvas canvas,
+                                    @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    float dX,
+                                    float dY,
+                                    int actionState,
+                                    boolean isCurrentlyActive) {
+                                super.onChildDraw(
+                                        canvas,
+                                        recyclerView,
+                                        viewHolder,
+                                        dX,
+                                        dY,
+                                        actionState,
+                                        isCurrentlyActive);
+                                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                                    reportDragPosition(recyclerView, viewHolder, dX, dY);
                                 }
                             }
 
@@ -253,7 +315,7 @@ public class HomePage1 extends HomeView {
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
                                 super.clearView(recyclerView, viewHolder);
                                 scaleTile(viewHolder.itemView, 1f);
-                                persistTileOrder();
+                                onTileDropped(viewHolder.getBindingAdapterPosition());
                             }
                         })
                 .attachToRecyclerView(tilesGrid);
@@ -262,6 +324,64 @@ public class HomePage1 extends HomeView {
     private static void scaleTile(@NonNull View tile, float scale) {
         tile.setScaleX(scale);
         tile.setScaleY(scale);
+    }
+
+    /** Hands the grid over to something that wants to know where tiles are being carried. */
+    public void setTileDragListener(@Nullable TileDragListener listener) {
+        this.tileDragListener = listener;
+    }
+
+    private void onTileLifted() {
+        lastDragX = -1;
+        lastDragY = -1;
+        if (tileDragListener == null) return;
+        // The last tile cannot be given up: an empty order reads as never configured, and the
+        // defaults would come back as though the request had been ignored. Said now, by not
+        // offering removal at all, rather than by refusing it once the tile has been dropped.
+        final boolean removable = tilesAdapter != null && tilesAdapter.getItemCount() > 1;
+        tileDragListener.onTileDragStarted(removable);
+    }
+
+    /**
+     * Works out where the carried tile has got to and passes it on.
+     * <p>
+     * ItemTouchHelper reports a displacement from where the tile would sit at rest, so the two
+     * are added and the result moved into screen coordinates. The tile's centre is used rather
+     * than a corner: it is what someone aiming at the removal bar believes they are aiming with.
+     */
+    private void reportDragPosition(
+            @NonNull RecyclerView grid, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY) {
+        if (tileDragListener == null) return;
+        final View tile = viewHolder.itemView;
+        final int[] gridOnScreen = new int[2];
+        grid.getLocationOnScreen(gridOnScreen);
+
+        lastDragX = Math.round(gridOnScreen[0] + tile.getLeft() + dX + tile.getWidth() / 2f);
+        lastDragY = Math.round(gridOnScreen[1] + tile.getTop() + dY + tile.getHeight() / 2f);
+        tileDragListener.onTileDragMoved(lastDragX, lastDragY);
+    }
+
+    /**
+     * Settles what a finished drag meant: a tile somewhere new, or one tile fewer.
+     * <p>
+     * The listener is asked even when the tile never moved, because it has a bar on screen that
+     * has to come down either way.
+     */
+    private void onTileDropped(int position) {
+        boolean remove = false;
+        if (tileDragListener != null) {
+            remove = tileDragListener.onTileDropped(lastDragX, lastDragY);
+        }
+
+        if (remove
+                && position != RecyclerView.NO_POSITION
+                && tilesAdapter != null
+                && tilesAdapter.getItemCount() > 1) {
+            tilesAdapter.removeTile(position);
+            // A row may have gone with it, and the tiles left behind are owed its height.
+            updateTileHeight();
+        }
+        persistTileOrder();
     }
 
     /**

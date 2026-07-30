@@ -51,6 +51,7 @@
     <string name="choose_tiles_subtext">Quali tessere appaiono sulla home</string>
     <string name="tile_limit_reached">La schermata home tiene al massimo dodici tessere</string>
     <string name="tile_last_one">Deve restare almeno una tessera</string>
+    <string name="remove_tile">Trascina qui per rimuovere</string>
 
     <string name="alarms_repeats_every">Si ripete ogni</string>
     <string name="all_alarms">tutte le sveglie</string>

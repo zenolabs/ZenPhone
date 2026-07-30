@@ -56,6 +56,7 @@
     <string name="choose_tiles_subtext">Which tiles the home screen shows</string>
     <string name="tile_limit_reached">The home screen holds twelve tiles at most</string>
     <string name="tile_last_one">At least one tile has to stay</string>
+    <string name="remove_tile">Drop here to remove</string>
 
     <string name="alarms_repeats_every">Alarm repeats every</string>
     <string name="all_alarms">All Alarms</string>

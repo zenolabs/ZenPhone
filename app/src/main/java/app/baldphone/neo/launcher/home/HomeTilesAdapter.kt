@@ -48,6 +48,15 @@ class HomeTilesAdapter(
 
     private val tiles = mutableListOf<HomeTile>()
 
+    /**
+     * Tiles per row, remembered from the last [submit].
+     *
+     * Kept because the row count has to be worked out again when a tile is removed, and the
+     * caller that removes one is answering a gesture rather than rebuilding the grid: it has
+     * no reason to be holding the span count at that moment.
+     */
+    private var spanCount: Int = DEFAULT_COLUMNS
+
     /** How many rows the visible tiles are spread over, used to work out tile height. */
     var rowCount: Int = DEFAULT_ROWS
         private set
@@ -70,11 +79,16 @@ class HomeTilesAdapter(
     fun submit(newTiles: List<HomeTile>, spanCount: Int) {
         tiles.clear()
         tiles.addAll(newTiles)
-        rowCount = maxOf(1, (newTiles.size + spanCount - 1) / spanCount)
+        this.spanCount = spanCount
+        recountRows()
         notifyDataSetChanged()
     }
 
     fun currentTiles(): List<HomeTile> = tiles.toList()
+
+    private fun recountRows() {
+        rowCount = maxOf(1, (tiles.size + spanCount - 1) / spanCount)
+    }
 
     /**
      * Moves a tile within the grid. Called while a drag is in progress, so it only touches the
@@ -85,6 +99,20 @@ class HomeTilesAdapter(
         if (from !in tiles.indices || to !in tiles.indices) return
         tiles.add(to, tiles.removeAt(from))
         notifyItemMoved(from, to)
+    }
+
+    /**
+     * Takes a tile off the grid.
+     *
+     * The row count is worked out again here, unlike in [moveTile], because losing a tile can
+     * lose a whole row with it and the remaining tiles are then entitled to the height it was
+     * using. Saving the shortened order is the caller's business, as with a move.
+     */
+    fun removeTile(position: Int) {
+        if (position !in tiles.indices) return
+        tiles.removeAt(position)
+        recountRows()
+        notifyItemRemoved(position)
     }
 
     override fun getItemCount(): Int = tiles.size
@@ -141,5 +169,6 @@ class HomeTilesAdapter(
 
     private companion object {
         const val DEFAULT_ROWS = 3
+        const val DEFAULT_COLUMNS = 3
     }
 }

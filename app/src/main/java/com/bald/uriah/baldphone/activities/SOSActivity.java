@@ -119,7 +119,10 @@ public class SOSActivity extends BaldActivity {
 
     private void callEmergencyNumber() {
         String emergencyNumber = PhoneNumberUtils.INSTANCE.getPrimaryEmergencyNumber(this);
-        CallUiHelper.INSTANCE.callDirectly(this, emergencyNumber);
+        // Always asks, even where every other call has been set to go through unasked. The
+        // pinned contacts above use the ordinary path on purpose: ringing a daughter by
+        // mistake costs an apology.
+        CallUiHelper.INSTANCE.callEmergency(this, emergencyNumber);
     }
 
     @Override

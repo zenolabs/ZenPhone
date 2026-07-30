@@ -37,11 +37,26 @@ import com.bald.uriah.baldphone.utils.BDialog
  */
 object CallUiHelper {
     /**
-     * Immediately initiates a call, bypassing confirmation prompts and SIM selection dialogs.
-     * Primarily used by the emergency SOS feature.
+     * Places a call without stopping to ask which SIM to use.
+     *
+     * It does not skip the confirmation, whatever the name suggests and whatever this comment
+     * used to claim: [call] is left to decide that, and it asks unless the person has turned
+     * asking off.
      */
     fun callDirectly(context: Context, number: CharSequence) {
         call(context, number, directly = true)
+    }
+
+    /**
+     * Places a call to the emergency services, always asking first.
+     *
+     * The one call that does not honour [Prefs.shouldConfirmCalls]. That setting exists so
+     * that ringing a daughter takes one touch instead of two, and the cost of getting it wrong
+     * is an apology. Here the cost is an ambulance sent to the wrong place, and someone who
+     * has done that once by accident is afraid of their phone afterwards.
+     */
+    fun callEmergency(context: Context, number: CharSequence) {
+        showCallConfirmationDialog(context, number, name = null, directly = true)
     }
 
     /**

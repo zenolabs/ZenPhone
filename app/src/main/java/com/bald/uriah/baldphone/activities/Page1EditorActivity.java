@@ -120,11 +120,13 @@ public class Page1EditorActivity extends BaldActivity implements HomePage1.TileD
     }
 
     @Override
-    public boolean onTileDropped(int screenX, int screenY) {
-        final boolean remove =
-                removalTarget.getVisibility() == View.VISIBLE && isOverTarget(screenX, screenY);
+    public boolean isOverRemovalTarget(int screenX, int screenY) {
+        return removalTarget.getVisibility() == View.VISIBLE && isOverTarget(screenX, screenY);
+    }
+
+    @Override
+    public void onTileDragEnded() {
         hideRemovalTarget();
-        return remove;
     }
 
     /**

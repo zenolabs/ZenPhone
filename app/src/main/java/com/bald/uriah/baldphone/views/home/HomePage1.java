@@ -140,11 +140,16 @@ public class HomePage1 extends HomeView {
         void onTileDragMoved(int screenX, int screenY);
 
         /**
-         * The tile has been let go.
-         *
-         * @return true if it should be taken off the grid rather than left where it landed.
+         * Whether a tile let go at this point would be taken off the grid.
+         * <p>
+         * A question and nothing more: it is asked twice, once to decide how long the tile
+         * should take to settle and once to act on the answer, so it must leave things as it
+         * found them.
          */
-        boolean onTileDropped(int screenX, int screenY);
+        boolean isOverRemovalTarget(int screenX, int screenY);
+
+        /** The drag is over, however it ended. Time to put the bar away. */
+        void onTileDragEnded();
     }
 
     public HomePage1(@NonNull Context context) {
@@ -317,6 +322,21 @@ public class HomePage1 extends HomeView {
                             }
 
                             @Override
+                            public long getAnimationDuration(
+                                    @NonNull RecyclerView recyclerView,
+                                    int animationType,
+                                    float animateDx,
+                                    float animateDy) {
+                                // A tile about to be thrown away should not first be seen
+                                // gliding back to a place it will not keep. Removal happens in
+                                // clearView, and clearView waits for this animation, so the
+                                // wait is dropped when there is nothing to wait for.
+                                if (isDropOnRemovalTarget()) return 0L;
+                                return super.getAnimationDuration(
+                                        recyclerView, animationType, animateDx, animateDy);
+                            }
+
+                            @Override
                             public void clearView(
                                     @NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -374,10 +394,16 @@ public class HomePage1 extends HomeView {
      * The listener is asked even when the tile never moved, because it has a bar on screen that
      * has to come down either way.
      */
+    /** Whether the tile, as it stands, would be given up rather than kept. */
+    private boolean isDropOnRemovalTarget() {
+        return tileDragListener != null
+                && tileDragListener.isOverRemovalTarget(lastDragX, lastDragY);
+    }
+
     private void onTileDropped(int position) {
-        boolean remove = false;
+        final boolean remove = isDropOnRemovalTarget();
         if (tileDragListener != null) {
-            remove = tileDragListener.onTileDropped(lastDragX, lastDragY);
+            tileDragListener.onTileDragEnded();
         }
 
         if (remove

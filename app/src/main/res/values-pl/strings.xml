@@ -76,7 +76,6 @@
     <string name="call_settings_message">Wybierz, co ma się dziać po naciśnięciu przycisku Zadzwoń.</string>
     <string name="call_settings_option_confirm">Pytaj o potwierdzenie</string>
     <string name="call_settings_option_direct">Dzwoń od razu</string>
-    <string name="settings_section_calls">Połączenia</string>
     <string name="setting_confirm_before_calling">Potwierdzaj połączenia</string>
     <string name="setting_confirm_before_calling_desc_on">Przed połączeniem pojawi się prośba o potwierdzenie</string>
     <string name="setting_confirm_before_calling_desc_off">Telefon dzwoni od razu</string>
@@ -219,7 +218,6 @@
     <string name="set_keyboard">Ustaw klawiaturę</string>
     <string name="setting_does_not_exist">Ustawienie nie istnieje</string>
     <string name="settings">Ustawienia</string>
-    <string name="settings_system">Inne opcje</string>
     <string name="settings_permission">Uprawnienia</string>
     <string name="share">Udostępnij</string>
     <string name="share_actual_text">Cześć, używam aplikacji BaldPhone, która sprawia, że interfejs telefonu jest duży, prosty i przyjazny.\nZainteresowany/a?\nTa aplikacja jest darmowa!\nKliknij poniższy link, aby dowiedzieć się więcej:\nhttps://baldphone.com</string>

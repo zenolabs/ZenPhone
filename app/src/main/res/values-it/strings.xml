@@ -43,8 +43,10 @@
     <string name="alarm_volume">Volume sveglia</string>
     <string name="alarm_volume_subtext">Imposta il volume per le sveglie.\nAumenta il volume spostando il selettore verso destra.</string>
     <string name="alarms">Sveglie</string>
-    <string name="neo_settings">Altre impostazioni</string>
     <string name="settings_home_screen">Schermata home</string>
+    <string name="settings_appearance">Aspetto e testo</string>
+    <string name="settings_section_calls">Chiamate e suoni</string>
+    <string name="settings_system">Sistema e connessione</string>
     <string name="settings_fourth_row">Quarta riga di tessere</string>
     <string name="settings_fourth_row_subtext">Aggiunge pillole, app e sveglie</string>
 

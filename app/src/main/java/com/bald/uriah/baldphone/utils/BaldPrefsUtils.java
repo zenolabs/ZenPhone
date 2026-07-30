@@ -115,7 +115,6 @@ public class BaldPrefsUtils {
         return vibrationFeedback == that.vibrationFeedback &&
                 touchNoHard == that.touchNoHard &&
                 longPresses == that.longPresses &&
-                notes == that.notes &&
                 sos == that.sos &&
                 statusBar == that.statusBar &&
                 Objects.equals(CUSTOM_APP, that.CUSTOM_APP) &&
@@ -134,6 +133,6 @@ public class BaldPrefsUtils {
 
     @Override
     public int hashCode() {
-        return Objects.hash(vibrationFeedback, touchNoHard, longPresses, notes, sos, statusBar, CUSTOM_APP, CUSTOM_RECENTS, CUSTOM_DIALER, CUSTOM_CONTACTS, CUSTOM_ASSISTANT, CUSTOM_MESSAGES, CUSTOM_PHOTOS, CUSTOM_CAMERA, CUSTOM_VIDEOS, CUSTOM_PILLS, CUSTOM_APPS, CUSTOM_ALARMS);
+        return Objects.hash(vibrationFeedback, touchNoHard, longPresses, sos, statusBar, CUSTOM_APP, CUSTOM_RECENTS, CUSTOM_DIALER, CUSTOM_CONTACTS, CUSTOM_ASSISTANT, CUSTOM_MESSAGES, CUSTOM_PHOTOS, CUSTOM_CAMERA, CUSTOM_VIDEOS, CUSTOM_PILLS, CUSTOM_APPS, CUSTOM_ALARMS);
     }
 }

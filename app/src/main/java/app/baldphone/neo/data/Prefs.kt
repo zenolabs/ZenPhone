@@ -106,6 +106,15 @@ object Prefs {
         true,
     )
 
+    /**
+     * Which hand the user holds the phone in, which decides the side controls are placed on.
+     */
+    @get:JvmStatic
+    var isRightHanded: Boolean by booleanPref(
+        PrefKeys.KEY_RIGHT_HANDED,
+        BPrefs.RIGHT_HANDED_DEFAULT_VALUE,
+    )
+
     // Home screen related preferences.
 
     /**
@@ -116,6 +125,42 @@ object Prefs {
     @get:JvmStatic
     var isFourthHomeRowEnabled: Boolean by booleanPref(
         PrefKeys.KEY_FOURTH_HOME_ROW,
+        false,
+    )
+
+    /**
+     * Which tiles the home screen shows, in order, as a list of
+     * [app.baldphone.neo.launcher.home.HomeTile] ids.
+     *
+     * Held as ids rather than as the enum so that this layer stays unaware of the catalogue,
+     * and so that an id saved by a newer version does no harm when read by an older one: the
+     * launcher drops anything it does not recognise.
+     *
+     * An empty list means "never configured", and the launcher falls back to its defaults.
+     */
+    @get:JvmStatic
+    var homeTileOrder: List<String>
+        get() =
+            prefs
+                .getString(PrefKeys.KEY_HOME_TILE_ORDER, "")
+                .orEmpty()
+                .split(',')
+                .filter { it.isNotBlank() }
+        set(order) {
+            prefs.edit { putString(PrefKeys.KEY_HOME_TILE_ORDER, order.joinToString(",")) }
+        }
+
+    /**
+     * Freezes the home screen layout.
+     *
+     * This launcher is meant to be set up by someone more confident with a phone and then
+     * handed over. Once locked, the tiles cannot be moved, added or removed, and the way into
+     * edit mode disappears rather than merely refusing to work - a button that rejects a tap
+     * teaches nothing, whereas an absent button asks no questions.
+     */
+    @get:JvmStatic
+    var isHomeLayoutLocked: Boolean by booleanPref(
+        PrefKeys.KEY_HOME_LAYOUT_LOCKED,
         false,
     )
 
@@ -158,7 +203,27 @@ object Prefs {
     @JvmStatic
     var shouldConfirmCalls: Boolean by booleanPref(PrefKeys.KEY_CALL_CONFIRMATION, false)
 
+    /**
+     * Alarm volume on a 0 to 5 scale, read by [com.bald.uriah.baldphone.activities.alarms
+     * .AlarmScreenActivity] when it builds the ringtone.
+     */
+    @get:JvmStatic
+    var alarmVolume: Int by intPref(
+        PrefKeys.KEY_ALARM_VOLUME,
+        BPrefs.ALARM_VOLUME_DEFAULT_VALUE,
+    )
+
     // Helper functions for the delegate
+    private fun intPref(
+        key: String,
+        default: Int,
+    ) = PreferenceDelegate(
+        key,
+        default,
+        SharedPreferences::getInt,
+        SharedPreferences.Editor::putInt,
+    )
+
     private fun booleanPref(
         key: String,
         default: Boolean,

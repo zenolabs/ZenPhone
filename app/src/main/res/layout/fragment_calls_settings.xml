@@ -13,4 +13,22 @@
         app:switchDescriptionOn="@string/setting_confirm_before_calling_desc_on"
         app:switchTitle="@string/setting_confirm_before_calling" />
 
+    <include
+        android:id="@+id/row_dialer_sounds"
+        layout="@layout/item_setting_switch"
+        android:layout_width="match_parent"
+        android:layout_height="96dp" />
+
+    <include
+        android:id="@+id/row_dual_sim"
+        layout="@layout/item_setting_switch"
+        android:layout_width="match_parent"
+        android:layout_height="96dp" />
+
+    <include
+        android:id="@+id/row_alarm_volume"
+        layout="@layout/item_setting"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
 </LinearLayout>

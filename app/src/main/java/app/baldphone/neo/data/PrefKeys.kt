@@ -40,5 +40,11 @@ object PrefKeys {
 
     // Home screen
     const val KEY_FOURTH_HOME_ROW = "fourth_home_row"
+    const val KEY_HOME_TILE_ORDER = "home_tile_order"
+    const val KEY_HOME_LAYOUT_LOCKED = "home_layout_locked"
+
+    // Shares the legacy key so both settings trees read the same value while they coexist.
+    const val KEY_RIGHT_HANDED = BPrefs.RIGHT_HANDED_KEY
+    const val KEY_ALARM_VOLUME = BPrefs.ALARM_VOLUME_KEY
 
 }

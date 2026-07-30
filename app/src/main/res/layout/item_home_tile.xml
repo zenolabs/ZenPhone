@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Zenolabs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!--
+  One tile in the home grid. The same FirstPageAppIcon the static rows used, so the inside of
+  a tile - icon, label, notification badge - stays exactly as it was; only who decides its
+  position has changed. Size is set by the adapter, which divides the grid by the number of
+  rows rather than letting each tile claim its natural height.
+-->
+<com.bald.uriah.baldphone.views.FirstPageAppIcon
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@drawable/bg_tile_green"
+    android:foreground="@drawable/fg_home_button"
+    android:gravity="center"
+    android:padding="@dimen/about_section_padding" />

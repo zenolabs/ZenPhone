@@ -32,12 +32,16 @@ import androidx.annotation.Nullable;
 
 import com.bald.uriah.baldphone.R;
 
-import static com.bald.uriah.baldphone.activities.SettingsActivity.FONT_SIZES;
 
 import app.baldphone.neo.permissions.PermissionManager;
 
 public class FontChangerActivity extends BaldActivity {
     private static final String TAG = FontChangerActivity.class.getSimpleName();
+    /**
+     * Text scale factors offered by the slider. This used to live in the old settings screen,
+     * which no longer exists; this is its only consumer.
+     */
+    public static final float[] FONT_SIZES = new float[]{0.8f, 0.9f, 1.0f, 1.1f, 1.3f, 1.5f, 1.7f};
     private static final int[] STRING_RES = new int[]{R.string.tiny, R.string.small, R.string.medium, R.string.large, R.string.huge};
     private static final int[] SIZES_RES = new int[]{R.dimen.tiny, R.dimen.small, R.dimen.medium, R.dimen.large, R.dimen.huge};
     private LinearLayout example;

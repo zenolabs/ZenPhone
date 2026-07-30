@@ -3,7 +3,13 @@ package app.baldphone.neo.settings
 import androidx.annotation.StringRes
 
 sealed class SettingId {
+    object Accessibility : SettingId()
+
+    object Appearance : SettingId()
+
     object Calls : SettingId()
+
+    object Feedback : SettingId()
 
     object Help : SettingId()
 

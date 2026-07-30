@@ -39,7 +39,7 @@ import app.baldphone.neo.launcher.apps.ui.AppsActivity;
 
 import com.bald.uriah.baldphone.R;
 import com.bald.uriah.baldphone.activities.HomeScreenActivity;
-import com.bald.uriah.baldphone.activities.SettingsActivity;
+import app.baldphone.neo.settings.ui.SettingsActivity;
 import com.bald.uriah.baldphone.activities.alarms.AlarmsActivity;
 import com.bald.uriah.baldphone.activities.pills.PillsActivity;
 import com.bald.uriah.baldphone.utils.BaldToast;

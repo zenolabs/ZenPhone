@@ -6,13 +6,19 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="app.baldphone.neo.settings.ui.SettingsFragment"
-        android:label="@string/neo_settings">
+        android:label="@string/settings">
         <action
             android:id="@+id/action_settings_to_calls"
             app:destination="@id/callsSettingsFragment" />
         <action
             android:id="@+id/action_settings_to_home"
             app:destination="@id/homeSettingsFragment" />
+        <action
+            android:id="@+id/action_settings_to_appearance"
+            app:destination="@id/appearanceSettingsFragment" />
+        <action
+            android:id="@+id/action_settings_to_accessibility"
+            app:destination="@id/accessibilitySettingsFragment" />
         <action
             android:id="@+id/action_settings_to_system"
             app:destination="@id/systemSettingsFragment" />
@@ -32,6 +38,18 @@
         android:id="@+id/homeSettingsFragment"
         android:name="app.baldphone.neo.settings.home.HomeSettingsFragment"
         android:label="@string/settings_home_screen" />
+
+    <!-- APPEARANCE -->
+    <fragment
+        android:id="@+id/appearanceSettingsFragment"
+        android:name="app.baldphone.neo.settings.appearance.AppearanceSettingsFragment"
+        android:label="@string/settings_appearance" />
+
+    <!-- ACCESSIBILITY -->
+    <fragment
+        android:id="@+id/accessibilitySettingsFragment"
+        android:name="app.baldphone.neo.settings.accessibility.AccessibilitySettingsFragment"
+        android:label="@string/accessibility_settings" />
 
     <!-- SYSTEM -->
     <fragment

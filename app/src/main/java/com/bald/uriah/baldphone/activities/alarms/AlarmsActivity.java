@@ -250,6 +250,11 @@ public class AlarmsActivity extends com.bald.uriah.baldphone.activities.BaldActi
                 );
                 bt_delete.setOnClickListener((v) ->
                         S.showAreYouSureYouWantToDelete(alarm.getName(), AlarmsActivity.this, () -> {
+                            // Called off before the row goes, and in that order: the row is the
+                            // only record of the alarm's key, and without the key the schedule
+                            // cannot be reached again. Deleting first leaves an alarm that
+                            // nothing can see and nothing can stop, which still rings.
+                            AlarmScheduler.cancelAlarm(alarm.getKey(), AlarmsActivity.this);
                             AlarmsDatabase.getInstance(AlarmsActivity.this)
                                     .alarmsDatabaseDao().deleteByIds(alarm.getKey());
                             AlarmsActivity.this.refreshViews();

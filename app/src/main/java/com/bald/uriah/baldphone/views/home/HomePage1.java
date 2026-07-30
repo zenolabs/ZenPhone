@@ -108,6 +108,7 @@ public class HomePage1 extends HomeView {
      * initialised inline would still be null by the time the grid is built.
      */
     private Map<HomeTile, FirstPageAppIcon> tileViews;
+    private View notificationsArea;
     private BatteryIconView homeBattery;
     private TextView homeBatteryPercent;
     private View homeBatteryBlock;
@@ -183,6 +184,7 @@ public class HomePage1 extends HomeView {
 
     private void initViews(View rootView) {
         tilesGrid = rootView.findViewById(R.id.tiles_grid);
+        notificationsArea = rootView.findViewById(R.id.notifications_area);
         homeBattery = rootView.findViewById(R.id.home_battery);
         homeBatteryPercent = rootView.findViewById(R.id.home_battery_percent);
         homeBatteryBlock = rootView.findViewById(R.id.home_battery_block);
@@ -371,7 +373,17 @@ public class HomePage1 extends HomeView {
         // defaults would come back as though the request had been ignored. Said now, by not
         // offering removal at all, rather than by refusing it once the tile has been dropped.
         final boolean removable = tilesAdapter != null && tilesAdapter.getItemCount() > 1;
+        // The bar takes the clock's place, so the clock steps aside - but only when there is
+        // going to be a bar. Invisible rather than gone: gone would give its height back to the
+        // grid, every tile would be re-measured mid-drag, and the one in hand would jump.
+        if (removable) setNotificationsAreaShown(false);
         tileDragListener.onTileDragStarted(removable);
+    }
+
+    private void setNotificationsAreaShown(boolean shown) {
+        if (notificationsArea != null) {
+            notificationsArea.setVisibility(shown ? VISIBLE : INVISIBLE);
+        }
     }
 
     /**
@@ -407,6 +419,9 @@ public class HomePage1 extends HomeView {
 
     private void onTileDropped(int position) {
         final boolean remove = isDropOnRemovalTarget();
+        // Restored unconditionally: whether it was ever hidden or not, this is where the clock
+        // belongs once nothing is in the air.
+        setNotificationsAreaShown(true);
         if (tileDragListener != null) {
             tileDragListener.onTileDragEnded();
         }

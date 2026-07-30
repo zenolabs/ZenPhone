@@ -27,25 +27,31 @@
         android:backgroundTint="@color/color_1"
         app:title="@string/edit_home_screen" />
 
+    <!--
+      Nothing down this branch clips its children, so that a tile being carried can be seen
+      outside the grid it came from. Every ancestor has to agree: one that still clips cuts
+      the tile off at its own edge, however permissive the others are.
+    -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:clipChildren="false">
 
         <com.bald.uriah.baldphone.views.home.HomePage1
             android:id="@+id/home_page_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipChildren="false" />
 
         <!--
           Where a tile is dropped to be got rid of. Hidden until something is being carried:
           a permanent bin invites the question of what it is for, whereas one that appears
           the moment a tile leaves the ground answers it.
 
-          It lies over the top row rather than beside the grid, because the tile cannot be
-          dragged outside the grid's own bounds - it would simply be clipped - so the target
-          has to be somewhere the tile can actually reach.
+          It sits above the grid, over the clock, which is where there is room for it. The
+          tile can be carried up to it because nothing in between clips any more.
         -->
         <LinearLayout
             android:id="@+id/tile_removal_target"

@@ -128,7 +128,13 @@ public class Page1EditorActivity extends BaldActivity implements HomePage1.TileD
     }
 
     /**
-     * Whether a point on the screen falls inside the removal bar.
+     * Whether a point on the screen counts as being on the removal bar.
+     * <p>
+     * Anything at or above the bar's lower edge counts, not only the band the bar itself
+     * occupies. Someone with an unsteady hand should not have to land a tile inside a strip a
+     * finger's width tall, and there is nothing above the bar to confuse it with. The grid
+     * starts below the bar, so a tile being carried to the first row cannot reach this by
+     * accident.
      * <p>
      * Asked of the bar's position now rather than one remembered from when it appeared, since
      * it grows while armed and its edges move with it.
@@ -139,7 +145,6 @@ public class Page1EditorActivity extends BaldActivity implements HomePage1.TileD
         removalTarget.getLocationOnScreen(onScreen);
         return screenX >= onScreen[0]
                 && screenX <= onScreen[0] + removalTarget.getWidth()
-                && screenY >= onScreen[1]
                 && screenY <= onScreen[1] + removalTarget.getHeight();
     }
 

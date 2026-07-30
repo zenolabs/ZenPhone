@@ -35,6 +35,21 @@ class TopBarPreviewAdapter : RecyclerView.Adapter<TopBarPreviewAdapter.SlotViewH
 
     private val items = mutableListOf<TopBarItem>()
 
+    /**
+     * Width of one slot in pixels, or zero while it is still unknown.
+     *
+     * The real bar hands each item an equal share of the screen, so the preview does too;
+     * fixed-width slots left a gap at the right that read as room for one more. Supplied from
+     * outside once the strip has been measured, because working it out during binding means
+     * measuring inside a measure pass.
+     */
+    var slotWidth: Int = 0
+        set(value) {
+            if (field == value || value <= 0) return
+            field = value
+            notifyItemRangeChanged(0, items.size)
+        }
+
     fun submit(newItems: List<TopBarItem>) {
         items.clear()
         items.addAll(newItems)
@@ -60,12 +75,21 @@ class TopBarPreviewAdapter : RecyclerView.Adapter<TopBarPreviewAdapter.SlotViewH
             LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.item_top_bar_preview, parent, false) as ImageView,
-        )
+        ).also { applyWidth(it.icon) }
 
     override fun onBindViewHolder(holder: SlotViewHolder, position: Int) {
         val item = items[position]
+        applyWidth(holder.icon)
         holder.icon.setImageResource(item.iconRes)
         holder.icon.contentDescription = holder.icon.context.getString(item.labelRes)
+    }
+
+    private fun applyWidth(view: ImageView) {
+        if (slotWidth <= 0) return
+        val params = view.layoutParams ?: return
+        if (params.width == slotWidth) return
+        params.width = slotWidth
+        view.layoutParams = params
     }
 
     class SlotViewHolder(val icon: ImageView) : RecyclerView.ViewHolder(icon)

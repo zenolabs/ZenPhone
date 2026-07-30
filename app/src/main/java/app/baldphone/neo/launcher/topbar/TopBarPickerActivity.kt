@@ -75,6 +75,11 @@ class TopBarPickerActivity : BaseActivity() {
         strip.adapter = preview
         preview.submit(chosen)
 
+        // Taken once the strip has been measured and again whenever its size changes, since the
+        // share each slot gets depends on how many there are and that changes as switches are
+        // turned on and off.
+        strip.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> updateSlotWidth(strip) }
+
         // Sideways only: the strip is one row and there is nowhere above or below to go.
         ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -133,7 +138,21 @@ class TopBarPickerActivity : BaseActivity() {
             if (wanted) chosen.add(item) else chosen.remove(item)
             TopBarItem.saveOrder(chosen)
             preview.submit(chosen)
+            updateSlotWidth(findViewById(R.id.top_bar_preview))
         }
+    }
+
+    /**
+     * Divides the strip between however many icons are in it.
+     *
+     * Always posted, never applied on the spot: this is reached from a layout callback, and
+     * telling a RecyclerView its items changed while it is laying out throws.
+     */
+    private fun updateSlotWidth(strip: RecyclerView) {
+        val available = strip.width - strip.paddingStart - strip.paddingEnd
+        val count = chosen.size
+        if (available <= 0 || count <= 0) return
+        strip.post { preview.slotWidth = available / count }
     }
 
     /**

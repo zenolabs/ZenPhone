@@ -37,6 +37,12 @@
             android:layout_height="80dp" />
 
         <include
+            android:id="@+id/row_choose_top_bar"
+            layout="@layout/item_setting"
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+        <include
             android:id="@+id/row_pill_times"
             layout="@layout/item_setting"
             android:layout_width="match_parent"

@@ -311,6 +311,10 @@
             android:name="app.baldphone.neo.launcher.home.HomeTilePickerActivity"
             android:exported="false"
             android:label="@string/choose_tiles" />
+        <activity
+            android:name="app.baldphone.neo.launcher.topbar.TopBarPickerActivity"
+            android:exported="false"
+            android:label="@string/choose_top_bar" />
 
         <service
             android:name=".keyboard.BaldInputMethodService"

@@ -22,6 +22,7 @@ import android.view.View
 
 import app.baldphone.neo.data.Prefs
 import app.baldphone.neo.data.StatusBarMode
+import app.baldphone.neo.launcher.topbar.TopBarPickerActivity
 import app.baldphone.neo.settings.BaseSettingsFragment
 import app.baldphone.neo.settings.SettingsRows
 
@@ -58,6 +59,15 @@ class HomeSettingsFragment : BaseSettingsFragment(R.layout.fragment_home_setting
             iconRes = R.drawable.ic_tabler_pencil,
         ) {
             startActivity(Intent(requireContext(), Page1EditorActivity::class.java))
+        }
+
+        SettingsRows.bindAction(
+            row = view.findViewById(R.id.row_choose_top_bar),
+            titleRes = R.string.choose_top_bar,
+            subtitleRes = R.string.choose_top_bar_subtext,
+            iconRes = R.drawable.ic_tabler_layout_navbar,
+        ) {
+            startActivity(Intent(requireContext(), TopBarPickerActivity::class.java))
         }
 
         SettingsRows.bindAction(

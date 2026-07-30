@@ -52,7 +52,7 @@ object NotificationRepository {
      * Updates the repository with a new list of active notifications.
      */
     fun update(list: List<StatusBarNotification>) {
-        _notifications.value = list.filter { sbn -> NotificationClassifier.shouldShow(sbn) }
+        _notifications.value = NotificationClassifier.keepWorthShowing(list)
     }
 
     // Helpers to cancel notification(s) via the service.

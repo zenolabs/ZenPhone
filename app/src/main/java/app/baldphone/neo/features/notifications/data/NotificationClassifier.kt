@@ -85,13 +85,34 @@ object NotificationClassifier {
     }
 
     /**
-     * Determines whether a notification should be included in the repository.
+     * Keeps the notifications worth putting in front of someone, out of everything on the phone.
+     *
+     * A group summary is a heading for the notifications under it - "3 new messages" standing
+     * over the three - so showing it alongside them says everything twice. Dropping every
+     * summary is not the same thing, though, and was the mistake here: an app that posts a
+     * summary over a group of one, which messaging apps commonly do, had its notification
+     * thrown away with nothing left to take its place. Missed calls survived only because the
+     * dialer posts them singly, with no summary at all.
+     *
+     * So a summary goes only when the notifications it stands over are here to speak for
+     * themselves. This has to look at the whole list at once, which is why it is not a question
+     * that can be asked of one notification on its own.
      */
-    fun shouldShow(sbn: StatusBarNotification): Boolean {
-        val notification = sbn.notification ?: return false
+    fun keepWorthShowing(all: List<StatusBarNotification>): List<StatusBarNotification> {
+        val groupsWithChildren =
+            all
+                .filter { it.notification != null && !it.isGroupSummary() }
+                .map { it.groupKey }
+                .toSet()
 
-        return notification.flags and Notification.FLAG_GROUP_SUMMARY == 0
+        return all.filter { sbn ->
+            if (sbn.notification == null) return@filter false
+            !sbn.isGroupSummary() || sbn.groupKey !in groupsWithChildren
+        }
     }
+
+    private fun StatusBarNotification.isGroupSummary(): Boolean =
+        (notification.flags and Notification.FLAG_GROUP_SUMMARY) != 0
 
     /**
      * Checks if the given package name belongs to a dialer application.

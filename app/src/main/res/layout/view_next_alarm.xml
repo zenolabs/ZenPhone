@@ -27,8 +27,8 @@
 
     <ImageView
         android:id="@+id/next_alarm_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/clock_secondary_icon_size"
+        android:layout_height="@dimen/clock_secondary_icon_size"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_tabler_alarm"
         android:tint="?attr/bald_text_on_background" />
@@ -42,7 +42,7 @@
         android:importantForAccessibility="no"
         android:maxLines="1"
         android:textColor="?bald_text_on_background"
-        android:textSize="26sp"
+        android:textSize="@dimen/clock_secondary_text_size"
         tools:text="07:30" />
 
 </merge>

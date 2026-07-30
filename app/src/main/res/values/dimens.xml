@@ -41,6 +41,16 @@
       one without the other and the label drifts towards an edge again.
     -->
     <dimen name="tile_icon_padding">6dp</dimen>
+
+    <!--
+      The clock block. Everything under the hour - the date, and the next alarm beside it - is
+      one size, because they are read as one line of small print and a difference between them
+      reads as one of them being more important. The landscape values are smaller: the block
+      competes with the tiles for height there, and every point it takes is taken from them.
+    -->
+    <dimen name="clock_hour_text_size">84sp</dimen>
+    <dimen name="clock_secondary_text_size">26sp</dimen>
+    <dimen name="clock_secondary_icon_size">30dp</dimen>
     <dimen name="padding_dividers">14dp</dimen>
     <dimen name="divider">2dp</dimen>
     <dimen name="key_radius">7dp</dimen>

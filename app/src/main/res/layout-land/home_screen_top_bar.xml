@@ -15,11 +15,19 @@
   ~ limitations under the License.
   -->
 
-<!-- The portrait bar stood on its end. See that file for what this is. -->
+<!--
+  The portrait bar stood on its end. See that file for what this is.
+
+  The top padding is the bar's own, and the window insets are added on top of it rather than
+  replacing it. Without it the first icon began exactly where the status bar ended, close
+  enough to the system clock to read as part of it - which cannot happen in portrait, where
+  the bar runs across the screen and no icon sits against the top edge.
+-->
 <app.baldphone.neo.launcher.topbar.TopBarView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/top_bar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_screen_top_bar_background"
-    android:orientation="vertical" />
+    android:orientation="vertical"
+    android:paddingTop="10dp" />

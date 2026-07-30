@@ -39,39 +39,44 @@
     android:paddingHorizontal="4dp"
     android:paddingVertical="6dp">
 
+    <TextClock
+        android:id="@+id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:format12Hour="h:mm a"
+        android:format24Hour="HH:mm"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:textColor="?bald_text_on_background"
+        android:textSize="@dimen/clock_hour_text_size" />
+
+    <!--
+      Beside the hour rather than beneath it. Both lines together are shorter than the hour is
+      tall, so putting them alongside costs the block no height at all, and height is the one
+      thing there is none of when the phone is on its side - whatever this takes comes off the
+      tiles. Sideways there is width going spare instead, which is what this spends.
+    -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="14dp"
+        android:gravity="start"
         android:orientation="vertical">
-
-        <TextClock
-            android:id="@+id/clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:format12Hour="h:mm a"
-            android:format24Hour="HH:mm"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:textColor="?bald_text_on_background"
-            android:textSize="56sp" />
 
         <TextClock
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:format12Hour="EEEE, dd MMM"
             android:format24Hour="EEEE, dd MMM"
-            android:gravity="center"
             android:maxLines="1"
             android:maxWidth="260dp"
             android:textColor="?bald_text_on_background"
-            android:textSize="20sp" />
+            android:textSize="@dimen/clock_secondary_text_size" />
 
         <app.baldphone.neo.launcher.ui.NextAlarmView
             android:id="@+id/next_alarm"
@@ -81,25 +86,28 @@
             android:importantForAccessibility="yes" />
     </LinearLayout>
 
+    <!-- Side by side for the same reason as the date: standing the two on top of each other
+         made this the tallest thing in the block, and height is what is scarce here. -->
     <LinearLayout
         android:id="@+id/home_battery_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:gravity="center"
+        android:layout_marginStart="20dp"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
         android:importantForAccessibility="yes"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <app.baldphone.neo.launcher.ui.BatteryIconView
             android:id="@+id/home_battery"
-            android:layout_width="52dp"
-            android:layout_height="52dp" />
+            android:layout_width="44dp"
+            android:layout_height="44dp" />
 
         <TextView
             android:id="@+id/home_battery_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="4dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:importantForAccessibility="no"

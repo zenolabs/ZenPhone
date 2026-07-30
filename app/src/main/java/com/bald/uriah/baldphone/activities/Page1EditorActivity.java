@@ -123,6 +123,19 @@ public class Page1EditorActivity extends BaldActivity implements HomePage1.TileD
     public boolean onTileDropped(int screenX, int screenY) {
         final boolean remove =
                 removalTarget.getVisibility() == View.VISIBLE && isOverTarget(screenX, screenY);
+
+        // TEMPORARY - remove once the removal bar is known to work.
+        final int[] onScreen = new int[2];
+        removalTarget.getLocationOnScreen(onScreen);
+        android.util.Log.e(
+                "ZenDrag",
+                "bar visible=" + (removalTarget.getVisibility() == View.VISIBLE)
+                        + " x=" + onScreen[0] + ".." + (onScreen[0] + removalTarget.getWidth())
+                        + " yTop=" + onScreen[1]
+                        + " yBottom=" + (onScreen[1] + removalTarget.getHeight())
+                        + " | drop x=" + screenX + " y=" + screenY
+                        + " -> remove=" + remove);
+
         hideRemovalTarget();
         return remove;
     }

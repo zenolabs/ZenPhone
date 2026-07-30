@@ -94,13 +94,25 @@ enum class TopBarItem(
         @JvmStatic
         fun savedOrder(): List<TopBarItem> {
             val saved = Prefs.topBarOrder.mapNotNull(::fromId).take(MAX_ITEMS)
-            return saved.ifEmpty { DEFAULT_ORDER }
+            return saved.ifEmpty { DEFAULT_ORDER }.inCatalogueOrder()
         }
 
         @JvmStatic
         fun saveOrder(items: List<TopBarItem>) {
-            Prefs.topBarOrder = items.map(TopBarItem::id)
+            Prefs.topBarOrder = items.inCatalogueOrder().map(TopBarItem::id)
         }
+
+        /**
+         * Left to right in the order they are declared here, which is the order the settings
+         * list shows them in.
+         *
+         * They used to appear in the order their switches had been turned on, which is a
+         * history nobody can see and nobody can predict. The tiles get away with that because
+         * they can be dragged into place afterwards; the bar cannot be rearranged at all, so
+         * the only order it can have is one that explains itself. "The order in the list is
+         * the order on the bar" is a rule that can be worked out by looking.
+         */
+        private fun List<TopBarItem>.inCatalogueOrder(): List<TopBarItem> = sortedBy { it.ordinal }
 
         /**
          * What the bar has shown since before it could be changed, left to right.

@@ -1,0 +1,38 @@
+# Line endings
+#
+# Without this file the endings a file gets depend on whoever checked it out, so
+# an editor rewriting them turns every file in the repository into a change and
+# git status stops being readable. Text is stored with LF and checked out with
+# LF everywhere; the two exceptions below need the opposite.
+
+* text=auto eol=lf
+
+# Windows batch files are read by cmd.exe, which wants CRLF.
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# The Gradle wrapper script is run by sh and must keep LF even on Windows.
+gradlew text eol=lf
+
+# Binary, never touched
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.jar   binary
+*.aar   binary
+*.keystore binary
+*.jks   binary
+*.ttf   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary
+*.mp3   binary
+*.mp4   binary
+*.ogg   binary
+*.wav   binary
+*.zip   binary
+*.apk   binary
+*.aab   binary

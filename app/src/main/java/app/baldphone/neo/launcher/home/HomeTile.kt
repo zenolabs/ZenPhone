@@ -19,6 +19,8 @@ package app.baldphone.neo.launcher.home
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
+import app.baldphone.neo.data.Prefs
+
 import com.bald.uriah.baldphone.R
 import com.bald.uriah.baldphone.utils.BPrefs
 
@@ -87,7 +89,36 @@ enum class HomeTile(
     companion object {
         private val byId = entries.associateBy(HomeTile::id)
 
+        /**
+         * The most tiles the home screen will hold: four rows of three, which is what the old
+         * fourth-row setting allowed at its largest.
+         *
+         * A limit is needed because the grid divides the height it has by the number of rows,
+         * so every tile added makes all of them smaller. On a launcher built for people who do
+         * not see well, that trade runs out well before the catalogue does.
+         */
+        const val MAX_TILES = 12
+
         fun fromId(id: String): HomeTile? = byId[id]
+
+        /**
+         * The tiles the home screen should show, in order.
+         *
+         * Ids that mean nothing here are dropped rather than treated as an error: they belong
+         * to a version that knew about a tile this one does not. An empty result means the
+         * layout has never been configured, and the defaults stand in.
+         */
+        @JvmStatic
+        fun savedOrder(): List<HomeTile> {
+            val saved = Prefs.homeTileOrder.mapNotNull(::fromId)
+            return saved.ifEmpty { DEFAULT_ORDER }
+        }
+
+        /** Writes [tiles] back as the saved order. */
+        @JvmStatic
+        fun saveOrder(tiles: List<HomeTile>) {
+            Prefs.homeTileOrder = tiles.map(HomeTile::id)
+        }
 
         /**
          * What a fresh installation shows: the nine tiles of the old first page, in the order

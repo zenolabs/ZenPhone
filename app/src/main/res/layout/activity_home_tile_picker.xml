@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2019 Uriah Shaul Mandel
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Zenolabs
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -25,25 +26,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/color_1"
-        app:title="@string/edit_home_screen" />
-
-    <com.bald.uriah.baldphone.views.home.HomePage1
-        android:id="@+id/home_page_1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1" />
+        app:title="@string/choose_tiles" />
 
     <!--
-      Adding and removing tiles happens on its own screen: there are seventeen to choose from
-      and no room for them here. It sits under the grid rather than in the title bar because
-      it is a second thing to do to the same home screen, not a way out of this one.
+      One row per tile in the catalogue, added from code: the list is the enum, and repeating
+      it here would mean a tile could be added to one and forgotten in the other.
     -->
-    <include
-        android:id="@+id/row_choose_tiles"
-        layout="@layout/item_setting"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/tile_rows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </LinearLayout>

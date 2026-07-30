@@ -118,17 +118,6 @@ object Prefs {
     // Home screen related preferences.
 
     /**
-     * Shows a fourth row of tiles on the home screen, for medication reminders, the app
-     * drawer and alarms. Off by default: nine tiles is what an existing user expects to
-     * find, and a home screen that grows on its own is disorienting.
-     */
-    @get:JvmStatic
-    var isFourthHomeRowEnabled: Boolean by booleanPref(
-        PrefKeys.KEY_FOURTH_HOME_ROW,
-        false,
-    )
-
-    /**
      * Which tiles the home screen shows, in order, as a list of
      * [app.baldphone.neo.launcher.home.HomeTile] ids.
      *

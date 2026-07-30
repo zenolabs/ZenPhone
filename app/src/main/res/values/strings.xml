@@ -52,8 +52,10 @@
     <string name="battery_percentage_short" translatable="false">%1$d%%</string>
     <string name="settings_home_screen">Home screen</string>
     <string name="settings_appearance">Appearance and text</string>
-    <string name="settings_fourth_row">Fourth row of tiles</string>
-    <string name="settings_fourth_row_subtext">Adds medication, apps and alarms</string>
+    <string name="choose_tiles">Choose tiles</string>
+    <string name="choose_tiles_subtext">Which tiles the home screen shows</string>
+    <string name="tile_limit_reached">The home screen holds twelve tiles at most</string>
+    <string name="tile_last_one">At least one tile has to stay</string>
 
     <string name="alarms_repeats_every">Alarm repeats every</string>
     <string name="all_alarms">All Alarms</string>

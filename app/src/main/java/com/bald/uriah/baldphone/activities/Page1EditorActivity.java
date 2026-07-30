@@ -22,19 +22,35 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import app.baldphone.neo.launcher.apps.ui.AppsActivity;
+import app.baldphone.neo.launcher.home.HomeTilePickerActivity;
+import app.baldphone.neo.settings.SettingsRows;
 
 import com.bald.uriah.baldphone.R;
 import com.bald.uriah.baldphone.utils.BPrefs;
 import com.bald.uriah.baldphone.utils.BaldPrefsUtils;
+import com.bald.uriah.baldphone.views.home.HomePage1;
 
 public class Page1EditorActivity extends BaldActivity {
     public BaldPrefsUtils baldPrefsUtils;
+    private HomePage1 homePage1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_1_editor);
         baldPrefsUtils = BaldPrefsUtils.newInstance(this);
+        homePage1 = findViewById(R.id.home_page_1);
+
+        // INSTANCE because SettingsRows is a Kotlin object and this activity is still Java.
+        SettingsRows.INSTANCE.bindAction(
+                findViewById(R.id.row_choose_tiles),
+                R.string.choose_tiles,
+                R.drawable.ic_tabler_layout_grid,
+                R.string.choose_tiles_subtext,
+                () -> {
+                    startActivity(new Intent(this, HomeTilePickerActivity.class));
+                    return kotlin.Unit.INSTANCE;
+                });
     }
 
     @Override
@@ -42,6 +58,12 @@ public class Page1EditorActivity extends BaldActivity {
         super.onResume();
         if (baldPrefsUtils.hasChanged(this)) {
             recreate();
+            return;
+        }
+        // Tiles may have been added or removed next door, and the grid is drawn from the saved
+        // order, so it is asked to read it again rather than being told what changed.
+        if (homePage1 != null) {
+            homePage1.refreshTiles();
         }
     }
 

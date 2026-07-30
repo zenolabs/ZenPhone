@@ -49,7 +49,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import app.baldphone.neo.activities.DialerActivity;
 import app.baldphone.neo.battery.BatteryRepository;
-import app.baldphone.neo.data.Prefs;
 import app.baldphone.neo.launcher.ui.BatteryIconView;
 import app.baldphone.neo.features.calls.ui.RecentCallsActivity;
 import app.baldphone.neo.features.contacts.ui.ContactsActivity;
@@ -80,8 +79,6 @@ import com.bald.uriah.baldphone.utils.BaldToast;
 import com.bald.uriah.baldphone.utils.S;
 import com.bald.uriah.baldphone.views.FirstPageAppIcon;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -275,11 +272,17 @@ public class HomePage1 extends HomeView {
      */
     private void persistTileOrder() {
         if (tilesAdapter == null) return;
-        final List<String> ids = new ArrayList<>();
-        for (HomeTile tile : tilesAdapter.currentTiles()) {
-            ids.add(tile.getId());
-        }
-        Prefs.setHomeTileOrder(ids);
+        HomeTile.saveOrder(tilesAdapter.currentTiles());
+    }
+
+    /**
+     * Draws the grid again from whatever is saved now.
+     * <p>
+     * For the editor to call when it has changed which tiles there are, which it does on its own
+     * screen rather than on this one.
+     */
+    public void refreshTiles() {
+        submitTiles();
     }
 
     /**
@@ -317,17 +320,8 @@ public class HomePage1 extends HomeView {
             return;
         }
 
-        final List<HomeTile> tiles = new ArrayList<>();
-        for (String id : Prefs.getHomeTileOrder()) {
-            final HomeTile tile = HomeTile.Companion.fromId(id);
-            // Unknown ids are dropped rather than crashing: they belong to a version that knew
-            // about a tile this one does not.
-            if (tile != null) tiles.add(tile);
-        }
-        if (tiles.isEmpty()) tiles.addAll(HomeTile.Companion.getDEFAULT_ORDER());
-
         tileViews.clear();
-        tilesAdapter.submit(tiles, COLUMNS);
+        tilesAdapter.submit(HomeTile.savedOrder(), COLUMNS);
 
         // The row count may have changed even though the grid's own height has not, so the
         // height is recomputed here as well as from the layout callback.

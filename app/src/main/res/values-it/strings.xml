@@ -47,8 +47,10 @@
     <string name="settings_appearance">Aspetto e testo</string>
     <string name="settings_section_calls">Chiamate e suoni</string>
     <string name="settings_system">Sistema e connessione</string>
-    <string name="settings_fourth_row">Quarta riga di tessere</string>
-    <string name="settings_fourth_row_subtext">Aggiunge pillole, app e sveglie</string>
+    <string name="choose_tiles">Scegli le tessere</string>
+    <string name="choose_tiles_subtext">Quali tessere appaiono sulla home</string>
+    <string name="tile_limit_reached">La schermata home tiene al massimo dodici tessere</string>
+    <string name="tile_last_one">Deve restare almeno una tessera</string>
 
     <string name="alarms_repeats_every">Si ripete ogni</string>
     <string name="all_alarms">tutte le sveglie</string>

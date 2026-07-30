@@ -39,7 +39,6 @@ object PrefKeys {
     const val KEY_USE_ACCIDENTAL_GUARD = "USE_ACCIDENTAL_GUARD_KEY"
 
     // Home screen
-    const val KEY_FOURTH_HOME_ROW = "fourth_home_row"
     const val KEY_HOME_TILE_ORDER = "home_tile_order"
     const val KEY_HOME_LAYOUT_LOCKED = "home_layout_locked"
 

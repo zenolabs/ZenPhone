@@ -140,6 +140,27 @@ object Prefs {
         }
 
     /**
+     * Which indicators the strip along the top of the home screen shows, in order, as
+     * [app.baldphone.neo.launcher.topbar.TopBarItem] ids.
+     *
+     * Held as ids for the same reasons as [homeTileOrder]: this layer stays unaware of the
+     * catalogue, and an id written by a newer version does no harm when read by an older one.
+     *
+     * An empty list means "never configured", and the four the bar has always had stand in.
+     */
+    @JvmStatic
+    var topBarOrder: List<String>
+        get() =
+            prefs
+                .getString(PrefKeys.KEY_TOP_BAR_ORDER, "")
+                .orEmpty()
+                .split(',')
+                .filter { it.isNotBlank() }
+        set(order) {
+            prefs.edit { putString(PrefKeys.KEY_TOP_BAR_ORDER, order.joinToString(",")) }
+        }
+
+    /**
      * Freezes the home screen layout.
      *
      * This launcher is meant to be set up by someone more confident with a phone and then

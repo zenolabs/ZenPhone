@@ -57,6 +57,30 @@
     <string name="wifi_on_not_connected_accessibility">Wi-Fi acceso, non collegato</string>
     <string name="wifi_connected_accessibility">Wi-Fi collegato</string>
 
+    <string name="choose_top_bar">Scegli le icone in alto</string>
+    <string name="choose_top_bar_subtext">Quali quattro appaiono sopra l\'orologio</string>
+    <string name="top_bar_limit_reached">La barra in alto tiene al massimo quattro icone</string>
+    <string name="top_bar_last_one">Deve restare almeno un\'icona</string>
+
+    <string name="top_bar_wifi">Wi-Fi</string>
+    <string name="top_bar_wifi_subtext">Se il telefono è collegato al Wi-Fi</string>
+    <string name="top_bar_mobile_signal">Segnale telefonico</string>
+    <string name="top_bar_mobile_signal_subtext">Quanto campo c\'è</string>
+    <string name="top_bar_flashlight">Torcia</string>
+    <string name="top_bar_flashlight_subtext">Accende e spegne la torcia</string>
+    <string name="top_bar_sound">Suoneria</string>
+    <string name="top_bar_sound_subtext">Suoneria e silenzioso</string>
+    <string name="top_bar_brightness">Luminosità</string>
+    <string name="top_bar_brightness_subtext">Luminosità dello schermo</string>
+    <string name="top_bar_notifications">Notifiche</string>
+    <string name="top_bar_notifications_subtext">Messaggi nuovi e chiamate perse</string>
+    <string name="top_bar_sos">Emergenza</string>
+    <string name="top_bar_sos_subtext">Apre la schermata dei contatti di emergenza</string>
+
+    <string name="signal_none_accessibility">Nessun segnale</string>
+    <string name="signal_level_accessibility">Segnale %1$d su 4</string>
+    <string name="signal_unknown_accessibility">Segnale sconosciuto, permesso negato</string>
+
     <string name="alarms_repeats_every">Si ripete ogni</string>
     <string name="all_alarms">tutte le sveglie</string>
     <string name="allow">Consenti</string>

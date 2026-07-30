@@ -62,6 +62,30 @@
     <string name="wifi_on_not_connected_accessibility">Wi-Fi on, not connected</string>
     <string name="wifi_connected_accessibility">Wi-Fi connected</string>
 
+    <string name="choose_top_bar">Choose top bar icons</string>
+    <string name="choose_top_bar_subtext">Which four appear above the clock</string>
+    <string name="top_bar_limit_reached">The top bar holds four icons at most</string>
+    <string name="top_bar_last_one">At least one icon has to stay</string>
+
+    <string name="top_bar_wifi">Wi-Fi</string>
+    <string name="top_bar_wifi_subtext">Whether the phone is on Wi-Fi</string>
+    <string name="top_bar_mobile_signal">Mobile signal</string>
+    <string name="top_bar_mobile_signal_subtext">How much reception there is</string>
+    <string name="top_bar_flashlight">Torch</string>
+    <string name="top_bar_flashlight_subtext">Turns the torch on and off</string>
+    <string name="top_bar_sound">Sound</string>
+    <string name="top_bar_sound_subtext">Ringer and silent mode</string>
+    <string name="top_bar_brightness">Brightness</string>
+    <string name="top_bar_brightness_subtext">Screen brightness</string>
+    <string name="top_bar_notifications">Notifications</string>
+    <string name="top_bar_notifications_subtext">New messages and missed calls</string>
+    <string name="top_bar_sos">Emergency</string>
+    <string name="top_bar_sos_subtext">Opens the emergency contacts screen</string>
+
+    <string name="signal_none_accessibility">No signal</string>
+    <string name="signal_level_accessibility">Signal %1$d of 4</string>
+    <string name="signal_unknown_accessibility">Signal unknown, permission refused</string>
+
     <string name="alarms_repeats_every">Alarm repeats every</string>
     <string name="all_alarms">All Alarms</string>
     <string name="allow">Allow</string>

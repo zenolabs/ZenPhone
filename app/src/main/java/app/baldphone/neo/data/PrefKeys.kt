@@ -40,6 +40,7 @@ object PrefKeys {
 
     // Home screen
     const val KEY_HOME_TILE_ORDER = "home_tile_order"
+    const val KEY_TOP_BAR_ORDER = "top_bar_order"
     const val KEY_HOME_LAYOUT_LOCKED = "home_layout_locked"
 
     // Shares the legacy key so both settings trees read the same value while they coexist.

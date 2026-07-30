@@ -27,6 +27,10 @@
     <dimen name="recycler_view_margin_left_size">80dp</dimen>
     <dimen name="recycler_view_margin_right_size">10dp</dimen>
     <dimen name="home_screen_padding">10dp</dimen>
+
+    <!-- The top bar builds itself, so its measurements live here rather than in a layout. -->
+    <dimen name="top_bar_height">70dp</dimen>
+    <dimen name="top_bar_icon_padding">6dp</dimen>
     <dimen name="padding_dividers">14dp</dimen>
     <dimen name="divider">2dp</dimen>
     <dimen name="key_radius">7dp</dimen>

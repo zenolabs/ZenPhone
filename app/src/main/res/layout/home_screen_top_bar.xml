@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019 Uriah Shaul Mandel
+  ~ Copyright 2026 Zenolabs
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,80 +15,17 @@
   ~ limitations under the License.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!--
+  Empty on purpose. What goes in the bar is chosen in the settings and filled in by TopBarView,
+  so this file only says where the bar is and which way it runs; the landscape copy differs
+  from this one in the orientation and nothing else.
+-->
+<app.baldphone.neo.launcher.topbar.TopBarView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/top_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/home_screen_top_bar_background"
-    android:paddingHorizontal="@dimen/home_screen_padding"
-    android:elevation="8dp">
-
-    <!--
-      The battery used to sit here and also beside the clock, saying the same thing twice.
-      What is here now is the one thing the clock cannot report: whether the phone can reach
-      the internet at all.
-    -->
-    <app.baldphone.neo.launcher.ui.WifiButton
-        android:id="@+id/wifi"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="@drawable/style_for_buttons_transparent"
-        android:padding="6dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_tabler_wifi"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/flash"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <app.baldphone.neo.launcher.ui.FlashlightButton
-        android:id="@+id/flash"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="@drawable/style_for_buttons_transparent"
-        android:padding="6dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_tabler_bulb_off"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sound"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/wifi"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <app.baldphone.neo.launcher.ui.SoundButton
-        android:id="@+id/sound"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="@drawable/style_for_buttons_transparent"
-        android:padding="6dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_tabler_volume"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/notifications"
-        app:layout_constraintStart_toEndOf="@+id/flash"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <app.baldphone.neo.launcher.ui.NotificationsButton
-        android:id="@+id/notifications"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="@drawable/style_for_buttons_transparent"
-        android:padding="6dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_tabler_bell"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/sound"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <View-->
-<!--        android:id="@+id/shadow"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="3dp"-->
-<!--        android:background="@drawable/topbar_shadow"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/battery"/>-->
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:elevation="8dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/home_screen_padding" />

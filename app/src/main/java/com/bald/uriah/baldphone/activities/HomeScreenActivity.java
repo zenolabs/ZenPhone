@@ -17,7 +17,6 @@
 
 package com.bald.uriah.baldphone.activities;
 
-import static app.baldphone.neo.utils.IntentUtilsKt.startActivitySafe;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -36,12 +35,8 @@ import androidx.core.splashscreen.SplashScreen;
 
 import app.baldphone.neo.extensions.SurfaceWorkaroundKt;
 import app.baldphone.neo.extensions.ViewExtensions;
-import app.baldphone.neo.features.notifications.ui.NotificationsActivity;
 import app.baldphone.neo.launcher.apps.data.AppsRepository;
-import app.baldphone.neo.launcher.ui.WifiButton;
-import app.baldphone.neo.launcher.ui.FlashlightButton;
-import app.baldphone.neo.launcher.ui.NotificationsButton;
-import app.baldphone.neo.launcher.ui.SoundButton;
+import app.baldphone.neo.launcher.topbar.TopBarView;
 import app.baldphone.neo.permissions.PermissionManager;
 import app.baldphone.neo.utils.HomeAppUtils;
 
@@ -108,44 +103,18 @@ public class HomeScreenActivity extends BaldActivity {
         });
     }
 
+    /**
+     * Fills the top bar with whatever has been chosen for it.
+     * <p>
+     * Called again on resume, since the choice may have been changed in the settings while this
+     * screen sat behind them.
+     */
     private void setupTopBarButtons() {
-        WifiButton wifi = findViewById(R.id.wifi);
-        FlashlightButton flash = findViewById(R.id.flash);
-        SoundButton sound = findViewById(R.id.sound);
-        NotificationsButton notifications = findViewById(R.id.notifications);
-
-        // Handed to the system rather than switched here: since Android 10 an app may not turn
-        // Wi-Fi on or off, and the panel that replaced it is the same one the person would be
-        // talked through over the telephone.
-        wifi.setOnClickListener(v -> openInternetPanel());
-
-        flash.bind(this, onGranted -> {
+        final TopBarView topBar = findViewById(R.id.top_bar);
+        topBar.bind(this, onGranted -> {
             requestFlashlightPermission(onGranted);
             return kotlin.Unit.INSTANCE;
         });
-
-        sound.bind(this);
-
-        notifications.bind(this);
-        notifications.setOnClickListener(v -> {
-            Intent intent = new Intent(this, NotificationsActivity.class);
-            startActivitySafe(this, intent);
-        });
-    }
-
-    /**
-     * Opens the system's own internet panel, falling back to the Wi-Fi settings screen.
-     * <p>
-     * The panel only exists from Android 10, which is also where turning Wi-Fi on and off
-     * stopped being something an app could do; before that, the settings screen is where a
-     * person would have been sent anyway.
-     */
-    private void openInternetPanel() {
-        final Intent panel =
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                        ? new Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-                        : new Intent(Settings.ACTION_WIFI_SETTINGS);
-        startActivitySafe(this, panel);
     }
 
     private void requestFlashlightPermission(@NonNull Runnable onGranted) {
@@ -170,7 +139,11 @@ public class HomeScreenActivity extends BaldActivity {
         if (baldPrefsUtils.hasChanged(this)) {
             viewPagerHolder.getViewPager().removeAllViews();//android auto saves fragments, not good for us in this case
             this.recreate();
+            return;
         }
+        // What the bar holds may have been changed in the settings while this screen waited
+        // behind them, and the bar is built from that choice rather than from a layout.
+        setupTopBarButtons();
     }
 
     @Override

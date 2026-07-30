@@ -305,7 +305,13 @@ public class HomePage1 extends HomeView {
                                         dY,
                                         actionState,
                                         isCurrentlyActive);
-                                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                                // isCurrentlyActive tells the hand from the animation. Once the
+                                // tile is let go it keeps being drawn, on its way back to a
+                                // resting place, and those frames arrive before clearView does:
+                                // taken as movement they would overwrite where it was released
+                                // with where it landed, which is never the removal bar.
+                                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG
+                                        && isCurrentlyActive) {
                                     reportDragPosition(recyclerView, viewHolder, dX, dY);
                                 }
                             }

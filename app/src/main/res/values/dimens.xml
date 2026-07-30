@@ -31,6 +31,16 @@
     <!-- The top bar builds itself, so its measurements live here rather than in a layout. -->
     <dimen name="top_bar_height">70dp</dimen>
     <dimen name="top_bar_icon_padding">6dp</dimen>
+
+    <!--
+      Breathing room inside a tile's icon, and the same figure again under its label.
+
+      The two are equal on purpose and have to stay equal. The label is centred in what is left
+      below the icon's box, so the padding inside that box counts as space above the label and
+      nothing balances it underneath; a bottom margin of the same size puts that right. Change
+      one without the other and the label drifts towards an edge again.
+    -->
+    <dimen name="tile_icon_padding">6dp</dimen>
     <dimen name="padding_dividers">14dp</dimen>
     <dimen name="divider">2dp</dimen>
     <dimen name="key_radius">7dp</dimen>

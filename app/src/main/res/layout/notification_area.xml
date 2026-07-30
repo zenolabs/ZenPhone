@@ -77,6 +77,17 @@
             android:textColor="?bald_text_on_background"
             android:fontFamily="sans-serif-medium"
             android:textSize="26sp" />
+
+        <!--
+          Under the date, where the eye already is for anything to do with time, and only
+          drawn when there is an alarm to report. It hides itself; nothing here has to.
+        -->
+        <app.baldphone.neo.launcher.ui.NextAlarmView
+            android:id="@+id/next_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:importantForAccessibility="yes" />
     </LinearLayout>
 
     <LinearLayout

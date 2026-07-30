@@ -17,11 +17,14 @@
 package com.bald.uriah.baldphone.views.home;
 
 import android.app.Activity;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import com.bald.uriah.baldphone.activities.HomeScreenActivity;
 
@@ -29,8 +32,21 @@ public abstract class HomeView extends FrameLayout {
     protected final HomeScreenActivity homeScreen;
     protected final Activity activity;
 
+    /** For the subclasses that are only ever built in code, and so have no attributes to pass. */
     public HomeView(HomeScreenActivity homeScreen, Activity activity) {
-        super(homeScreen == null ? activity : homeScreen);
+        this(homeScreen, activity, null);
+    }
+
+    /**
+     * @param attrs what the XML tag said, or null when built in code.
+     *              <p>
+     *              Must reach {@link FrameLayout}, or everything declared on the tag that belongs
+     *              to the view itself is quietly dropped - the id among it. A subclass inflated
+     *              from a layout would then answer to no findViewById at all, and the caller
+     *              would get null back from an id it can see written in the file in front of it.
+     */
+    public HomeView(HomeScreenActivity homeScreen, Activity activity, @Nullable AttributeSet attrs) {
+        super(homeScreen == null ? activity : homeScreen, attrs);
         this.homeScreen = homeScreen;
         this.activity = activity;
         addView(onCreateView(LayoutInflater.from(activity), this), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

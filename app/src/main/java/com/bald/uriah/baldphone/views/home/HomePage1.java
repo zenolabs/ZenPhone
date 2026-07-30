@@ -148,15 +148,16 @@ public class HomePage1 extends HomeView {
     }
 
     public HomePage1(@NonNull Context context) {
-        super(
-                (context instanceof HomeScreenActivity) ? (HomeScreenActivity) context : null,
-                (Activity) context);
-        sharedPreferences = BPrefs.get(activity);
+        this(context, null);
     }
 
-    @SuppressWarnings("unused")
-    public HomePage1(@NonNull Context context, AttributeSet attributeSet) {
-        this(context);
+    /** Used by the layout inflater; the attributes carry the id the editor looks this up by. */
+    public HomePage1(@NonNull Context context, @Nullable AttributeSet attributeSet) {
+        super(
+                (context instanceof HomeScreenActivity) ? (HomeScreenActivity) context : null,
+                (Activity) context,
+                attributeSet);
+        sharedPreferences = BPrefs.get(activity);
     }
 
     @Override

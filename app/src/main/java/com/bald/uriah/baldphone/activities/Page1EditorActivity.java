@@ -75,9 +75,11 @@ public class Page1EditorActivity extends BaldActivity implements HomePage1.TileD
         }
         // Tiles may have been added or removed next door, and the grid is drawn from the saved
         // order, so it is asked to read it again rather than being told what changed.
-        if (homePage1 != null) {
-            homePage1.refreshTiles();
-        }
+        //
+        // Deliberately unguarded. A null here once meant the grid quietly stopped refreshing
+        // and nothing said so; onCreate already fails loudly if the view cannot be found, and
+        // that is the better place to hear about it.
+        homePage1.refreshTiles();
     }
 
     @Override

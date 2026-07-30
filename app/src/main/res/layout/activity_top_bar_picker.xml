@@ -29,6 +29,32 @@
         app:title="@string/choose_top_bar" />
 
     <!--
+      What the bar will look like, and where it is arranged. Shown above the list because it is
+      the outcome the list is a means to; a picker with no picture of the result asks someone to
+      hold the arrangement in their head while they work.
+    -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/top_bar_preview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:background="@color/home_screen_top_bar_background"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingHorizontal="@dimen/home_screen_padding"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <TextView
+        android:id="@+id/top_bar_preview_hint"
+        style="@style/BackgroundText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="10dp"
+        android:text="@string/top_bar_preview_hint" />
+
+    <!--
       One row per item, added from code: the list is the enum, and writing it out here as well
       would mean an item could be added to one and forgotten in the other.
     -->

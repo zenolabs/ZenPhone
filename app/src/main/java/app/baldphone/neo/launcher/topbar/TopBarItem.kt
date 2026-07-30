@@ -91,28 +91,23 @@ enum class TopBarItem(
          * a version that knew about an item this one does not. An empty result means the bar
          * has never been configured, and the four it has always had stand in.
          */
+        /**
+         * What the bar should show, left to right.
+         *
+         * The order is the one arranged in the settings and nothing else. It was briefly sorted
+         * into catalogue order here, which was the right answer while the bar could not be
+         * rearranged and the wrong one the moment it could.
+         */
         @JvmStatic
         fun savedOrder(): List<TopBarItem> {
             val saved = Prefs.topBarOrder.mapNotNull(::fromId).take(MAX_ITEMS)
-            return saved.ifEmpty { DEFAULT_ORDER }.inCatalogueOrder()
+            return saved.ifEmpty { DEFAULT_ORDER }
         }
 
         @JvmStatic
         fun saveOrder(items: List<TopBarItem>) {
-            Prefs.topBarOrder = items.inCatalogueOrder().map(TopBarItem::id)
+            Prefs.topBarOrder = items.map(TopBarItem::id)
         }
-
-        /**
-         * Left to right in the order they are declared here, which is the order the settings
-         * list shows them in.
-         *
-         * They used to appear in the order their switches had been turned on, which is a
-         * history nobody can see and nobody can predict. The tiles get away with that because
-         * they can be dragged into place afterwards; the bar cannot be rearranged at all, so
-         * the only order it can have is one that explains itself. "The order in the list is
-         * the order on the bar" is a rule that can be worked out by looking.
-         */
-        private fun List<TopBarItem>.inCatalogueOrder(): List<TopBarItem> = sortedBy { it.ordinal }
 
         /**
          * What the bar has shown since before it could be changed, left to right.

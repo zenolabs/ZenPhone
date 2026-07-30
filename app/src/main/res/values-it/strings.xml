@@ -61,6 +61,7 @@
     <string name="choose_top_bar_subtext">Quali quattro appaiono sopra l\'orologio</string>
     <string name="top_bar_limit_reached">La barra in alto tiene al massimo quattro icone</string>
     <string name="top_bar_last_one">Deve restare almeno un\'icona</string>
+    <string name="top_bar_preview_hint">Tieni premuta un\'icona qui sopra e trascinala per spostarla</string>
 
     <string name="top_bar_wifi">Wi-Fi</string>
     <string name="top_bar_wifi_subtext">Se il telefono è collegato al Wi-Fi</string>

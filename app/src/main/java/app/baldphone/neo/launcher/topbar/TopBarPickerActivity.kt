@@ -21,6 +21,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 import com.google.android.material.materialswitch.MaterialSwitch
 
 import app.baldphone.neo.activities.BaseActivity
@@ -46,11 +50,15 @@ class TopBarPickerActivity : BaseActivity() {
      */
     private val chosen = mutableListOf<TopBarItem>()
 
+    private val preview = TopBarPreviewAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top_bar_picker)
 
         chosen.addAll(TopBarItem.savedOrder())
+
+        setUpPreview()
 
         val rows = findViewById<LinearLayout>(R.id.top_bar_rows)
         val inflater = LayoutInflater.from(this)
@@ -59,6 +67,48 @@ class TopBarPickerActivity : BaseActivity() {
             rows.addView(row)
             bindItemRow(row, item)
         }
+    }
+
+    private fun setUpPreview() {
+        val strip = findViewById<RecyclerView>(R.id.top_bar_preview)
+        (strip.layoutManager as LinearLayoutManager).orientation = LinearLayoutManager.HORIZONTAL
+        strip.adapter = preview
+        preview.submit(chosen)
+
+        // Sideways only: the strip is one row and there is nowhere above or below to go.
+        ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+                0,
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder,
+                ): Boolean {
+                    val from = viewHolder.bindingAdapterPosition
+                    val to = target.bindingAdapterPosition
+                    if (from == RecyclerView.NO_POSITION || to == RecyclerView.NO_POSITION) {
+                        return false
+                    }
+                    preview.move(from, to)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
+
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                ) {
+                    super.clearView(recyclerView, viewHolder)
+                    // Written once the icon is let go, not at every swap along the way.
+                    chosen.clear()
+                    chosen.addAll(preview.current())
+                    TopBarItem.saveOrder(chosen)
+                }
+            },
+        ).attachToRecyclerView(strip)
     }
 
     private fun bindItemRow(row: View, item: TopBarItem) {
@@ -78,8 +128,11 @@ class TopBarPickerActivity : BaseActivity() {
                 return@bindSwitch
             }
 
+            // Added at the end, where a new thing is looked for, and moved from there by
+            // dragging it in the strip above.
             if (wanted) chosen.add(item) else chosen.remove(item)
             TopBarItem.saveOrder(chosen)
+            preview.submit(chosen)
         }
     }
 

@@ -66,6 +66,7 @@
     <string name="choose_top_bar_subtext">Which four appear above the clock</string>
     <string name="top_bar_limit_reached">The top bar holds four icons at most</string>
     <string name="top_bar_last_one">At least one icon has to stay</string>
+    <string name="top_bar_preview_hint">Hold an icon above and drag it to move it</string>
 
     <string name="top_bar_wifi">Wi-Fi</string>
     <string name="top_bar_wifi_subtext">Whether the phone is on Wi-Fi</string>

@@ -39,21 +39,20 @@ fun View.setClickableAccessibilityRole() {
 
 /**
  * Applies top window insets as padding to this view.
+ *
+ * The display cutout is counted as well as the system bars, and that is deliberate. Hiding the
+ * status bar therefore frees nothing at the top of the screen: on the phone this was measured
+ * on, the status bar and the camera cutout are both 126px, so the padding stayed at 126 with
+ * the status bar gone. The bar looks taller as a result, with its icons sitting low in it.
+ *
+ * That is the accepted cost. Dropping the cutout from the sum would let the bar rise to the top
+ * edge and put whichever icon lands under the camera behind it, which is worse than a tall bar
+ * on a launcher whose users are not going to work out why one icon is missing.
  */
 fun View.applyTopBarInsets() {
     val initialPaddingTop = paddingTop
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val types = WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
-        // TEMPORARY - working out where the space above the top bar comes from when the status
-        // bar is hidden. To be removed once the answer is in.
-        android.util.Log.e(
-            "ZenInsets",
-            "top padding=${initialPaddingTop + insets.getInsets(types).top}" +
-                " (own=$initialPaddingTop" +
-                " statusBars=${insets.getInsets(WindowInsetsCompat.Type.statusBars()).top}" +
-                " cutout=${insets.getInsets(WindowInsetsCompat.Type.displayCutout()).top}" +
-                " systemBars=${insets.getInsets(WindowInsetsCompat.Type.systemBars()).top})",
-        )
         view.updatePadding(top = initialPaddingTop + insets.getInsets(types).top)
         insets
     }

@@ -41,6 +41,16 @@ object MainThreadWatchdog {
     /** Frames printed per report. Deep enough for a runaway measure pass to be recognisable. */
     private const val MAX_FRAMES = 60
 
+    /**
+     * How many times to ask for the stack before giving up.
+     *
+     * Asking for another thread's stack only succeeds when the runtime can stop it at a safe
+     * point, and a thread deep in a tight loop or in native code often has none to offer at the
+     * moment it is asked. Asking again a little later usually catches it somewhere it can answer.
+     */
+    private const val STACK_ATTEMPTS = 5
+    private const val STACK_RETRY_MS = 200L
+
     fun start() {
         val mainThread = Looper.getMainLooper().thread
         val handler = Handler(Looper.getMainLooper())
@@ -71,10 +81,20 @@ object MainThreadWatchdog {
     }
 
     private fun dump(mainThread: Thread) {
-        Log.e(TAG, "main thread silent for ${TIMEOUT_MS}ms - stack follows")
-        val stack = mainThread.stackTrace
+        // Printed first and separately because it is the one thing always available, and it
+        // already halves the search: RUNNABLE means something is spinning, BLOCKED means a lock
+        // is held elsewhere, WAITING means it is expecting something that never comes.
+        Log.e(TAG, "main thread silent for ${TIMEOUT_MS}ms, state=${mainThread.state}")
+
+        var stack: Array<StackTraceElement> = emptyArray()
+        for (attempt in 1..STACK_ATTEMPTS) {
+            stack = mainThread.stackTrace
+            if (stack.isNotEmpty()) break
+            if (attempt < STACK_ATTEMPTS) Thread.sleep(STACK_RETRY_MS)
+        }
+
         if (stack.isEmpty()) {
-            Log.e(TAG, "  (no stack available)")
+            Log.e(TAG, "  (no stack after $STACK_ATTEMPTS attempts)")
             return
         }
         // One line per frame: a single multi-line message is truncated by the log buffer.

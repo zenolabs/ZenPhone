@@ -37,6 +37,11 @@ class FlashlightButton
                 return
             }
 
+            // Shown off until the controller says otherwise. The image used to come from the
+            // layout's src, which stopped being there when the bar began building itself, and
+            // the button then had nothing to draw until the first state arrived - which is not
+            // at once, so it drew nothing at all. Every other button in the bar sets its own.
+            setImageResource(R.drawable.ic_tabler_bulb_off)
             contentDescription = context.getString(R.string.flashlight_off)
             setOnClickListener {
                 requestPermission(

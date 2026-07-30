@@ -19,11 +19,7 @@ package app.baldphone.neo.settings.appearance
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.CheckBox
-import android.widget.SeekBar
 
 import app.baldphone.neo.data.Prefs
 import app.baldphone.neo.data.Theme
@@ -31,7 +27,7 @@ import app.baldphone.neo.extensions.apply
 import app.baldphone.neo.permissions.PermissionManager
 import app.baldphone.neo.settings.BaseSettingsFragment
 import app.baldphone.neo.settings.SettingsRows
-import app.baldphone.neo.ui.dialogs.BaldDialog
+import app.baldphone.neo.ui.dialogs.BrightnessDialog
 
 import com.bald.uriah.baldphone.R
 import com.bald.uriah.baldphone.activities.FontChangerActivity
@@ -94,84 +90,9 @@ class AppearanceSettingsFragment : BaseSettingsFragment(R.layout.fragment_appear
             // Changing screen brightness means writing a system setting, which the user has
             // to grant explicitly, so the slider is only offered once that is in hand.
             PermissionManager.checkOrRequest(requireActivity(), PermissionManager.WRITE_SETTINGS) {
-                onGranted { showBrightnessDialog() }
+                onGranted { BrightnessDialog.show(requireActivity()) }
             }
         }
     }
 
-    private fun showBrightnessDialog() {
-        val context = requireContext()
-        val resolver = context.contentResolver
-        val holder =
-            LayoutInflater.from(context).inflate(R.layout.brightness_seek_bar, null, false)
-        val seekBar = holder.findViewById<SeekBar>(R.id.brightness_seek_bar)
-        val autoCheckBox = holder.findViewById<CheckBox>(R.id.auto_brightness_check_box)
-
-        seekBar.keyProgressIncrement = 1
-
-        val isAutomatic =
-            runCatching {
-                Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS_MODE) ==
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC
-            }.getOrDefault(false)
-
-        if (isAutomatic) {
-            autoCheckBox.isChecked = true
-            seekBar.isEnabled = false
-        } else {
-            runCatching { Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS) }
-                .onSuccess { seekBar.progress = it }
-        }
-
-        seekBar.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(bar: SeekBar, progress: Int, fromUser: Boolean) {
-                    // Never all the way down: a screen dimmed to nothing cannot be recovered
-                    // by someone who can no longer see the slider they just dragged.
-                    applyToWindow(progress.coerceAtLeast(MINIMUM_BRIGHTNESS))
-                }
-
-                override fun onStartTrackingTouch(bar: SeekBar) = Unit
-
-                override fun onStopTrackingTouch(bar: SeekBar) {
-                    val value = bar.progress.coerceAtLeast(MINIMUM_BRIGHTNESS)
-                    Settings.System.putInt(resolver, Settings.System.SCREEN_BRIGHTNESS, value)
-                    applyToWindow(value)
-                }
-            },
-        )
-
-        autoCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            seekBar.isEnabled = !isChecked
-            Settings.System.putInt(
-                resolver,
-                Settings.System.SCREEN_BRIGHTNESS_MODE,
-                if (isChecked) {
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC
-                } else {
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
-                },
-            )
-        }
-
-        BaldDialog
-            .Builder(context)
-            .setTitle(R.string.brightness)
-            .setMessage(R.string.brightness_subtext)
-            .setIcon(R.drawable.ic_tabler_brightness)
-            .setCustomView(holder)
-            .setPositiveButton(context.getText(R.string.ok))
-            .show()
-    }
-
-    private fun applyToWindow(brightness: Int) {
-        requireActivity().window.attributes =
-            requireActivity().window.attributes.apply {
-                screenBrightness = brightness / 255f
-            }
-    }
-
-    private companion object {
-        const val MINIMUM_BRIGHTNESS = 20
-    }
 }

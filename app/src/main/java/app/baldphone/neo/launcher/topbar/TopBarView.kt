@@ -16,26 +16,33 @@
 
 package app.baldphone.neo.launcher.topbar
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Build
 import android.provider.Settings
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 
 import app.baldphone.neo.features.notifications.ui.NotificationsActivity
 import app.baldphone.neo.launcher.ui.FlashlightButton
+import app.baldphone.neo.launcher.ui.MobileSignalView
 import app.baldphone.neo.launcher.ui.NotificationsButton
 import app.baldphone.neo.launcher.ui.SoundButton
 import app.baldphone.neo.launcher.ui.WifiButton
+import app.baldphone.neo.permissions.PermissionManager
+import app.baldphone.neo.ui.dialogs.BrightnessDialog
 import app.baldphone.neo.utils.startActivitySafe
 
 import com.bald.uriah.baldphone.R
+import com.bald.uriah.baldphone.activities.SOSActivity
 
 /**
  * The strip along the top of the home screen, built from what has been chosen rather than from
@@ -84,10 +91,12 @@ class TopBarView
         private fun createView(item: TopBarItem): View? =
             when (item) {
                 TopBarItem.WIFI -> WifiButton(context)
+                TopBarItem.MOBILE_SIGNAL -> MobileSignalView(context)
                 TopBarItem.FLASHLIGHT -> FlashlightButton(context)
                 TopBarItem.SOUND -> SoundButton(context)
+                TopBarItem.BRIGHTNESS -> AppCompatImageButton(context)
                 TopBarItem.NOTIFICATIONS -> NotificationsButton(context)
-                else -> null
+                TopBarItem.SOS -> AppCompatImageButton(context)
             }
 
         private fun bindView(
@@ -113,7 +122,45 @@ class TopBarView
                     }
                 }
 
-                else -> Unit
+                TopBarItem.MOBILE_SIGNAL -> {
+                    // It watches the signal itself. Tapping opens the phone's own network
+                    // settings, which is where an unanswered "have I got any signal?" leads.
+                    view.contentDescription = context.getString(item.labelRes)
+                    view.setOnClickListener {
+                        context.startActivitySafe(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+                    }
+                }
+
+                TopBarItem.BRIGHTNESS -> {
+                    (view as AppCompatImageButton).setImageResource(R.drawable.ic_tabler_brightness)
+                    view.imageTintList = barIconTint()
+                    view.contentDescription = context.getString(item.labelRes)
+                    view.setOnClickListener { openBrightness() }
+                }
+
+                TopBarItem.SOS -> {
+                    (view as AppCompatImageButton).setImageResource(R.drawable.ic_tabler_sos)
+                    view.imageTintList = barIconTint()
+                    view.contentDescription = context.getString(item.labelRes)
+                    // Opens the emergency screen, as the tile does. It does not place a call:
+                    // this button sits where a thumb rests when the phone is picked up.
+                    view.setOnClickListener {
+                        context.startActivitySafe(Intent(context, SOSActivity::class.java))
+                    }
+                }
+            }
+        }
+
+        /**
+         * Brightness is a system setting, so it cannot be offered until the permission to write
+         * one is in hand; the dialog would otherwise come up looking usable and save nothing.
+         */
+        private fun openBrightness() {
+            // FragmentActivity and not merely Activity: the permission machinery asks through a
+            // fragment, which is also why this cannot be done from a bare context.
+            val activity = context as? FragmentActivity ?: return
+            PermissionManager.checkOrRequest(activity, PermissionManager.WRITE_SETTINGS) {
+                onGranted { BrightnessDialog.show(activity) }
             }
         }
 
@@ -129,6 +176,20 @@ class TopBarView
                     Intent(Settings.ACTION_WIFI_SETTINGS)
                 }
             context.startActivitySafe(intent)
+        }
+
+        /**
+         * The bar's own icon colour.
+         *
+         * Applied only to the two drawn from shared drawables that carry a colour meant for
+         * somewhere else - the SOS is coloured for a tile, brightness for a settings row.
+         * Duplicating the files to change one attribute would leave two copies to keep in
+         * step; tinting where they are used leaves one.
+         */
+        private fun barIconTint(): ColorStateList {
+            val resolved = TypedValue()
+            context.theme.resolveAttribute(R.attr.bald_decoration_on_background, resolved, true)
+            return ColorStateList.valueOf(resolved.data)
         }
 
         private fun styleAsBarButton(view: View) {

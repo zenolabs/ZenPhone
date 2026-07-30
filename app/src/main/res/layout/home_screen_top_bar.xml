@@ -22,14 +22,19 @@
     android:paddingHorizontal="@dimen/home_screen_padding"
     android:elevation="8dp">
 
-    <app.baldphone.neo.launcher.ui.BatteryIconView
-        android:id="@+id/battery"
+    <!--
+      The battery used to sit here and also beside the clock, saying the same thing twice.
+      What is here now is the one thing the clock cannot report: whether the phone can reach
+      the internet at all.
+    -->
+    <app.baldphone.neo.launcher.ui.WifiButton
+        android:id="@+id/wifi"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:clickable="true"
-        android:focusable="true"
         android:background="@drawable/style_for_buttons_transparent"
         android:padding="6dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_tabler_wifi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/flash"
         app:layout_constraintStart_toStartOf="parent"

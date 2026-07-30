@@ -53,6 +53,9 @@
     <string name="tile_last_one">Deve restare almeno una tessera</string>
     <string name="remove_tile">Trascina qui per rimuovere</string>
     <string name="next_alarm_accessibility">Prossima sveglia alle %1$s</string>
+    <string name="wifi_off_accessibility">Wi-Fi spento</string>
+    <string name="wifi_on_not_connected_accessibility">Wi-Fi acceso, non collegato</string>
+    <string name="wifi_connected_accessibility">Wi-Fi collegato</string>
 
     <string name="alarms_repeats_every">Si ripete ogni</string>
     <string name="all_alarms">tutte le sveglie</string>

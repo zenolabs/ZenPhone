@@ -70,6 +70,7 @@ import app.baldphone.neo.permissions.PermissionManager;
 import app.baldphone.neo.permissions.model.SpecialPermission;
 import app.baldphone.neo.services.DeviceLock;
 import app.baldphone.neo.ui.dialogs.BaldDialog;
+import app.baldphone.neo.ui.dialogs.BaldSnackbar;
 import app.baldphone.neo.utils.messaging.WhatsAppHandler;
 
 import com.bald.uriah.baldphone.R;
@@ -217,6 +218,19 @@ public class HomePage1 extends HomeView {
                 homeBatteryBlock.setContentDescription(state.formatSimpleInfo(getContext()));
             }
         });
+
+        // The detailed reading - how long it will last, whether it is charging - used to be a
+        // tap on the battery in the top bar. That one has gone, being the same battery said
+        // twice, so the tap comes here, to the battery that stayed.
+        if (homeBatteryBlock != null && homeScreen != null) {
+            homeBatteryBlock.setOnClickListener(
+                    v ->
+                            BaldSnackbar.INSTANCE.show(
+                                    homeScreen,
+                                    homeBattery.getDetailedContentDescription(),
+                                    BaldSnackbar.TYPE_INFO,
+                                    BaldSnackbar.LENGTH_LONG));
+        }
     }
 
     /** Builds the grid and fills it from the saved order. */

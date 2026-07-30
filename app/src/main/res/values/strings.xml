@@ -58,6 +58,9 @@
     <string name="tile_last_one">At least one tile has to stay</string>
     <string name="remove_tile">Drop here to remove</string>
     <string name="next_alarm_accessibility">Next alarm at %1$s</string>
+    <string name="wifi_off_accessibility">Wi-Fi off</string>
+    <string name="wifi_on_not_connected_accessibility">Wi-Fi on, not connected</string>
+    <string name="wifi_connected_accessibility">Wi-Fi connected</string>
 
     <string name="alarms_repeats_every">Alarm repeats every</string>
     <string name="all_alarms">All Alarms</string>

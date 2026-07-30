@@ -21,6 +21,8 @@ import static app.baldphone.neo.utils.IntentUtilsKt.startActivitySafe;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,12 +38,11 @@ import app.baldphone.neo.extensions.SurfaceWorkaroundKt;
 import app.baldphone.neo.extensions.ViewExtensions;
 import app.baldphone.neo.features.notifications.ui.NotificationsActivity;
 import app.baldphone.neo.launcher.apps.data.AppsRepository;
-import app.baldphone.neo.launcher.ui.BatteryIconView;
+import app.baldphone.neo.launcher.ui.WifiButton;
 import app.baldphone.neo.launcher.ui.FlashlightButton;
 import app.baldphone.neo.launcher.ui.NotificationsButton;
 import app.baldphone.neo.launcher.ui.SoundButton;
 import app.baldphone.neo.permissions.PermissionManager;
-import app.baldphone.neo.ui.dialogs.BaldSnackbar;
 import app.baldphone.neo.utils.HomeAppUtils;
 
 import com.bald.uriah.baldphone.R;
@@ -108,16 +109,15 @@ public class HomeScreenActivity extends BaldActivity {
     }
 
     private void setupTopBarButtons() {
-        BatteryIconView battery = findViewById(R.id.battery);
+        WifiButton wifi = findViewById(R.id.wifi);
         FlashlightButton flash = findViewById(R.id.flash);
         SoundButton sound = findViewById(R.id.sound);
         NotificationsButton notifications = findViewById(R.id.notifications);
 
-        battery.observeBatteryState(this);
-        battery.setOnClickListener(v -> {
-            String batteryInfo = battery.getDetailedContentDescription();
-            BaldSnackbar.INSTANCE.show(this, batteryInfo, BaldSnackbar.TYPE_INFO, BaldSnackbar.LENGTH_LONG);
-        });
+        // Handed to the system rather than switched here: since Android 10 an app may not turn
+        // Wi-Fi on or off, and the panel that replaced it is the same one the person would be
+        // talked through over the telephone.
+        wifi.setOnClickListener(v -> openInternetPanel());
 
         flash.bind(this, onGranted -> {
             requestFlashlightPermission(onGranted);
@@ -131,6 +131,21 @@ public class HomeScreenActivity extends BaldActivity {
             Intent intent = new Intent(this, NotificationsActivity.class);
             startActivitySafe(this, intent);
         });
+    }
+
+    /**
+     * Opens the system's own internet panel, falling back to the Wi-Fi settings screen.
+     * <p>
+     * The panel only exists from Android 10, which is also where turning Wi-Fi on and off
+     * stopped being something an app could do; before that, the settings screen is where a
+     * person would have been sent anyway.
+     */
+    private void openInternetPanel() {
+        final Intent panel =
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                        ? new Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+                        : new Intent(Settings.ACTION_WIFI_SETTINGS);
+        startActivitySafe(this, panel);
     }
 
     private void requestFlashlightPermission(@NonNull Runnable onGranted) {

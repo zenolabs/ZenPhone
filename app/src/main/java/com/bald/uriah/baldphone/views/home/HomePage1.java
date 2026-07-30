@@ -117,9 +117,6 @@ public class HomePage1 extends HomeView {
      * that hears about that is told which tile it was but not where the hand had got to.
      */
     private int lastDragX = -1, lastDragY = -1;
-    /** TEMPORARY - the highest the carried tile got, for working out why removal misses. */
-    private static final String DRAG_TAG = "ZenDrag";
-    private int highestDragY = Integer.MAX_VALUE;
 
     /**
      * Told where a tile is being carried, so that something outside the grid can offer to take
@@ -338,10 +335,6 @@ public class HomePage1 extends HomeView {
     private void onTileLifted() {
         lastDragX = -1;
         lastDragY = -1;
-        highestDragY = Integer.MAX_VALUE;
-        // TEMPORARY - remove once the removal bar is known to work.
-        Log.e(DRAG_TAG, "lifted, listener=" + (tileDragListener != null)
-                + " tiles=" + (tilesAdapter == null ? -1 : tilesAdapter.getItemCount()));
         if (tileDragListener == null) return;
         // The last tile cannot be given up: an empty order reads as never configured, and the
         // defaults would come back as though the request had been ignored. Said now, by not
@@ -366,15 +359,6 @@ public class HomePage1 extends HomeView {
 
         lastDragX = Math.round(gridOnScreen[0] + tile.getLeft() + dX + tile.getWidth() / 2f);
         lastDragY = Math.round(gridOnScreen[1] + tile.getTop() + dY + tile.getHeight() / 2f);
-        // TEMPORARY - remove once the removal bar is known to work.
-        if (lastDragY < highestDragY) {
-            highestDragY = lastDragY;
-            Log.e(DRAG_TAG, "highest so far: y=" + lastDragY
-                    + " (gridTop=" + gridOnScreen[1]
-                    + " tileTop=" + tile.getTop()
-                    + " dY=" + dY
-                    + " tileH=" + tile.getHeight() + ")");
-        }
         tileDragListener.onTileDragMoved(lastDragX, lastDragY);
     }
 
@@ -389,12 +373,6 @@ public class HomePage1 extends HomeView {
         if (tileDragListener != null) {
             remove = tileDragListener.onTileDropped(lastDragX, lastDragY);
         }
-        // TEMPORARY - remove once the removal bar is known to work.
-        Log.e(DRAG_TAG, "dropped at x=" + lastDragX + " y=" + lastDragY
-                + " highestY=" + highestDragY
-                + " remove=" + remove
-                + " position=" + position
-                + " tiles=" + (tilesAdapter == null ? -1 : tilesAdapter.getItemCount()));
 
         if (remove
                 && position != RecyclerView.NO_POSITION
